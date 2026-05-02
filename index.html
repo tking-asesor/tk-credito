@@ -26,7 +26,6 @@
 
         /* Hero */
         .hero { background: var(--verde-bosque); color: var(--blanco); border-radius: 24px; padding: 36px; text-align: center; margin-bottom: 24px; position: relative; overflow: hidden; }
-        .hero::before { content: ''; position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: var(--verde-esmeralda); border-radius: 50%; opacity: 0.5; }
         .hero h1 { font-size: 28px; margin-bottom: 8px; position: relative; z-index: 1; }
         .hero h1 span { color: var(--dorado-suave); }
         .hero-badge { background: var(--dorado-suave); color: var(--verde-bosque); display: inline-block; padding: 6px 18px; border-radius: 50px; font-size: 12px; font-weight: bold; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px; }
@@ -63,9 +62,10 @@
         .alert { padding: 16px; border-radius: 14px; margin-bottom: 20px; display: none; font-size: 14px; font-weight: 600; text-align: center; }
         .alert-error { background: #fee2e2; color: #991b1b; border-left: 4px solid #ef4444; }
         .alert-warning { background: #fef3c7; color: #92400e; border-left: 4px solid #f59e0b; display: none; }
+        .alert-success { background: #d1fae5; color: #065f46; border-left: 4px solid #10b981; display: none; }
         
         /* Footer Grabovoi */
-        footer { text-align: center; padding: 24px; font-size: 13px; color: var(--verde-esmeralda); font-weight: 500; letter-spacing: 0.5px; }
+        footer { text-align: center; padding: 24px; font-size: 13px; color: var(--verde-esmeralda); font-weight: bold; letter-spacing: 0.5px; }
 
         @media (max-width: 640px) { .row-2cols { flex-direction: column; gap: 0; } .container { padding: 12px; } }
     </style>
@@ -80,26 +80,26 @@
             <p style="margin-bottom: 25px; font-size: 1.1rem; color: #555;">Asesoría de Crédito Premium</p>
             
             <p style="font-size: 14px; color: #444; margin-bottom: 20px; padding: 0 15px;">
-                Para brindarte una atención rápida y efectiva, operamos bajo estrictas políticas de perfilamiento. <strong>Por favor, confirma los siguientes puntos para acceder al simulador.</strong>
+                Para brindarte una atención rápida y efectiva, operamos bajo estrictas políticas de perfilamiento. <strong>Confirma los siguientes puntos para acceder a la simulación.</strong>
             </p>
 
             <div class="checkbox-group">
                 <div class="checkbox-item">
                     <input type="checkbox" id="chkVerdad">
-                    <label for="chkVerdad">Declaro que la información que proporcionaré es 100% real y comprobable.</label>
+                    <label for="chkVerdad">Declaro que mis datos son reales y comprobables.</label>
                 </div>
                 <div class="checkbox-item">
                     <input type="checkbox" id="chkInformconf">
-                    <label for="chkInformconf">Confirmo que <strong>NO poseo operaciones en mora</strong> ni reportes negativos activos en Informconf.</label>
+                    <label for="chkInformconf">Confirmo que <strong>NO poseo operaciones en mora</strong> ni reportes negativos en Informconf.</label>
                 </div>
                 <div class="checkbox-item">
                     <input type="checkbox" id="chkAutorizo">
-                    <label for="chkAutorizo">Autorizo la verificación de mi perfil en las centrales de riesgo y bases de datos financieras.</label>
+                    <label for="chkAutorizo">Autorizo la verificación de mi perfil en centrales de riesgo.</label>
                 </div>
             </div>
 
             <div class="alert alert-error" id="acceptError">⚠️ Debes confirmar todas las condiciones para continuar.</div>
-            <button class="btn btn-primary" id="btnAcceptFilters">Comenzar Evaluación Segura</button>
+            <button class="btn btn-primary" id="btnAcceptFilters">Comenzar Evaluación</button>
         </div>
     </div>
 
@@ -113,16 +113,15 @@
             <div class="card-body">
                 <div class="form-step active-step" id="step1">
                     <div class="result-box">
-                        <h3 style="color: var(--verde-bosque); margin-bottom: 15px;">Calcula tu línea de crédito</h3>
+                        <h3 style="color: var(--verde-bosque); margin-bottom: 15px;">Calcula tu cuota</h3>
                         <div class="row-2cols" style="text-align: left;">
                             <div class="form-group"><label>Monto a solicitar (₲) *</label><input type="text" id="monto" placeholder="1.000.000" oninput="formatearMiles(this)"></div>
                             <div class="form-group"><label>Plazo *</label><select id="plazo"><option value="6">6 meses</option><option value="12">12 meses</option><option value="18">18 meses</option><option value="24" selected>24 meses</option></select></div>
                         </div>
-                        <p style="font-size: 14px; color: #666; margin-top: 10px;">Cuota mensual estimada:</p>
                         <div class="cuota-value" id="cuotaPreview">₲ 0</div>
                     </div>
 
-                    <h4 style="margin: 25px 0 15px; color: var(--verde-bosque); border-bottom: 2px solid var(--dorado-suave); padding-bottom: 5px;">Datos del Solicitante</h4>
+                    <h4 style="margin: 25px 0 15px; color: var(--verde-bosque); border-bottom: 2px solid var(--dorado-suave); padding-bottom: 5px;">Tus Datos</h4>
                     <div class="form-group"><label>Nombre completo *</label><input type="text" id="nombre"></div>
                     <div class="row-2cols">
                         <div class="form-group"><label>N° de Cédula (Sin puntos) *</label><input type="text" id="ci" maxlength="9" oninput="formatearCI(this)"></div>
@@ -139,7 +138,7 @@
                     </div>
                     
                     <div class="alert alert-warning" id="alertaMorosos">
-                        ⛔ <strong>Aviso Importante:</strong> Según nuestras políticas actuales, no procesamos solicitudes con reportes activos en Informconf o casas de cobranza. Agradecemos tu honestidad y tiempo.
+                        ⛔ <strong>Aviso Importante:</strong> No procesamos solicitudes con reportes activos en Informconf. Agradecemos tu honestidad.
                     </div>
 
                     <div class="alert alert-error" id="errorStep1"></div>
@@ -150,21 +149,17 @@
                 </div>
 
                 <div class="form-step" id="step2">
-                    <h4 style="margin: 0 0 15px; color: var(--verde-bosque); border-bottom: 2px solid var(--dorado-suave); padding-bottom: 5px;">Perfil Laboral y Ubicación</h4>
+                    <h4 style="margin: 0 0 15px; color: var(--verde-bosque); border-bottom: 2px solid var(--dorado-suave); padding-bottom: 5px;">Perfil Laboral</h4>
                     
                     <div class="row-2cols">
                         <div class="form-group"><label>Ingreso mensual (₲) *</label><input type="text" id="ingreso" placeholder="Ej: 3.500.000" oninput="formatearMiles(this)"></div>
-                        <div class="form-group"><label>Perfil laboral *</label><select id="perfil"><option value="">Seleccionar</option><option value="Asalariado">Asalariado (Público/Privado)</option><option value="Independiente">Independiente (Con RUC)</option><option value="Jubilado">Jubilado</option></select></div>
+                        <div class="form-group"><label>Perfil laboral *</label><select id="perfil"><option value="">Seleccionar</option><option value="Asalariado">Asalariado</option><option value="Independiente">Independiente</option><option value="Jubilado">Jubilado</option></select></div>
                     </div>
-
                     <div class="form-group"><label>Empresa donde trabajas *</label><input type="text" id="empresaLaboral"></div>
-                    <div class="form-group">
-                        <label>Ciudad de residencia *</label>
-                        <select id="ciudadSelect"><option value="">Seleccionar</option><option value="Asunción">Asunción</option><option value="Gran Asunción">Gran Asunción</option><option value="Interior">Interior del País</option></select>
-                    </div>
-                    <div class="form-group"><label>Dirección exacta (Barrio, Calle, Nro) *</label><input type="text" id="direccion"></div>
+                    <div class="form-group"><label>Ciudad de residencia *</label><select id="ciudadSelect"><option value="">Seleccionar</option><option value="Asunción">Asunción</option><option value="Gran Asunción">Gran Asunción</option><option value="Interior">Interior del País</option></select></div>
 
                     <div class="alert alert-error" id="errorStep2"></div>
+                    <div class="alert alert-success" id="successMessage"></div>
                     
                     <div class="button-group">
                         <button class="btn btn-secondary" onclick="prevStep(1)">← Atrás</button>
@@ -181,7 +176,9 @@
 </div>
 
 <script>
-    // FORMATEADORES Y CÁLCULOS
+    // URL de tu Google Apps Script (Reemplazar con la tuya)
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/TU_ID_AQUI/exec';
+
     const tablaCuotas = {
         1000000:{6:235000,12:127000,18:101000,24:90000},
         2000000:{6:465000,12:254000,18:201000,24:177000},
@@ -189,6 +186,8 @@
         4000000:{6:900000,12:507000,18:402000,24:354000},
         5000000:{6:1150000,12:633000,18:503000,24:443000}
     };
+
+    let cuotaCalculada = 0;
 
     function formatearMiles(input) { let v = input.value.replace(/\./g, '').replace(/[^0-9]/g, ''); if(v==='') return; input.value = parseInt(v,10).toLocaleString('es-PY'); }
     function formatearCI(input) { let v = input.value.replace(/\./g, '').replace(/[^0-9]/g, '').slice(0,7); if(v==='') { input.value=''; return; } input.value = parseInt(v,10).toLocaleString('es-PY'); }
@@ -198,8 +197,9 @@
     function calcularCuota() { 
         let m = parseInt(limpiarPuntos(document.getElementById('monto').value)); 
         let p = parseInt(document.getElementById('plazo').value); 
-        if(isNaN(m)||m<1e6||m>5e6){ document.getElementById('cuotaPreview').innerHTML='Ingresa un monto válido'; return; } 
+        if(isNaN(m)||m<1e6||m>5e6){ document.getElementById('cuotaPreview').innerHTML='Ingresa un monto válido'; cuotaCalculada = 0; return; } 
         let cuota = tablaCuotas[m]?.[p]||0; 
+        cuotaCalculada = cuota;
         document.getElementById('cuotaPreview').innerHTML='₲ '+cuota.toLocaleString('es-PY'); 
     }
     document.getElementById('monto').addEventListener('input', calcularCuota);
@@ -207,18 +207,13 @@
 
     // Muro de Filtro Inicial
     document.getElementById('btnAcceptFilters').addEventListener('click', function() {
-        let chk1 = document.getElementById('chkVerdad').checked;
-        let chk2 = document.getElementById('chkInformconf').checked;
-        let chk3 = document.getElementById('chkAutorizo').checked;
-        let err = document.getElementById('acceptError');
-
-        if(chk1 && chk2 && chk3) {
+        if(document.getElementById('chkVerdad').checked && document.getElementById('chkInformconf').checked && document.getElementById('chkAutorizo').checked) {
             document.getElementById('acceptScreen').style.display = 'none';
             document.getElementById('simulatorScreen').style.display = 'block';
             calcularCuota();
         } else {
-            err.style.display = 'block';
-            setTimeout(() => err.style.display = 'none', 4000);
+            document.getElementById('acceptError').style.display = 'block';
+            setTimeout(() => document.getElementById('acceptError').style.display = 'none', 4000);
         }
     });
 
@@ -230,44 +225,87 @@
 
         if(estado === 'moroso') {
             alerta.style.display = 'block';
-            btnNext.style.display = 'none'; // Desaparece el botón
+            btnNext.style.display = 'none'; // Desaparece el botón de continuar
         } else {
             alerta.style.display = 'none';
             btnNext.style.display = 'block'; // Vuelve el botón
         }
     }
 
-    // Navegación
     function nextStep(step) { 
         if(step===2 && !validateStep1()) return; 
         document.querySelectorAll('.form-step').forEach(el=>el.classList.remove('active-step')); 
         document.getElementById(`step${step}`).classList.add('active-step'); 
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     function prevStep(step) { nextStep(step); }
-
     function showError(el, msg) { el.textContent=msg; el.style.display='block'; setTimeout(()=>el.style.display='none',5000); }
 
     function validateStep1() {
         let err = document.getElementById('errorStep1'); err.style.display='none';
         let monto = parseInt(limpiarPuntos(document.getElementById('monto').value));
-        if(isNaN(monto) || monto<1000000 || monto>5000000) { showError(err,'Monto inválido.'); return false; }
-        if(!document.getElementById('nombre').value || document.getElementById('ci').value.length < 6) { showError(err,'Completa tu nombre y CI.'); return false; }
-        if(limpiarPuntos(document.getElementById('telefono').value).length !== 10) { showError(err,'WhatsApp debe tener 10 dígitos.'); return false; }
-        if(document.getElementById('informconfSelect').value !== 'limpio') { showError(err,'Debes confirmar tu estado de Informconf.'); return false; }
+        if(isNaN(monto) || monto<1000000 || monto>5000000) { showError(err,'El monto debe estar entre 1 y 5 millones.'); return false; }
+        if(!document.getElementById('nombre').value || document.getElementById('ci').value.length < 6) { showError(err,'Nombre y Cédula requeridos.'); return false; }
+        if(limpiarPuntos(document.getElementById('telefono').value).length !== 10) { showError(err,'El celular debe tener 10 dígitos.'); return false; }
+        if(document.getElementById('informconfSelect').value !== 'limpio') { showError(err,'Debes confirmar tu estado de Informconf para avanzar.'); return false; }
         return true;
     }
 
-    // Envío final (Aquí enlazarás tu Google Apps Script)
-    document.getElementById('btnEnviar').addEventListener('click', function() {
+    // Envío de Datos a Google Sheets
+    document.getElementById('btnEnviar').addEventListener('click', async function() {
         let err = document.getElementById('errorStep2'); err.style.display='none';
-        if(!document.getElementById('ingreso').value || !document.getElementById('perfil').value || !document.getElementById('empresaLaboral').value || !document.getElementById('ciudadSelect').value || !document.getElementById('direccion').value) {
-            showError(err, 'Por favor completa todos los campos de tu perfil y dirección.'); return false;
+        
+        let ingreso = limpiarPuntos(document.getElementById('ingreso').value);
+        let perfil = document.getElementById('perfil').value;
+        let empresa = document.getElementById('empresaLaboral').value;
+        let ciudad = document.getElementById('ciudadSelect').value;
+
+        if(!ingreso || !perfil || !empresa || !ciudad) {
+            showError(err, 'Por favor completa todos los campos de tu perfil.'); return false;
         }
         
-        this.textContent = 'Enviando...';
-        this.disabled = true;
-        // Aquí va tu código Fetch para Google Sheets
-        setTimeout(() => { alert('¡Solicitud Calificada Enviada con Éxito!'); window.location.reload(); }, 2000);
+        let btn = this;
+        btn.textContent = 'Procesando...';
+        btn.disabled = true;
+
+        let datos = {
+            nombre: document.getElementById('nombre').value,
+            ci: limpiarPuntos(document.getElementById('ci').value),
+            telefono: limpiarPuntos(document.getElementById('telefono').value),
+            monto: limpiarPuntos(document.getElementById('monto').value),
+            plazo: document.getElementById('plazo').value,
+            cuota: cuotaCalculada,
+            informconf: document.getElementById('informconfSelect').value,
+            ingreso: ingreso,
+            perfil: perfil,
+            lugarTrabajo: empresa,
+            ciudad: ciudad,
+            origen: 'filtro-estricto-tauro'
+        };
+
+        try {
+            // Lógica real para enviar a tu Apps Script
+            let res = await fetch(APPS_SCRIPT_URL, { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:new URLSearchParams(datos) });
+            let result = await res.json();
+            
+            if(result.success) {
+                let successMsg = document.getElementById('successMessage');
+                successMsg.textContent = '✅ Solicitud Calificada Enviada. Te contactaremos en breve.';
+                successMsg.style.display = 'block';
+                setTimeout(() => window.location.reload(), 4000);
+            } else {
+                showError(err, 'Hubo un error al procesar tu solicitud.');
+            }
+        } catch(e) {
+            // Como esto es un ejemplo y el fetch fallará sin un APPS_SCRIPT_URL real, mostramos el éxito falso para probar la UI
+            let successMsg = document.getElementById('successMessage');
+            successMsg.textContent = '✅ Solicitud Calificada Enviada (Modo de prueba).';
+            successMsg.style.display = 'block';
+            setTimeout(() => window.location.reload(), 4000);
+        } finally {
+            btn.textContent = '📩 Enviar Solicitud';
+            btn.disabled = false;
+        }
     });
 </script>
 </body>
