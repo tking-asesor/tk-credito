@@ -4,54 +4,238 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Isidro Cabrera · Asesoría de Crédito</title>
-    <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230b2b44'/%3E%3Ctext x='50' y='72' font-size='52' text-anchor='middle' fill='%23ffd966' font-weight='bold' font-family='Arial'%3EIC%3C/text%3E%3C/svg%3E">
+    <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230B3B42'/%3E%3Ctext x='50' y='72' font-size='52' text-anchor='middle' fill='%23B85D19' font-weight='bold' font-family='Arial'%3EIC%3C/text%3E%3C/svg%3E">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f4f8; color: #1a202c; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f4f7f0;
+            color: #1a2a1f;
+        }
         .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
-        .card { background: white; border-radius: 24px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); margin-bottom: 24px; }
+
+        /* Tarjetas */
+        .card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
         .card-body { padding: 28px; }
-        .hero { background: #0b2b44; color: white; border-radius: 24px; padding: 32px; text-align: center; margin-bottom: 24px; }
+
+        /* Hero (azul petróleo) */
+        .hero {
+            background: #0B3B42;
+            color: white;
+            border-radius: 24px;
+            padding: 32px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
         .hero h1 { font-size: 28px; margin-bottom: 8px; }
-        .hero h1 span { color: #ffd966; }
-        .hero-badge { background: #ffd966; color: #0b2b44; display: inline-block; padding: 4px 14px; border-radius: 50px; font-size: 12px; font-weight: bold; margin-bottom: 16px; }
-        .features-grid { display: flex; flex-wrap: wrap; gap: 16px; margin: 24px 0; justify-content: center; }
-        .feature-card { background: #f8fafc; border-radius: 20px; padding: 16px; text-align: center; flex: 1; min-width: 120px; }
-        .stats-row { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; margin: 20px 0; }
-        .stat-number { font-size: 28px; font-weight: bold; color: #0b2b44; }
-        .checkbox-group { background: #f8fafc; border-radius: 20px; padding: 20px; margin: 20px 0; text-align: left; }
-        .checkbox-group label { display: block; margin: 12px 0; cursor: pointer; }
-        .btn-accept { background: #2c7a4d; color: white; width: 100%; padding: 14px; border-radius: 40px; font-weight: bold; border: none; cursor: pointer; }
-        .btn { border: none; padding: 12px 24px; border-radius: 40px; font-weight: 600; cursor: pointer; }
-        .btn-primary { background: #0b2b44; color: white; }
-        .btn-secondary { background: #e2e8f0; color: #2d3748; }
-        .btn-success { background: #2c7a4d; color: white; }
-        .button-group { display: flex; gap: 15px; justify-content: space-between; margin-top: 24px; }
-        .progress-steps { display: flex; justify-content: space-between; margin-bottom: 30px; position: relative; }
+        .hero h1 span { color: #B85D19; }
+        .hero-badge {
+            background: #B85D19;
+            color: white;
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        /* Features y stats */
+        .features-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin: 24px 0;
+            justify-content: center;
+        }
+        .feature-card {
+            background: #f1f5e8;
+            border-radius: 20px;
+            padding: 16px;
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+            border-bottom: 3px solid #B85D19;
+        }
+        .stats-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .stat-number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1E5631;
+        }
+        .checkbox-group {
+            background: #f1f5e8;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .btn-accept {
+            background: #1E5631;
+            color: white;
+            width: 100%;
+            padding: 14px;
+            border-radius: 40px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-accept:hover { background: #144d2a; }
+
+        /* Botones generales */
+        .btn {
+            border: none;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-primary {
+            background: #0B3B42;
+            color: white;
+        }
+        .btn-primary:hover { background: #0a2e34; }
+        .btn-secondary {
+            background: #e0e7d6;
+            color: #2d3e2a;
+        }
+        .btn-secondary:hover { background: #cdd8bf; }
+        .btn-success {
+            background: #1E5631;
+            color: white;
+        }
+        .btn-success:hover { background: #144d2a; }
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: space-between;
+            margin-top: 24px;
+        }
+
+        /* Progreso */
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            position: relative;
+        }
         .progress-step { text-align: center; flex: 1; }
-        .step-circle { width: 40px; height: 40px; background: #e2e8f0; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; margin-bottom: 6px; }
-        .progress-step.active .step-circle { background: #0b2b44; color: white; }
-        .progress-step.completed .step-circle { background: #2c7a4d; color: white; }
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            background: #e0e7d6;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #2d3e2a;
+        }
+        .progress-step.active .step-circle {
+            background: #0B3B42;
+            color: white;
+        }
+        .progress-step.completed .step-circle {
+            background: #1E5631;
+            color: white;
+        }
         .step-text { font-size: 12px; }
-        .progress-line { position: absolute; top: 20px; left: 0; right: 0; height: 2px; background: #e2e8f0; z-index: 0; }
+        .progress-line {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e0e7d6;
+            z-index: 0;
+        }
+
+        /* Formulario */
         .form-step { display: none; }
         .form-step.active-step { display: block; }
         .form-group { margin-bottom: 18px; }
         label { font-weight: 600; font-size: 13px; display: block; margin-bottom: 6px; }
-        input, select { width: 100%; padding: 12px 14px; border: 1.5px solid #e2e8f0; border-radius: 16px; font-size: 14px; }
-        input:focus, select:focus { outline: none; border-color: #0b2b44; }
+        input, select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid #d4dfc9;
+            border-radius: 16px;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #B85D19;
+            box-shadow: 0 0 0 2px rgba(184,93,25,0.2);
+        }
         .row-2cols, .row-3cols { display: flex; gap: 16px; }
         .row-2cols .form-group, .row-3cols .form-group { flex: 1; }
-        .result-box { background: #eef2ff; border-radius: 20px; padding: 20px; text-align: center; margin: 20px 0; }
-        .cuota-value { font-size: 2rem; font-weight: 800; color: #0b2b44; }
-        .requisitos-box, .referencias-container { background: #f8fafc; border-radius: 20px; padding: 18px; margin: 18px 0; }
-        .requisito-item { display: flex; align-items: center; gap: 10px; margin: 10px 0; }
-        .alert { padding: 12px; border-radius: 14px; margin-bottom: 18px; display: none; font-size: 13px; }
-        .alert-error { background: #fee2e2; color: #991b1b; border-left: 4px solid #ef4444; }
-        .alert-success { background: #d1fae5; color: #065f46; }
+        .result-box {
+            background: #eef3e7;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .cuota-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #0B3B42;
+        }
+        .requisitos-box, .referencias-container {
+            background: #f1f5e8;
+            border-radius: 20px;
+            padding: 18px;
+            margin: 18px 0;
+        }
+        .requisito-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .alert {
+            padding: 12px;
+            border-radius: 14px;
+            margin-bottom: 18px;
+            display: none;
+            font-size: 13px;
+        }
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 4px solid #ef4444;
+        }
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
         .ciudad-otra { display: none; margin-top: 10px; }
-        footer { text-align: center; padding: 20px; font-size: 12px; color: #4a5568; }
-        @media (max-width: 640px) { .row-2cols, .row-3cols { flex-direction: column; gap: 0; } .container { padding: 12px; } .hero h1 { font-size: 22px; } }
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #5a6e53;
+        }
+        @media (max-width: 640px) {
+            .row-2cols, .row-3cols { flex-direction: column; gap: 0; }
+            .container { padding: 12px; }
+        }
     </style>
 </head>
 <body>
@@ -60,7 +244,7 @@
     <div id="acceptScreen" class="card">
         <div class="card-body" style="text-align: center;">
             <div class="hero-badge">🔐 Confianza y Transparencia</div>
-            <h2 style="font-size: 1.8rem;">Isidro Cabrera</h2>
+            <h2 style="font-size: 1.8rem; color: #0B3B42;">Isidro Cabrera</h2>
             <p style="margin-bottom: 20px;">Asesoría de Crédito · Simulación sin compromiso</p>
             <div class="features-grid">
                 <div class="feature-card">⚡ Rápido</div>
@@ -84,7 +268,11 @@
 
     <!-- SIMULADOR -->
     <div id="simulatorScreen" style="display: none;">
-        <div class="hero"><div class="hero-badge">📊 Simulador de Crédito</div><h1>Isidro Cabrera · <span>Asesoría de Crédito</span></h1><p>Completá tus datos correctamente</p></div>
+        <div class="hero">
+            <div class="hero-badge">📊 Simulador de Crédito</div>
+            <h1>Isidro Cabrera · <span>Asesoría de Crédito</span></h1>
+            <p>Completá tus datos correctamente</p>
+        </div>
         <div class="card">
             <div class="card-body">
                 <div class="progress-steps">
@@ -120,9 +308,9 @@
                         <div id="otraCiudadDiv" class="ciudad-otra"><input type="text" id="otraCiudad" placeholder="Escribí tu ciudad"></div>
                     </div>
                     <div class="row-3cols">
-                        <div class="form-group"><label>Calle *</label><input type="text" id="calle" placeholder="Av. España" onkeypress="return soloLetras(event)"></div>
-                        <div class="form-group"><label>Número *</label><input type="text" id="numero" placeholder="123" onkeypress="return soloNumeros(event)"></div>
-                        <div class="form-group"><label>Barrio *</label><input type="text" id="barrio" placeholder="Villa Morra" onkeypress="return soloLetras(event)"></div>
+                        <div class="form-group"><label>Calle *</label><input type="text" id="calle" placeholder="Av. España"></div>
+                        <div class="form-group"><label>Número *</label><input type="text" id="numero" placeholder="123" oninput="this.value=this.value.replace(/[^0-9]/g,'')"></div>
+                        <div class="form-group"><label>Barrio *</label><input type="text" id="barrio" placeholder="Villa Morra"></div>
                     </div>
                     <div class="form-group"><label>Ingreso mensual (₲) *</label><input type="text" id="ingreso" placeholder="1.750.000" oninput="formatearMiles(this)"></div>
                     <div class="form-group"><label>Informconf *</label><select id="informconf"><option value="no">✅ No tengo deudas</option><option value="si">⚠️ Tengo deudas</option></select></div>
@@ -139,7 +327,7 @@
                     <div class="alert alert-error" id="errorStep2"></div>
                     <div class="form-group"><label>Perfil laboral *</label><select id="perfil" onchange="cargarRequisitos()"><option value="">Seleccionar</option><option value="1">Trabajador Formal (con IPS)</option><option value="2">Trabajador Formal (con IVA)</option><option value="3">Trabajador Informal (sin IPS)</option><option value="4">Funcionario Público Permanente</option><option value="5">Funcionario Público Contratado</option><option value="6">Microempresa</option><option value="7">Profesional Independiente</option><option value="8">Jubilado</option><option value="9">Rentista (Alquileres)</option></select></div>
                     <div id="requisitosContainer" class="requisitos-box" style="display:none;"></div>
-                    <div class="row-2cols"><div class="form-group"><label>Dirección laboral *</label><input type="text" id="direccionLaboral" placeholder="Av. Mcal López 1234"></div><div class="form-group"><label>Ubicación GPS (WhatsApp) *</label><input type="text" id="ubicacionGPS" placeholder="https://maps.app.goo.gl/..."></div></div>
+                    <div class="row-2cols"><div class="form-group"><label>Dirección laboral *</label><input type="text" id="direccionLaboral" placeholder="Av. Mcal López 1234"></div><div class="form-group"><label>Ubicación GPS *</label><input type="text" id="ubicacionGPS" placeholder="https://maps.app.goo.gl/..."></div></div>
                     <div class="row-2cols"><div class="form-group"><label>Monto (₲) *</label><input type="text" id="monto" placeholder="1.000.000" oninput="formatearMiles(this)"></div><div class="form-group"><label>Plazo *</label><select id="plazo"><option value="6">6</option><option value="8">8</option><option value="10">10</option><option value="12">12</option><option value="15">15</option><option value="18">18</option><option value="20">20</option><option value="24">24</option></select> meses</div></div>
                     <div class="result-box"><h3>📌 Cuota mensual</h3><div class="cuota-value" id="cuotaPreview">₲ 0</div></div>
                     <div class="button-group"><button class="btn btn-secondary" onclick="prevStep(1)">← Atrás</button><button class="btn btn-primary" onclick="nextStep(3)">Continuar →</button></div>
@@ -154,33 +342,56 @@
                 </div>
             </div>
         </div>
-        <footer>© 2025 Isidro Cabrera</footer>
+        <footer>© 2025 Isidro Cabrera · Asesoría de Crédito</footer>
     </div>
 </div>
 
 <script>
+    // ============================================================
+    // CONFIGURACIÓN - REEMPLAZAR CON URL REAL DE APPS SCRIPT
+    // ============================================================
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/TU_ID_AQUI/exec';
+
     let intentosFallidos = JSON.parse(localStorage.getItem('intentosFallidos') || '{}');
 
-    const tablaCuotas = { 1000000:{6:235000,8:182000,10:150000,12:127000,15:112000,18:101000,20:96000,24:90000}, 2000000:{6:465000,8:358000,10:292500,12:254000,15:223000,18:201000,20:191000,24:177000}, 3000000:{6:685000,8:535000,10:435000,12:380000,15:334000,18:302000,20:287000,24:266000}, 4000000:{6:900000,8:700000,10:571000,12:507000,15:445000,18:402000,20:382000,24:354000}, 5000000:{6:1150000,8:885000,10:712000,12:633000,15:555000,18:503000,20:478000,24:443000} };
-    const requisitosPorPerfil = { 1:["Boletas IPS (6 meses)","Liquidación de salario"], 2:["3 últimos IVAs","6 facturas emitidas"], 3:["Certificado de trabajo","RUC de la empresa"], 4:["Liquidación de salario","Certificado de trabajo"], 5:["Liquidación de salario","Certificado de trabajo"], 6:["3 últimos IVAs","Fotos del negocio","RUC o Patente"], 7:["3 últimos IVAs","Título profesional","RUC"], 8:["Boletas IPS o JUPE (2 cobros)"], 9:["Contrato alquiler","Factura servicio","Fotos inmueble"] };
+    // Tabla de cuotas (monto en pesos)
+    const tablaCuotas = {
+        1000000:{6:235000,8:182000,10:150000,12:127000,15:112000,18:101000,20:96000,24:90000},
+        2000000:{6:465000,8:358000,10:292500,12:254000,15:223000,18:201000,20:191000,24:177000},
+        3000000:{6:685000,8:535000,10:435000,12:380000,15:334000,18:302000,20:287000,24:266000},
+        4000000:{6:900000,8:700000,10:571000,12:507000,15:445000,18:402000,20:382000,24:354000},
+        5000000:{6:1150000,8:885000,10:712000,12:633000,15:555000,18:503000,20:478000,24:443000}
+    };
+    const requisitosPorPerfil = {
+        1:["Boletas IPS (6 meses)","Liquidación de salario"],
+        2:["3 últimos IVAs","6 facturas emitidas"],
+        3:["Certificado de trabajo","RUC de la empresa"],
+        4:["Liquidación de salario","Certificado de trabajo"],
+        5:["Liquidación de salario","Certificado de trabajo"],
+        6:["3 últimos IVAs","Fotos del negocio","RUC o Patente"],
+        7:["3 últimos IVAs","Título profesional","RUC"],
+        8:["Boletas IPS o JUPE (2 cobros)"],
+        9:["Contrato alquiler","Factura servicio","Fotos inmueble"]
+    };
 
     let cuotaCalculada = 0;
 
-    function soloLetras(e) { let key = e.key; if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') || key === ' ' || key === 'ñ' || key === 'Ñ') return true; e.preventDefault(); return false; }
-    function soloNumeros(e) { let key = e.key; if (key >= '0' && key <= '9') return true; e.preventDefault(); return false; }
+    // Funciones de formateo visual
     function formatearMiles(input) { let v = input.value.replace(/\./g, '').replace(/[^0-9]/g, ''); if(v==='') return; input.value = parseInt(v,10).toLocaleString('es-PY'); }
     function formatearCI(input) { let v = input.value.replace(/\./g, '').replace(/[^0-9]/g, '').slice(0,7); if(v==='') { input.value=''; return; } input.value = parseInt(v,10).toLocaleString('es-PY'); }
     function formatearWhatsApp(input) { let v = input.value.replace(/\./g, '').replace(/[^0-9]/g, '').slice(0,10); if(v==='') { input.value=''; return; } let p = []; if(v.length>=4){ p.push(v.slice(0,4)); v=v.slice(4); } while(v.length>3){ p.push(v.slice(0,3)); v=v.slice(3); } if(v) p.push(v); input.value = p.join('.'); }
     function limpiarPuntos(s) { return s.replace(/\./g, ''); }
 
+    // Calcular cuota
     function calcularCuota() { let m = parseInt(limpiarPuntos(document.getElementById('monto').value)); let p = parseInt(document.getElementById('plazo').value); if(isNaN(m)||m<1e6||m>5e6){ document.getElementById('cuotaPreview').innerHTML='₲ 0'; cuotaCalculada=0; return; } let cuota = tablaCuotas[m]?.[p]||0; cuotaCalculada=cuota; document.getElementById('cuotaPreview').innerHTML='₲ '+cuota.toLocaleString('es-PY'); }
     document.getElementById('monto').addEventListener('input', calcularCuota);
     document.getElementById('plazo').addEventListener('change', calcularCuota);
 
+    // Ciudad
     function mostrarOtraCiudad() { let sel=document.getElementById('ciudadSelect'); document.getElementById('otraCiudadDiv').style.display = sel.value==='OTRA'?'block':'none'; }
     function obtenerCiudad() { let sel=document.getElementById('ciudadSelect'); return sel.value==='OTRA'? document.getElementById('otraCiudad').value.trim() : sel.value; }
 
+    // Documentos por perfil
     function cargarRequisitos() {
         let perfilId = document.getElementById('perfil').value;
         let container = document.getElementById('requisitosContainer');
@@ -192,13 +403,17 @@
         container.style.display='block';
     }
 
+    // Intentos fallidos por Informconf
     function registrarIntentoFallido(ci) { if(!intentosFallidos[ci]) intentosFallidos[ci]=0; intentosFallidos[ci]++; localStorage.setItem('intentosFallidos',JSON.stringify(intentosFallidos)); return intentosFallidos[ci]; }
 
+    // Aceptación inicial
     document.getElementById('btnAccept').addEventListener('click',function(){ let a=document.getElementById('acceptData').checked, b=document.getElementById('acceptVerification').checked, c=document.getElementById('acceptTruth').checked, err=document.getElementById('acceptError'); if(!a||!b||!c){ err.textContent='⚠️ Debes aceptar todas las condiciones.'; err.style.display='block'; return; } document.getElementById('acceptScreen').style.display='none'; document.getElementById('simulatorScreen').style.display='block'; });
 
+    // Navegación
     function nextStep(step) { if(step===2 && !validateStep1()) return; if(step===3 && !validateStep2()) return; document.querySelectorAll('.form-step').forEach(el=>el.classList.remove('active-step')); document.getElementById(`step${step}`).classList.add('active-step'); ['step1Indicator','step2Indicator','step3Indicator'].forEach((id,idx)=>{ let el=document.getElementById(id); el.classList.remove('active','completed'); if(idx+1<step) el.classList.add('completed'); if(idx+1===step) el.classList.add('active'); }); if(step===3) generarResumen(); }
     function prevStep(step) { nextStep(step); }
 
+    // VALIDACIÓN PASO 1 (con WhatsApp de 10 dígitos)
     function validateStep1() {
         let nombre = document.getElementById('nombre').value.trim();
         let ci = limpiarPuntos(document.getElementById('ci').value);
@@ -220,10 +435,12 @@
         err.style.display='none';
         if(!nombre) { showError(err,'Nombre completo requerido.'); return false; }
         if(ci.length!==7) { showError(err,'CI debe tener 7 dígitos.'); return false; }
+        // WhatsApp: exactamente 10 dígitos y debe empezar con 09
         if(telefono.length!==10) { showError(err,'WhatsApp debe tener 10 dígitos.'); return false; }
+        if(!telefono.startsWith('09')) { showError(err,'WhatsApp debe comenzar con 09.'); return false; }
         if(isNaN(edad) || edad<20 || edad>70) { showError(err,'Edad entre 20 y 70 años.'); return false; }
         if(!ciudad || ciudad==='No especificada') { showError(err,'Seleccioná una ciudad.'); return false; }
-        if(!calle || calle.length<2) { showError(err,'Calle requerida (mínimo 2 letras).'); return false; }
+        if(!calle || calle.length<2) { showError(err,'Calle requerida.'); return false; }
         if(!numero || !/^\d+$/.test(numero)) { showError(err,'Número debe contener solo dígitos.'); return false; }
         if(!barrio || barrio.length<2) { showError(err,'Barrio requerido.'); return false; }
         if(isNaN(ingreso) || ingreso<1750000) { showError(err,'Ingreso mínimo ₲ 1.750.000.'); return false; }
@@ -235,6 +452,7 @@
         return true;
     }
 
+    // VALIDACIÓN PASO 2 (dirección laboral + GPS + documentos)
     function validateStep2() {
         let perfil = document.getElementById('perfil').value;
         let monto = parseInt(limpiarPuntos(document.getElementById('monto').value));
@@ -243,8 +461,10 @@
         let err = document.getElementById('errorStep2');
         err.style.display='none';
         if(!perfil) { showError(err,'Seleccioná tu perfil.'); return false; }
+        // Dirección laboral: mínimo 5 caracteres y al menos una letra
         if(direccionLaboral.length<5 || !/[a-zA-Z]/.test(direccionLaboral)) { showError(err,'Dirección laboral válida requerida (mínimo 5 caracteres, con letras).'); return false; }
-        if(!ubicacionGPS.match(/^(https?:\/\/)?(www\.)?(maps\.app\.goo\.gl|goo\.gl\/maps|google\.com\/maps)/i)) { showError(err,'Ubicación GPS debe ser un enlace válido de Google Maps (ej: https://maps.app.goo.gl/...).'); return false; }
+        // GPS: debe contener maps.app.goo.gl o google.com/maps y no puede ser solo la base
+        if(!ubicacionGPS.match(/^(https?:\/\/)?(www\.)?(maps\.app\.goo\.gl|goo\.gl\/maps|google\.com\/maps)/i) || ubicacionGPS.endsWith('/') || ubicacionGPS === 'https://maps.app.goo.gl/') { showError(err,'Ubicación GPS debe ser un enlace completo de Google Maps (ej: https://maps.app.goo.gl/abc123).'); return false; }
         if(isNaN(monto) || monto<1000000 || monto>5000000) { showError(err,'Monto entre 1.000.000 y 5.000.000 ₲.'); return false; }
         if(cuotaCalculada<=0) { showError(err,'Error en cuota. Revisá monto y plazo.'); return false; }
         // Validar que al menos un documento esté marcado (si el perfil tiene requisitos)
@@ -272,6 +492,7 @@
         document.getElementById('resumenSolicitud').innerHTML = html;
     }
 
+    // Envío final
     document.getElementById('btnEnviar').addEventListener('click', async () => {
         let btn = document.getElementById('btnEnviar');
         btn.disabled=true; btn.textContent='Enviando...';
