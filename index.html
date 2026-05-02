@@ -34,7 +34,7 @@
         /* Muro de Filtro (Checkboxes) */
         .checkbox-group { background: #f0f3eb; border-radius: 20px; padding: 24px; margin: 24px 0; text-align: left; border-left: 4px solid var(--verde-esmeralda); }
         .checkbox-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; cursor: pointer; }
-        .checkbox-item input { width: 22px; height: 22px; margin-top: 2px; accent-color: var(--verde-bosque); }
+        .checkbox-item input { width: 22px; height: 22px; margin-top: 2px; accent-color: var(--verde-bosque); cursor: pointer; }
         .checkbox-item label { font-size: 14px; color: #444; line-height: 1.5; font-weight: 500; cursor: pointer; }
         .checkbox-item:last-child { margin-bottom: 0; }
 
@@ -52,7 +52,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .form-group { margin-bottom: 20px; }
         label { font-weight: 600; font-size: 13px; display: block; margin-bottom: 8px; color: var(--verde-bosque); }
-        input, select { width: 100%; padding: 15px; border: 1.5px solid #d4dfc9; border-radius: 16px; font-size: 15px; background: #fafbfc; transition: 0.3s; }
+        input[type="text"], input[type="tel"], select { width: 100%; padding: 15px; border: 1.5px solid #d4dfc9; border-radius: 16px; font-size: 15px; background: #fafbfc; transition: 0.3s; }
         select { cursor: pointer; }
         input:focus, select:focus { outline: none; border-color: var(--verde-esmeralda); box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.15); background: var(--blanco); }
         .row-2cols { display: flex; gap: 16px; }
@@ -62,10 +62,11 @@
 
         /* Alertas y Cajas */
         .result-box { background: #f0f3eb; border-radius: 20px; padding: 24px; text-align: center; margin: 20px 0; border: 2px dashed var(--verde-esmeralda); }
+        .requisitos-box { background: #fefcf5; border-radius: 16px; padding: 20px; margin-top: 10px; border-left: 4px solid var(--dorado-suave); box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
         .cuota-value { font-size: 2.5rem; font-weight: 800; color: var(--verde-bosque); margin-top: 10px; }
         .alert { padding: 16px; border-radius: 14px; margin-bottom: 20px; display: none; font-size: 14px; font-weight: 600; text-align: center; }
         .alert-error { background: #fee2e2; color: #991b1b; border-left: 4px solid #ef4444; }
-        .alert-warning { background: #fef3c7; color: #92400e; border-left: 4px solid #f59e0b; display: none; }
+        .alert-warning { background: #fef3c7; color: #92400e; border-left: 4px solid #f59e0b; }
         
         /* Footer Grabovoi */
         footer { text-align: center; padding: 24px; font-size: 13px; color: var(--verde-esmeralda); font-weight: 500; letter-spacing: 0.5px; }
@@ -200,7 +201,7 @@
                         </select>
                     </div>
                     
-                    <div class="alert alert-warning" id="alertaMorosos">
+                    <div class="alert alert-warning" id="alertaMorosos" style="display: none;">
                         ⛔ <strong>Aviso Importante:</strong> No procesamos solicitudes de perfiles con reportes activos en Informconf, ni operaciones morosas vendidas a casas de compra de carteras. Agradecemos tu tiempo y honestidad.
                     </div>
 
@@ -212,14 +213,48 @@
                 </div>
 
                 <div class="form-step" id="step2">
-                    <h4 style="margin: 0 0 15px; color: var(--verde-bosque); border-bottom: 2px solid var(--dorado-suave); padding-bottom: 5px;">Perfil Laboral</h4>
+                    <h4 style="margin: 0 0 15px; color: var(--verde-bosque); border-bottom: 2px solid var(--dorado-suave); padding-bottom: 5px;">Perfil Laboral y Requisitos</h4>
                     
                     <div class="row-2cols">
-                        <div class="form-group"><label>Ingreso mensual (₲) *</label><input type="text" id="ingreso" placeholder="Ej: 3.500.000" oninput="formatearMiles(this)"></div>
-                        <div class="form-group"><label>Perfil laboral *</label><select id="perfil"><option value="">Seleccionar</option><option value="Asalariado">Asalariado (Público/Privado)</option><option value="Independiente">Independiente (Con RUC)</option><option value="Jubilado">Jubilado</option></select></div>
+                        <div class="form-group">
+                            <label>Ingreso mensual (₲) *</label>
+                            <input type="text" id="ingreso" placeholder="Ej: 3.500.000" oninput="formatearMiles(this)">
+                        </div>
+                        <div class="form-group">
+                            <label>Empresa / Entidad donde trabajas *</label>
+                            <input type="text" id="empresaLaboral" placeholder="Nombre de la empresa o negocio">
+                        </div>
                     </div>
 
-                    <div class="form-group"><label>Empresa donde trabajas *</label><input type="text" id="empresaLaboral" placeholder="Nombre de la empresa o negocio"></div>
+                    <div class="form-group">
+                        <label>Selecciona tu Perfil Exacto *</label>
+                        <select id="perfil" onchange="cargarRequisitos()">
+                            <option value="">Selecciona una opción...</option>
+                            <option value="1">Trabajador Formal (con IPS)</option>
+                            <option value="2">Trabajador Formal (con IVA)</option>
+                            <option value="3">Trabajador Informal (sin IPS)</option>
+                            <option value="4">Funcionario Público Permanente</option>
+                            <option value="5">Funcionario Público Contratado</option>
+                            <option value="6">Microempresa (con IVA / con Patente / sin Patente)</option>
+                            <option value="7">Profesional Independiente</option>
+                            <option value="8">Jubilado</option>
+                            <option value="9">Rentistas (Alquileres)</option>
+                        </select>
+                    </div>
+
+                    <div id="requisitosContainer" class="requisitos-box" style="display:none;"></div>
+
+                    <div id="microempresaExtra" style="display:none; margin-top: 15px;">
+                        <div class="checkbox-group" style="margin: 0; padding: 15px; border-left: 4px solid var(--dorado-suave);">
+                            <div class="checkbox-item" style="margin: 0;">
+                                <input type="checkbox" id="chkSinRucPatente" onchange="validarMicroempresa()">
+                                <label for="chkSinRucPatente" style="font-weight: bold; color: var(--verde-bosque);">No poseo RUC ni Patente</label>
+                            </div>
+                        </div>
+                        <div id="alertaMicroempresa" class="alert alert-warning" style="display:none; margin-top:10px;">
+                            ⚠️ <strong>Atención:</strong> Sin RUC ni Patente, el monto máximo es ₲ 2.000.000 y requerirá visita in situ. Se ha ajustado tu solicitud automáticamente.
+                        </div>
+                    </div>
 
                     <div class="alert alert-error" id="errorStep2"></div>
                     
@@ -238,7 +273,10 @@
 </div>
 
 <script>
-    // FORMATEADORES Y CÁLCULOS
+    // URL PARA CONECTAR A GOOGLE SHEETS
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/TU_ID_AQUI/exec';
+
+    // DATOS DE CUOTAS
     const tablaCuotas = {
         1000000:{6:235000,12:127000,18:101000,24:90000},
         2000000:{6:465000,12:254000,18:201000,24:177000},
@@ -247,6 +285,20 @@
         5000000:{6:1150000,12:633000,18:503000,24:443000}
     };
 
+    // DICCIONARIO DE PERFILES Y SUS DOCUMENTOS EXACTOS
+    const perfilesDocs = {
+        "1": ["Boletas IPS (6 meses)", "Liquidación de salario"],
+        "2": ["3 últimos IVAs", "6 facturas emitidas"],
+        "3": ["Certificado de trabajo (no mayor a 60 días)", "RUC de la empresa"],
+        "4": ["Liquidación de salario", "Certificado de trabajo"],
+        "5": ["Liquidación de salario", "Certificado de trabajo"],
+        "6": ["3 últimos IVAs", "Fotos del negocio", "RUC o Patente"],
+        "7": ["3 últimos IVAs", "Título profesional o Registro", "RUC"],
+        "8": ["Boletas IPS o JUPE (2 cobros)"],
+        "9": ["Contrato de alquiler", "Factura de servicio público", "Fotos del inmueble"]
+    };
+
+    // FORMATEADORES
     function formatearMiles(input) { let v = input.value.replace(/\./g, '').replace(/[^0-9]/g, ''); if(v==='') return; input.value = parseInt(v,10).toLocaleString('es-PY'); }
     function formatearCI(input) { let v = input.value.replace(/\./g, '').replace(/[^0-9]/g, '').slice(0,7); if(v==='') { input.value=''; return; } input.value = parseInt(v,10).toLocaleString('es-PY'); }
     function formatearWhatsApp(input) { 
@@ -260,6 +312,7 @@
     }
     function limpiarPuntos(s) { return s.replace(/\./g, ''); }
 
+    // CALCULAR CUOTA
     function calcularCuota() { 
         let m = parseInt(document.getElementById('monto').value); 
         let p = parseInt(document.getElementById('plazo').value); 
@@ -267,11 +320,10 @@
         let cuota = tablaCuotas[m]?.[p]||0; 
         document.getElementById('cuotaPreview').innerHTML='₲ '+cuota.toLocaleString('es-PY'); 
     }
-    
     document.getElementById('monto').addEventListener('change', calcularCuota);
     document.getElementById('plazo').addEventListener('change', calcularCuota);
 
-    // Lógica de Otra Ciudad
+    // OTRA CIUDAD
     function mostrarOtraCiudad() {
         let sel = document.getElementById('ciudadSelect');
         let inputOtra = document.getElementById('otraCiudad');
@@ -282,16 +334,77 @@
             inputOtra.value = '';
         }
     }
-
     function obtenerCiudadFinal() {
         let sel = document.getElementById('ciudadSelect').value;
-        if(sel === 'OTRA') {
-            return document.getElementById('otraCiudad').value.trim();
-        }
+        if(sel === 'OTRA') { return document.getElementById('otraCiudad').value.trim(); }
         return sel;
     }
 
-    // Muro de Filtro Inicial
+    // CARGAR REQUISITOS DINÁMICOS POR PERFIL
+    function cargarRequisitos() {
+        let p = document.getElementById('perfil').value;
+        let container = document.getElementById('requisitosContainer');
+        let microExtra = document.getElementById('microempresaExtra');
+        
+        if(!p) {
+            container.style.display = 'none';
+            microExtra.style.display = 'none';
+            return;
+        }
+
+        let docs = perfilesDocs[p];
+        let html = '<h5 style="color:var(--verde-bosque); margin-bottom:12px; font-size: 14px;">Requisitos Específicos (Marca los que posees):</h5>';
+        
+        docs.forEach((d, i) => {
+            html += `
+            <div class="checkbox-item" style="margin-bottom: 10px;">
+                <input type="checkbox" class="chk-doc" value="${d}" id="doc_${i}">
+                <label for="doc_${i}">${d}</label>
+            </div>`;
+        });
+
+        container.innerHTML = html;
+        container.style.display = 'block';
+
+        // Lógica Especial: Microempresa
+        if(p === "6") {
+            microExtra.style.display = 'block';
+        } else {
+            microExtra.style.display = 'none';
+            document.getElementById('chkSinRucPatente').checked = false;
+            restaurarMonto();
+        }
+    }
+
+    // VALIDAR REGLA DE MICROEMPRESA (Tope 2 Millones)
+    function validarMicroempresa() {
+        let chk = document.getElementById('chkSinRucPatente').checked;
+        let alerta = document.getElementById('alertaMicroempresa');
+        let montoSelect = document.getElementById('monto');
+
+        if(chk) {
+            alerta.style.display = 'block';
+            // Limitar las opciones mayores a 2.000.000
+            Array.from(montoSelect.options).forEach(opt => {
+                if(parseInt(opt.value) > 2000000) opt.disabled = true;
+            });
+            // Si el monto actual supera los 2M, forzarlo a 2M
+            if(parseInt(montoSelect.value) > 2000000) {
+                montoSelect.value = "2000000";
+                calcularCuota(); // Recalcula la cuota interna
+            }
+        } else {
+            alerta.style.display = 'none';
+            restaurarMonto();
+        }
+    }
+
+    function restaurarMonto() {
+        let montoSelect = document.getElementById('monto');
+        Array.from(montoSelect.options).forEach(opt => { opt.disabled = false; });
+    }
+
+    // MURO DE FILTRO INICIAL
     document.getElementById('btnAcceptFilters').addEventListener('click', function() {
         let chk1 = document.getElementById('chkVerdad').checked;
         let chk2 = document.getElementById('chkInformconf').checked;
@@ -308,7 +421,7 @@
         }
     });
 
-    // Filtro Guillotina (Informconf / Carteras)
+    // FILTRO GUILLOTINA INFORMCONF
     function verificarInformconf() {
         let estado = document.getElementById('informconfSelect').value;
         let btnNext = document.getElementById('btnNext1');
@@ -323,18 +436,24 @@
         }
     }
 
-    // Navegación
+    // NAVEGACIÓN
     function nextStep(step) { 
         if(step===2 && !validateStep1()) return; 
+        document.getElementById('hero-badge-step').textContent = `Paso ${step} de 2`;
         document.querySelectorAll('.form-step').forEach(el=>el.classList.remove('active-step')); 
         document.getElementById(`step${step}`).classList.add('active-step'); 
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    function prevStep(step) { nextStep(step); }
+    function prevStep(step) { 
+        document.getElementById('hero-badge-step').textContent = `Paso ${step} de 2`;
+        document.querySelectorAll('.form-step').forEach(el=>el.classList.remove('active-step')); 
+        document.getElementById(`step${step}`).classList.add('active-step');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-    function showError(el, msg) { el.textContent=msg; el.style.display='block'; setTimeout(()=>el.style.display='none',5000); }
+    function showError(el, msg) { el.textContent=msg; el.style.display='block'; setTimeout(()=>el.style.display='none',6000); }
 
-    // Validación estricta del Paso 1
+    // VALIDACIÓN ESTRICTA DEL PASO 1
     function validateStep1() {
         let err = document.getElementById('errorStep1'); err.style.display='none';
         
@@ -364,17 +483,69 @@
         return true;
     }
 
-    // Envío final
-    document.getElementById('btnEnviar').addEventListener('click', function() {
+    // ENVÍO FINAL CON VALIDACIÓN DE PASO 2
+    document.getElementById('btnEnviar').addEventListener('click', async function() {
         let err = document.getElementById('errorStep2'); err.style.display='none';
-        if(!document.getElementById('ingreso').value || !document.getElementById('perfil').value || !document.getElementById('empresaLaboral').value) {
-            showError(err, 'Por favor completa todos los campos de tu perfil laboral.'); return false;
+        
+        let ingreso = limpiarPuntos(document.getElementById('ingreso').value);
+        let empresa = document.getElementById('empresaLaboral').value.trim();
+        let perfilSelect = document.getElementById('perfil');
+        let perfilId = perfilSelect.value;
+        let perfilTexto = perfilSelect.options[perfilSelect.selectedIndex]?.text;
+
+        // Validar campos básicos
+        if(!ingreso || ingreso.length < 6) { showError(err, 'Ingresa un monto de ingreso mensual válido.'); return false; }
+        if(empresa.length < 2) { showError(err, 'Indica el nombre de tu empresa o lugar de trabajo.'); return false; }
+        if(!perfilId) { showError(err, 'Selecciona tu perfil laboral exacto.'); return false; }
+
+        // Validar que al menos un documento esté marcado
+        let docsMarcados = [];
+        document.querySelectorAll('.chk-doc:checked').forEach(chk => {
+            docsMarcados.push(chk.value);
+        });
+
+        if(docsMarcados.length === 0) {
+            showError(err, '⚠️ Debes marcar al menos un documento de los requisitos específicos para avanzar.'); 
+            return false;
         }
         
-        this.textContent = 'Enviando...';
-        this.disabled = true;
-        // La ciudad guardada para enviar sería: obtenerCiudadFinal()
-        setTimeout(() => { alert('¡Solicitud Calificada Enviada con Éxito!'); window.location.reload(); }, 2000);
+        let btn = this;
+        btn.textContent = 'Procesando...';
+        btn.disabled = true;
+
+        let datos = {
+            nombre: document.getElementById('nombre').value.trim(),
+            ci: limpiarPuntos(document.getElementById('ci').value),
+            telefono: document.getElementById('telefono').value.replace(/[^0-9]/g, ''),
+            monto: document.getElementById('monto').value,
+            plazo: document.getElementById('plazo').value,
+            cuota: tablaCuotas[parseInt(document.getElementById('monto').value)][parseInt(document.getElementById('plazo').value)],
+            ciudad: obtenerCiudadFinal(),
+            direccion: `${document.getElementById('calle').value.trim()} ${document.getElementById('numeroCasa').value.trim()}, ${document.getElementById('barrio').value.trim()}`,
+            estadoCrediticio: document.getElementById('informconfSelect').value,
+            ingreso: ingreso,
+            perfilLaboral: perfilTexto,
+            empresa: empresa,
+            documentosPosee: docsMarcados.join(' | '),
+            esMicroSinRuc: (perfilId === "6" && document.getElementById('chkSinRucPatente').checked) ? 'SI' : 'NO'
+        };
+
+        try {
+            // LÓGICA DE ENVÍO A GOOGLE SHEETS AQUI (Descomentar en prod)
+            // let res = await fetch(APPS_SCRIPT_URL, { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:new URLSearchParams(datos) });
+            // let result = await res.json();
+            
+            // Simulación de éxito
+            setTimeout(() => { 
+                alert('¡Solicitud Calificada Enviada con Éxito!'); 
+                window.location.reload(); 
+            }, 2000);
+
+        } catch (error) {
+            showError(err, 'Hubo un error al enviar tu solicitud. Intenta nuevamente.');
+            btn.textContent = '📩 Enviar Solicitud';
+            btn.disabled = false;
+        }
     });
 </script>
 </body>
