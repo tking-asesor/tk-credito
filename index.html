@@ -112,7 +112,7 @@
 
     <div id="simulatorScreen" style="display: none;">
         <div class="hero">
-            <div class="hero-badge">Paso 1 de 2</div>
+            <div class="hero-badge" id="hero-badge-step">Paso 1 de 2</div>
             <h1>Simulador <span>Financiero</span></h1>
         </div>
         
@@ -208,7 +208,7 @@
                     <div class="alert alert-error" id="errorStep1"></div>
                     
                     <div class="button-group" style="justify-content: flex-end;">
-                        <button class="btn btn-primary" id="btnNext1" onclick="nextStep(2)">Continuar al Perfil →</button>
+                        <button type="button" class="btn btn-primary" id="btnNext1" onclick="nextStep(2)">Continuar al Perfil →</button>
                     </div>
                 </div>
 
@@ -259,8 +259,8 @@
                     <div class="alert alert-error" id="errorStep2"></div>
                     
                     <div class="button-group">
-                        <button class="btn btn-secondary" onclick="prevStep(1)">← Atrás</button>
-                        <button class="btn btn-primary" id="btnEnviar" style="background: var(--dorado-suave); color: var(--verde-bosque);">📩 Enviar Solicitud</button>
+                        <button type="button" class="btn btn-secondary" onclick="prevStep(1)">← Atrás</button>
+                        <button type="button" class="btn btn-primary" id="btnEnviar" style="background: var(--dorado-suave); color: var(--verde-bosque);">📩 Enviar Solicitud</button>
                     </div>
                 </div>
             </div>
