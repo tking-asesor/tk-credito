@@ -186,7 +186,7 @@
 
 <script>
     // CONFIGURACIÓN DE DESTINOS
-    const WHATSAPP_NUMERO = "TU_NUMERO_AQUI"; // Ejemplo: 595981123456
+    const WHATSAPP_NUMERO = "595992271485"; // Ejemplo: 595981123456
     const APPS_SCRIPT_URL = "TU_URL_DE_GOOGLE_SCRIPT"; 
 
     const tablaCuotas = {
@@ -302,7 +302,7 @@
         // 2. ENVÍO A WHATSAPP
         const textoWasa = `*NUEVA SOLICITUD DE CRÉDITO*%0A---%0A*Cliente:* ${datos.nombre}%0A*CI:* ${datos.ci}%0A*Monto:* ${datos.monto}%0A*Plazo:* ${datos.plazo} meses%0A*Cuota:* ${datos.cuota}%0A*Perfil:* ${datos.perfil}%0A*Empresa:* ${datos.empresa}%0A*Docs:* ${datos.docs}`;
         
-        const urlWasa = `https://wa.me/${+595992271845}?text=${textoWasa}`;
+        const urlWasa = `https://wa.me/${+595992271485}?text=${textoWasa}`;
         
         alert("¡Solicitud registrada! Serás redirigido a WhatsApp para finalizar.");
         window.location.href = urlWasa;
