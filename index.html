@@ -96,7 +96,7 @@
                 </div>
                 <div class="checkbox-item">
                     <input type="checkbox" id="chkInformconf">
-                    <label for="chkInformconf">Confirmo que <strong>NO poseo operaciones en mora</strong> ni reportes negativos activos en Informconf.</label>
+                    <label for="chkInformconf">Confirmo que <strong>NO poseo operaciones en mora</strong>, reportes negativos en Informconf, ni deudas vendidas a casas de cobranza.</label>
                 </div>
                 <div class="checkbox-item">
                     <input type="checkbox" id="chkAutorizo">
@@ -146,6 +146,7 @@
                     </div>
 
                     <h4 style="margin: 25px 0 15px; color: var(--verde-bosque); border-bottom: 2px solid var(--dorado-suave); padding-bottom: 5px;">Datos del Solicitante</h4>
+                    
                     <div class="form-group">
                         <label>Nombre completo *</label>
                         <input type="text" id="nombre" placeholder="Ej: Juan Pérez" oninput="this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '')">
@@ -165,7 +166,14 @@
                     <h4 style="margin: 25px 0 15px; color: var(--verde-bosque); border-bottom: 2px solid var(--dorado-suave); padding-bottom: 5px;">Dirección Particular</h4>
                     <div class="form-group">
                         <label>Ciudad de residencia *</label>
-                        <select id="ciudadSelect"><option value="">Seleccionar</option><option value="Asunción">Asunción</option><option value="Gran Asunción">Gran Asunción</option><option value="Interior">Interior del País</option></select>
+                        <select id="ciudadSelect" onchange="mostrarOtraCiudad()">
+                            <option value="">Seleccionar...</option>
+                            <option value="PJC">Pedro Juan Caballero (PJC)</option>
+                            <option value="Asunción">Asunción</option>
+                            <option value="CDE">Ciudad del Este (CDE)</option>
+                            <option value="OTRA">Otra ciudad (Especificar)</option>
+                        </select>
+                        <input type="text" id="otraCiudad" placeholder="Escribe el nombre de tu ciudad" style="display: none; margin-top: 10px;" oninput="this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '')">
                     </div>
                     
                     <div class="row-3cols">
@@ -184,16 +192,16 @@
                     </div>
                     
                     <div class="form-group">
-                        <label>Estado en Informconf *</label>
+                        <label>Estado Crediticio (Informconf / Demandas) *</label>
                         <select id="informconfSelect" onchange="verificarInformconf()">
                             <option value="">Selecciona una opción...</option>
-                            <option value="limpio">✅ Historial Limpio (Sin atrasos)</option>
-                            <option value="moroso">❌ Tengo deudas o atrasos activos</option>
+                            <option value="limpio">✅ Historial Limpio (Sin atrasos ni demandas)</option>
+                            <option value="moroso">❌ Tengo reportes activos o deudas en casas de cobranza</option>
                         </select>
                     </div>
                     
                     <div class="alert alert-warning" id="alertaMorosos">
-                        ⛔ <strong>Aviso Importante:</strong> Según nuestras políticas actuales, no procesamos solicitudes con reportes activos en Informconf o casas de cobranza. Agradecemos tu honestidad y tiempo.
+                        ⛔ <strong>Aviso Importante:</strong> No procesamos solicitudes de perfiles con reportes activos en Informconf, ni operaciones morosas vendidas a casas de compra de carteras. Agradecemos tu tiempo y honestidad.
                     </div>
 
                     <div class="alert alert-error" id="errorStep1"></div>
@@ -241,8 +249,6 @@
 
     function formatearMiles(input) { let v = input.value.replace(/\./g, '').replace(/[^0-9]/g, ''); if(v==='') return; input.value = parseInt(v,10).toLocaleString('es-PY'); }
     function formatearCI(input) { let v = input.value.replace(/\./g, '').replace(/[^0-9]/g, '').slice(0,7); if(v==='') { input.value=''; return; } input.value = parseInt(v,10).toLocaleString('es-PY'); }
-    
-    // Función WhatsApp corregida para evitar letras por completo y dar formato con espacios
     function formatearWhatsApp(input) { 
         let v = input.value.replace(/[^0-9]/g, '').slice(0,10); 
         if(v==='') { input.value=''; return; } 
@@ -252,7 +258,6 @@
         if(v) p.push(v); 
         input.value = p.join(' '); 
     }
-    
     function limpiarPuntos(s) { return s.replace(/\./g, ''); }
 
     function calcularCuota() { 
@@ -265,6 +270,26 @@
     
     document.getElementById('monto').addEventListener('change', calcularCuota);
     document.getElementById('plazo').addEventListener('change', calcularCuota);
+
+    // Lógica de Otra Ciudad
+    function mostrarOtraCiudad() {
+        let sel = document.getElementById('ciudadSelect');
+        let inputOtra = document.getElementById('otraCiudad');
+        if(sel.value === 'OTRA') {
+            inputOtra.style.display = 'block';
+        } else {
+            inputOtra.style.display = 'none';
+            inputOtra.value = '';
+        }
+    }
+
+    function obtenerCiudadFinal() {
+        let sel = document.getElementById('ciudadSelect').value;
+        if(sel === 'OTRA') {
+            return document.getElementById('otraCiudad').value.trim();
+        }
+        return sel;
+    }
 
     // Muro de Filtro Inicial
     document.getElementById('btnAcceptFilters').addEventListener('click', function() {
@@ -283,7 +308,7 @@
         }
     });
 
-    // Filtro Guillotina (Informconf)
+    // Filtro Guillotina (Informconf / Carteras)
     function verificarInformconf() {
         let estado = document.getElementById('informconfSelect').value;
         let btnNext = document.getElementById('btnNext1');
@@ -317,7 +342,8 @@
         let nombre = document.getElementById('nombre').value.trim();
         let ci = limpiarPuntos(document.getElementById('ci').value);
         let telefono = document.getElementById('telefono').value.replace(/[^0-9]/g, '');
-        let ciudad = document.getElementById('ciudadSelect').value;
+        let ciudadSeleccionada = document.getElementById('ciudadSelect').value;
+        let ciudadFinal = obtenerCiudadFinal();
         let barrio = document.getElementById('barrio').value.trim();
         let calle = document.getElementById('calle').value.trim();
         let numCasa = document.getElementById('numeroCasa').value.trim();
@@ -327,12 +353,13 @@
         if(ci.length < 6) { showError(err,'Completa tu CI.'); return false; }
         if(telefono.length !== 10 || !telefono.startsWith('09')) { showError(err,'WhatsApp debe tener 10 números y empezar con 09.'); return false; }
         
-        if(!ciudad) { showError(err,'Selecciona tu ciudad.'); return false; }
+        if(!ciudadSeleccionada) { showError(err,'Selecciona tu ciudad de residencia.'); return false; }
+        if(ciudadSeleccionada === 'OTRA' && ciudadFinal.length < 3) { showError(err,'Especifica el nombre de tu ciudad.'); return false; }
         if(barrio.length < 2) { showError(err,'Ingresa un barrio válido.'); return false; }
         if(calle.length < 2) { showError(err,'Ingresa el nombre de tu calle.'); return false; }
         if(!numCasa) { showError(err,'Ingresa el número de tu casa (solo números).'); return false; }
 
-        if(document.getElementById('informconfSelect').value !== 'limpio') { showError(err,'Debes confirmar tu estado de Informconf.'); return false; }
+        if(document.getElementById('informconfSelect').value !== 'limpio') { showError(err,'Debes confirmar tu estado crediticio.'); return false; }
         
         return true;
     }
@@ -346,7 +373,7 @@
         
         this.textContent = 'Enviando...';
         this.disabled = true;
-        // Aquí conectas tu Fetch para Google Sheets, juntando los datos del paso 1 y 2
+        // La ciudad guardada para enviar sería: obtenerCiudadFinal()
         setTimeout(() => { alert('¡Solicitud Calificada Enviada con Éxito!'); window.location.reload(); }, 2000);
     });
 </script>
