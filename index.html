@@ -14,7 +14,7 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e9edf2 100%);
+            background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
             color: #1a202c;
             line-height: 1.5;
             min-height: 100vh;
@@ -28,7 +28,7 @@
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, #0b2b44 0%, #143d5e 100%);
+            background: linear-gradient(135deg, #0b2b44 0%, #1a4a6f 100%);
             border-radius: 32px;
             padding: 48px 32px;
             margin-bottom: 32px;
@@ -349,6 +349,7 @@
             border-radius: 20px;
             padding: 16px;
             margin: 16px 0;
+            border: 1px solid #e2e8f0;
         }
         .requisitos-box h4 {
             font-size: 0.9rem;
@@ -379,6 +380,10 @@
             color: #065f46;
             border-left: 4px solid #10b981;
         }
+        .ciudad-otra {
+            margin-top: 10px;
+            display: none;
+        }
         footer {
             text-align: center;
             padding: 24px;
@@ -397,7 +402,7 @@
 </head>
 <body>
 <div class="container">
-    <!-- PANTALLA DE ACEPTACIÓN (sin pedir CI) -->
+    <!-- PANTALLA DE ACEPTACIÓN -->
     <div id="acceptScreen" class="card">
         <div class="card-body accept-screen">
             <div class="hero-badge">🔐 Confianza y Transparencia</div>
@@ -427,7 +432,7 @@
         </div>
     </div>
 
-    <!-- SIMULADOR (oculto hasta aceptar) -->
+    <!-- SIMULADOR -->
     <div id="simulatorScreen" style="display: none;">
         <div class="hero">
             <div class="hero-badge">📊 Simulador de Crédito</div>
@@ -444,27 +449,54 @@
             </div>
 
             <form id="creditForm">
+                <!-- PASO 1 -->
                 <div class="form-step active-step" id="step1">
                     <div class="alert alert-error" id="errorStep1"></div>
                     <div class="row-2cols">
-                        <div class="form-group"><label>Nombre completo *</label><input type="text" id="nombre" placeholder="Isidro Cabrera"></div>
-                        <div class="form-group"><label>CI (sin puntos) *</label><input type="text" id="ci" placeholder="12345678" maxlength="10"></div>
+                        <div class="form-group"><label>Nombre completo *</label><input type="text" id="nombre" placeholder="Isidro Cabrera" onkeypress="return soloLetras(event)"></div>
+                        <div class="form-group"><label>CI (sin puntos) *</label><input type="text" id="ci" placeholder="12345678" maxlength="10" onkeypress="return soloNumeros(event)"></div>
                     </div>
                     <div class="row-2cols">
-                        <div class="form-group"><label>WhatsApp *</label><input type="tel" id="telefono" placeholder="0991 123456" maxlength="15"></div>
-                        <div class="form-group"><label>Edad *</label><input type="number" id="edad" placeholder="25" min="18" max="70"></div>
+                        <div class="form-group"><label>WhatsApp *</label><input type="tel" id="telefono" placeholder="0991 123456" maxlength="15" onkeypress="return soloNumeros(event)"></div>
+                        <div class="form-group"><label>Edad *</label><input type="text" id="edad" placeholder="25" onkeypress="return soloNumeros(event)"></div>
                     </div>
                     <div class="row-2cols">
-                        <div class="form-group"><label>Ciudad *</label><input type="text" id="ciudad" placeholder="Asunción"></div>
-                        <div class="form-group"><label>Dirección particular *</label><input type="text" id="direccion" placeholder="Av. España 123"></div>
+                        <div class="form-group">
+                            <label>Ciudad *</label>
+                            <select id="ciudadSelect" onchange="mostrarOtraCiudad()">
+                                <option value="">Seleccionar ciudad</option>
+                                <option value="Asunción">Asunción</option>
+                                <option value="Concepción">Concepción</option>
+                                <option value="San Lorenzo">San Lorenzo</option>
+                                <option value="Capiatá">Capiatá</option>
+                                <option value="Lambaré">Lambaré</option>
+                                <option value="Fernando de la Mora">Fernando de la Mora</option>
+                                <option value="Limpio">Limpio</option>
+                                <option value="Ñemby">Ñemby</option>
+                                <option value="Encarnación">Encarnación</option>
+                                <option value="Ciudad del Este">Ciudad del Este</option>
+                                <option value="Pedro Juan Caballero">Pedro Juan Caballero</option>
+                                <option value="Villarrica">Villarrica</option>
+                                <option value="Caacupé">Caacupé</option>
+                                <option value="Itauguá">Itauguá</option>
+                                <option value="Villa Elisa">Villa Elisa</option>
+                                <option value="San Antonio">San Antonio</option>
+                                <option value="Luque">Luque</option>
+                                <option value="Mariano Roque Alonso">Mariano Roque Alonso</option>
+                                <option value="OTRA">OTRA (escribir ciudad)</option>
+                            </select>
+                            <div id="otraCiudadDiv" class="ciudad-otra"><input type="text" id="otraCiudad" placeholder="Escribí tu ciudad" onkeypress="return soloLetrasConEspacio(event)"></div>
+                        </div>
+                        <div class="form-group"><label>Dirección particular *</label><input type="text" id="direccion" placeholder="Av. España 123" onkeypress="return soloLetrasConEspacioNumeros(event)"></div>
                     </div>
-                    <div class="form-group"><label>Ingreso mensual (₲) *</label><input type="text" id="ingreso" placeholder="1.750.000"></div>
+                    <div class="form-group"><label>Ingreso mensual (₲) *</label><input type="text" id="ingreso" placeholder="1.750.000" onkeypress="return soloNumeros(event)"></div>
                     <div class="form-group"><label>Informconf *</label>
                         <select id="informconf"><option value="no">✅ No tengo deudas</option><option value="si">⚠️ Tengo deudas</option></select>
                     </div>
                     <div class="button-group"><button type="button" class="btn btn-primary" onclick="nextStep(2)">Continuar →</button></div>
                 </div>
 
+                <!-- PASO 2 -->
                 <div class="form-step" id="step2">
                     <div class="alert alert-error" id="errorStep2"></div>
                     <div class="form-group"><label>Perfil laboral *</label>
@@ -483,7 +515,7 @@
                     </div>
                     <div id="requisitosContainer" class="requisitos-box" style="display:none;"></div>
                     <div class="row-2cols">
-                        <div class="form-group"><label>Monto (₲) *</label><input type="text" id="monto" placeholder="1.000.000"></div>
+                        <div class="form-group"><label>Monto (₲) *</label><input type="text" id="monto" placeholder="1.000.000" onkeypress="return soloNumeros(event)"></div>
                         <div class="form-group"><label>Plazo *</label>
                             <select id="plazo"><option value="6">6 meses</option><option value="8">8 meses</option><option value="10">10 meses</option><option value="12">12 meses</option><option value="15">15 meses</option><option value="18">18 meses</option><option value="20">20 meses</option><option value="24">24 meses</option></select>
                         </div>
@@ -492,11 +524,12 @@
                     <div class="button-group"><button type="button" class="btn btn-secondary" onclick="prevStep(1)">← Atrás</button><button type="button" class="btn btn-primary" onclick="nextStep(3)">Continuar →</button></div>
                 </div>
 
+                <!-- PASO 3 -->
                 <div class="form-step" id="step3">
                     <div class="alert alert-error" id="errorStep3"></div>
                     <div class="alert alert-success" id="successMessage" style="display:none;"></div>
                     <div id="resumenSolicitud"></div>
-                    <div class="form-group"><label>Dirección laboral *</label><input type="text" id="direccionLaboral" placeholder="Av. Mcal López 1234"></div>
+                    <div class="form-group"><label>Dirección laboral *</label><input type="text" id="direccionLaboral" placeholder="Av. Mcal López 1234" onkeypress="return soloLetrasConEspacioNumeros(event)"></div>
                     <div class="form-group"><label>Ubicación GPS (WhatsApp) *</label><input type="text" id="ubicacionGPS" placeholder="https://maps.app.goo.gl/..."></div>
                     <div class="button-group"><button type="button" class="btn btn-secondary" onclick="prevStep(2)">← Atrás</button><button type="button" class="btn btn-success" id="btnEnviar">📩 Enviar presolicitud</button></div>
                 </div>
@@ -508,14 +541,18 @@
 
 <script>
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/TU_ID_AQUI/exec';
+    const CORREO_ASESOR = 'tking.asesor@gmail.com';
 
-    // Tabla de cuotas (monto en miles)
+    // Control de intentos fallidos por CI (Informconf positivo)
+    let intentosFallidos = JSON.parse(localStorage.getItem('intentosFallidos') || '{}');
+
+    // Tabla de cuotas
     const tablaCuotas = {
-        1000: {6:235000,8:182000,10:150000,12:127000,15:112000,18:101000,20:96000,24:90000},
-        2000: {6:465000,8:358000,10:292500,12:254000,15:223000,18:201000,20:191000,24:177000},
-        3000: {6:685000,8:535000,10:435000,12:380000,15:334000,18:302000,20:287000,24:266000},
-        4000: {6:900000,8:700000,10:571000,12:507000,15:445000,18:402000,20:382000,24:354000},
-        5000: {6:1150000,8:885000,10:712000,12:633000,15:555000,18:503000,20:478000,24:443000}
+        1000000: {6:235000,8:182000,10:150000,12:127000,15:112000,18:101000,20:96000,24:90000},
+        2000000: {6:465000,8:358000,10:292500,12:254000,15:223000,18:201000,20:191000,24:177000},
+        3000000: {6:685000,8:535000,10:435000,12:380000,15:334000,18:302000,20:287000,24:266000},
+        4000000: {6:900000,8:700000,10:571000,12:507000,15:445000,18:402000,20:382000,24:354000},
+        5000000: {6:1150000,8:885000,10:712000,12:633000,15:555000,18:503000,20:478000,24:443000}
     };
 
     const requisitosPorPerfil = {
@@ -533,13 +570,23 @@
     let currentStep = 1;
     let cuotaCalculada = 0;
 
+    // Validaciones de input
+    function soloNumeros(e) { var key = e.key; if (key >= '0' && key <= '9') return true; e.preventDefault(); return false; }
+    function soloLetras(e) { var key = e.key; if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') || key === ' ' || key === 'ñ' || key === 'Ñ') return true; e.preventDefault(); return false; }
+    function soloLetrasConEspacio(e) { var key = e.key; if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') || key === ' ' || key === 'ñ' || key === 'Ñ' || key === '.' || key === '#') return true; e.preventDefault(); return false; }
+    function soloLetrasConEspacioNumeros(e) { var key = e.key; if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') || (key >= '0' && key <= '9') || key === ' ' || key === 'ñ' || key === 'Ñ' || key === '.' || key === '#') return true; e.preventDefault(); return false; }
+
     function formatearNumero(valor) { if (!valor) return ''; let num = valor.toString().replace(/\./g, ''); return num.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
     
     function calcularCuota() {
         let montoStr = document.getElementById('monto').value.replace(/\./g, '');
         let monto = parseInt(montoStr);
         let plazo = parseInt(document.getElementById('plazo').value);
-        if (isNaN(monto) || monto < 1000000 || monto > 5000000) { document.getElementById('cuotaPreview').innerHTML = '₲ 0'; cuotaCalculada = 0; return; }
+        if (isNaN(monto) || monto < 1000000 || monto > 5000000) { 
+            document.getElementById('cuotaPreview').innerHTML = '₲ 0'; 
+            cuotaCalculada = 0; 
+            return; 
+        }
         let cuota = tablaCuotas[monto]?.[plazo] || 0;
         cuotaCalculada = cuota;
         document.getElementById('cuotaPreview').innerHTML = '₲ ' + formatearNumero(cuotaCalculada);
@@ -550,20 +597,63 @@
         if (valor) e.target.value = formatearNumero(valor);
         calcularCuota();
     });
+    document.getElementById('ingreso').addEventListener('input', function(e) {
+        let valor = e.target.value.replace(/\./g, '');
+        if (valor) e.target.value = formatearNumero(valor);
+    });
     document.getElementById('plazo').addEventListener('change', calcularCuota);
+
+    function mostrarOtraCiudad() {
+        let select = document.getElementById('ciudadSelect');
+        let otraDiv = document.getElementById('otraCiudadDiv');
+        if (select.value === 'OTRA') {
+            otraDiv.style.display = 'block';
+        } else {
+            otraDiv.style.display = 'none';
+        }
+    }
+
+    function obtenerCiudad() {
+        let select = document.getElementById('ciudadSelect');
+        if (select.value === 'OTRA') {
+            return document.getElementById('otraCiudad').value.trim() || 'No especificada';
+        }
+        return select.value;
+    }
 
     function cargarRequisitos() {
         let perfilId = document.getElementById('perfil').value;
         let container = document.getElementById('requisitosContainer');
-        if (!perfilId || !requisitosPorPerfil[perfilId]) { container.style.display = 'none'; return; }
+        if (!perfilId || !requisitosPorPerfil[perfilId]) { 
+            container.style.display = 'none'; 
+            return; 
+        }
         let req = requisitosPorPerfil[perfilId];
         let html = `<h4>📋 Documentos requeridos (marcá los que poseés):</h4>`;
-        req.docs.forEach((doc, i) => { html += `<div class="requisito-item"><input type="checkbox" id="doc_${i}" value="${doc}"> <label for="doc_${i}">${doc}</label></div>`; });
+        req.docs.forEach((doc, i) => { 
+            html += `<div class="requisito-item"><input type="checkbox" id="doc_${i}" value="${doc}"> <label for="doc_${i}">${doc}</label></div>`; 
+        });
         container.innerHTML = html;
         container.style.display = 'block';
     }
 
-    // Aceptación (sin pedir CI)
+    // Control de intentos fallidos
+    function registrarIntentoFallido(ci) {
+        if (!intentosFallidos[ci]) intentosFallidos[ci] = 0;
+        intentosFallidos[ci]++;
+        localStorage.setItem('intentosFallidos', JSON.stringify(intentosFallidos));
+        return intentosFallidos[ci];
+    }
+
+    function enviarNotificacionCorreo(ci, nombre, telefono) {
+        let asunto = `⚠️ INFORMCONF POSITIVO - CI: ${ci}`;
+        let cuerpo = `Se ha detectado un intento de simulación con Informconf positivo.\n\nCI: ${ci}\nNombre: ${nombre}\nWhatsApp: ${telefono}\nIntentos: ${intentosFallidos[ci] || 1}`;
+        // Nota: Para enviar correo desde frontend se necesita backend. Se guarda en localStorage y se envía con el script de Apps Script
+        console.log('Notificación requerida:', asunto, cuerpo);
+        return { asunto, cuerpo };
+    }
+
+    // Aceptación
     document.getElementById('btnAccept').addEventListener('click', function() {
         let acceptData = document.getElementById('acceptData').checked;
         let acceptVerification = document.getElementById('acceptVerification').checked;
@@ -598,31 +688,45 @@
         let ci = document.getElementById('ci').value.trim();
         let telefono = document.getElementById('telefono').value.trim();
         let edad = parseInt(document.getElementById('edad').value);
-        let ciudad = document.getElementById('ciudad').value.trim();
+        let ciudad = obtenerCiudad();
         let direccion = document.getElementById('direccion').value.trim();
-        let ingreso = parseInt(document.getElementById('ingreso').value.replace(/\./g, ''));
+        let ingresoStr = document.getElementById('ingreso').value.replace(/\./g, '');
+        let ingreso = parseInt(ingresoStr);
         let informconf = document.getElementById('informconf').value;
         let errorDiv = document.getElementById('errorStep1');
         errorDiv.style.display = 'none';
+        
         if (!nombre) { showError(errorDiv, 'Nombre completo requerido.'); return false; }
         if (!ci || ci.length < 5) { showError(errorDiv, 'CI válida requerida.'); return false; }
         if (!telefono) { showError(errorDiv, 'WhatsApp requerido.'); return false; }
         if (edad < 20 || edad > 70) { showError(errorDiv, 'Edad debe ser entre 20 y 70 años.'); return false; }
-        if (!ciudad) { showError(errorDiv, 'Ciudad requerida.'); return false; }
+        if (!ciudad || ciudad === 'No especificada') { showError(errorDiv, 'Ciudad requerida.'); return false; }
         if (!direccion) { showError(errorDiv, 'Dirección particular requerida.'); return false; }
         if (!ingreso || ingreso < 1750000) { showError(errorDiv, 'Ingreso mínimo ₲ 1.750.000.'); return false; }
-        if (informconf === 'si') { showError(errorDiv, 'No podés continuar si estás en Informconf.'); return false; }
+        
+        // Control de Informconf positivo
+        if (informconf === 'si') {
+            let intentos = registrarIntentoFallido(ci);
+            if (intentos >= 3) {
+                showError(errorDiv, '⛔ Has alcanzado el límite de 3 intentos con Informconf positivo. Contactá a tu asesor.');
+                return false;
+            }
+            let notif = enviarNotificacionCorreo(ci, nombre, telefono);
+            showError(errorDiv, `⚠️ No podés continuar si estás en Informconf. Intento ${intentos} de 3. Se ha notificado a tu asesor.`);
+            return false;
+        }
         return true;
     }
 
     function validateStep2() {
         let perfil = document.getElementById('perfil').value;
-        let monto = parseInt(document.getElementById('monto').value.replace(/\./g, ''));
+        let montoStr = document.getElementById('monto').value.replace(/\./g, '');
+        let monto = parseInt(montoStr);
         let errorDiv = document.getElementById('errorStep2');
         errorDiv.style.display = 'none';
         if (!perfil) { showError(errorDiv, 'Seleccioná tu perfil.'); return false; }
         if (!monto || monto < 1000000 || monto > 5000000) { showError(errorDiv, 'Monto entre 1M y 5M ₲.'); return false; }
-        if (cuotaCalculada <= 0) { showError(errorDiv, 'Error en cuota.'); return false; }
+        if (cuotaCalculada <= 0) { showError(errorDiv, 'Error en cuota. Revisá monto y plazo.'); return false; }
         return true;
     }
 
@@ -631,13 +735,19 @@
     function generarResumen() {
         let docs = [];
         for (let i = 0; i < 10; i++) { let chk = document.getElementById(`doc_${i}`); if (chk && chk.checked) docs.push(chk.value); }
-        let resumen = `<div class="result-box" style="text-align:left;"><p><strong>👤 Nombre:</strong> ${document.getElementById('nombre').value}</p>
-        <p><strong>📄 CI:</strong> ${document.getElementById('ci').value}</p><p><strong>📞 WhatsApp:</strong> ${document.getElementById('telefono').value}</p>
-        <p><strong>📍 Ciudad:</strong> ${document.getElementById('ciudad').value}</p><p><strong>🏠 Dirección:</strong> ${document.getElementById('direccion').value}</p>
-        <p><strong>💼 Perfil:</strong> ${document.getElementById('perfil').options[document.getElementById('perfil').selectedIndex]?.text}</p>
-        <p><strong>💰 Monto:</strong> ₲ ${document.getElementById('monto').value}</p><p><strong>📅 Plazo:</strong> ${document.getElementById('plazo').value} meses</p>
-        <p><strong>📊 Cuota:</strong> ₲ ${formatearNumero(cuotaCalculada)}</p>
-        <p><strong>📋 Documentos que posee:</strong> ${docs.length ? docs.join(', ') : 'Ninguno'}</p><hr><p class="small-note">✅ Revisá antes de enviar.</p></div>`;
+        let resumen = `<div class="result-box" style="text-align:left;">
+            <p><strong>👤 Nombre:</strong> ${document.getElementById('nombre').value}</p>
+            <p><strong>📄 CI:</strong> ${document.getElementById('ci').value}</p>
+            <p><strong>📞 WhatsApp:</strong> ${document.getElementById('telefono').value}</p>
+            <p><strong>📍 Ciudad:</strong> ${obtenerCiudad()}</p>
+            <p><strong>🏠 Dirección:</strong> ${document.getElementById('direccion').value}</p>
+            <p><strong>💼 Perfil:</strong> ${document.getElementById('perfil').options[document.getElementById('perfil').selectedIndex]?.text}</p>
+            <p><strong>💰 Monto:</strong> ₲ ${document.getElementById('monto').value}</p>
+            <p><strong>📅 Plazo:</strong> ${document.getElementById('plazo').value} meses</p>
+            <p><strong>📊 Cuota:</strong> ₲ ${formatearNumero(cuotaCalculada)}</p>
+            <p><strong>📋 Documentos que posee:</strong> ${docs.length ? docs.join(', ') : 'Ninguno'}</p>
+            <hr><p class="small-note">✅ Revisá antes de enviar.</p>
+        </div>`;
         document.getElementById('resumenSolicitud').innerHTML = resumen;
     }
 
@@ -646,27 +756,48 @@
         btn.disabled = true; btn.textContent = 'Enviando...';
         let docs = [];
         for (let i = 0; i < 10; i++) { let chk = document.getElementById(`doc_${i}`); if (chk && chk.checked) docs.push(chk.value); }
+        
         let datos = {
-            nombre: document.getElementById('nombre').value, ci: document.getElementById('ci').value,
-            telefono: document.getElementById('telefono').value, edad: document.getElementById('edad').value,
-            ciudad: document.getElementById('ciudad').value, direccion: document.getElementById('direccion').value,
-            direccionLaboral: document.getElementById('direccionLaboral').value, ubicacionGPS: document.getElementById('ubicacionGPS').value,
+            nombre: document.getElementById('nombre').value,
+            ci: document.getElementById('ci').value,
+            telefono: document.getElementById('telefono').value,
+            edad: document.getElementById('edad').value,
+            ciudad: obtenerCiudad(),
+            direccion: document.getElementById('direccion').value,
+            direccionLaboral: document.getElementById('direccionLaboral').value,
+            ubicacionGPS: document.getElementById('ubicacionGPS').value,
             perfil: document.getElementById('perfil').options[document.getElementById('perfil').selectedIndex]?.text,
-            monto: document.getElementById('monto').value.replace(/\./g, ''), plazo: document.getElementById('plazo').value,
-            cuota: cuotaCalculada, ingreso: document.getElementById('ingreso').value.replace(/\./g, ''),
-            informconf: document.getElementById('informconf').value, documentos_posee: docs.join(', '), origen: 'tk-credito'
+            monto: document.getElementById('monto').value.replace(/\./g, ''),
+            plazo: document.getElementById('plazo').value,
+            cuota: cuotaCalculada,
+            ingreso: document.getElementById('ingreso').value.replace(/\./g, ''),
+            informconf: document.getElementById('informconf').value,
+            documentos_posee: docs.join(', '),
+            origen: 'tk-credito'
         };
+        
         try {
-            let res = await fetch(APPS_SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(datos) });
+            let res = await fetch(APPS_SCRIPT_URL, { 
+                method: 'POST', 
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, 
+                body: new URLSearchParams(datos) 
+            });
             let result = await res.json();
             if (result.success) {
                 document.getElementById('successMessage').textContent = '✅ ¡Presolicitud enviada! Te contactamos por WhatsApp.';
                 document.getElementById('successMessage').style.display = 'block';
                 setTimeout(() => window.location.reload(), 4000);
-            } else { showError(document.getElementById('errorStep3'), 'Error: ' + result.message); }
-        } catch(e) { showError(document.getElementById('errorStep3'), 'Error de conexión.'); }
-        finally { btn.disabled = false; btn.textContent = '📩 Enviar presolicitud'; }
+            } else {
+                showError(document.getElementById('errorStep3'), 'Error: ' + result.message);
+            }
+        } catch(e) {
+            showError(document.getElementById('errorStep3'), 'Error de conexión. Intentá nuevamente.');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = '📩 Enviar presolicitud';
+        }
     });
+    
     calcularCuota();
 </script>
 </body>
