@@ -6,378 +6,85 @@
     <title>Isidro Cabrera · Asesoría de Crédito</title>
     <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230b2b44'/%3E%3Ctext x='50' y='72' font-size='52' text-anchor='middle' fill='%23ffd966' font-weight='bold' font-family='Arial'%3EIC%3C/text%3E%3C/svg%3E">
     <style>
-        /* ---------- ESTILOS UNIFICADOS ---------- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
-            background: #f0f4f8;  /* Fondo gris claro unificado */
-            color: #1a202c;
-            line-height: 1.5;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Tarjetas */
-        .card {
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-            margin-bottom: 24px;
-            overflow: hidden;
-        }
-        .card-body {
-            padding: 28px;
-        }
-
-        /* Hero (mismo estilo en landing y simulador) */
-        .hero {
-            background: #0b2b44;
-            color: white;
-            border-radius: 24px;
-            padding: 32px;
-            text-align: center;
-            margin-bottom: 24px;
-        }
-        .hero h1 {
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
-        .hero h1 span {
-            color: #ffd966;
-        }
-        .hero p {
-            font-size: 16px;
-            opacity: 0.9;
-        }
-        .hero-badge {
-            background: #ffd966;
-            color: #0b2b44;
-            display: inline-block;
-            padding: 4px 14px;
-            border-radius: 50px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 16px;
-        }
-
-        /* Features y stats (landing) */
-        .features-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            margin: 24px 0;
-            justify-content: center;
-        }
-        .feature-card {
-            background: #f8fafc;
-            border-radius: 20px;
-            padding: 16px;
-            text-align: center;
-            flex: 1;
-            min-width: 120px;
-        }
-        .feature-icon {
-            font-size: 28px;
-        }
-        .stats-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 24px;
-            justify-content: center;
-            margin: 20px 0;
-        }
-        .stat-number {
-            font-size: 28px;
-            font-weight: bold;
-            color: #0b2b44;
-        }
-
-        /* Checkbox grupo (landing) */
-        .checkbox-group {
-            background: #f8fafc;
-            border-radius: 20px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: left;
-        }
-        .checkbox-group label {
-            display: block;
-            margin: 12px 0;
-            cursor: pointer;
-        }
-        .checkbox-group input {
-            margin-right: 12px;
-            transform: scale(1.1);
-        }
-
-        /* Botones */
-        .btn {
-            border: none;
-            padding: 12px 24px;
-            border-radius: 40px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .btn-primary {
-            background: #0b2b44;
-            color: white;
-        }
-        .btn-primary:hover {
-            background: #1a4a6f;
-        }
-        .btn-secondary {
-            background: #e2e8f0;
-            color: #2d3748;
-        }
-        .btn-success {
-            background: #2c7a4d;
-            color: white;
-        }
-        .btn-accept {
-            background: #2c7a4d;
-            color: white;
-            width: 100%;
-            padding: 14px;
-            font-size: 16px;
-            border-radius: 40px;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-        }
-        .button-group {
-            display: flex;
-            gap: 15px;
-            justify-content: space-between;
-            margin-top: 24px;
-        }
-
-        /* Barra de progreso */
-        .progress-steps {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            position: relative;
-        }
-        .progress-step {
-            text-align: center;
-            flex: 1;
-        }
-        .step-circle {
-            width: 40px;
-            height: 40px;
-            background: #e2e8f0;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            margin-bottom: 6px;
-        }
-        .progress-step.active .step-circle {
-            background: #0b2b44;
-            color: white;
-        }
-        .progress-step.completed .step-circle {
-            background: #2c7a4d;
-            color: white;
-        }
-        .step-text {
-            font-size: 12px;
-            color: #4a5568;
-        }
-        .progress-step.active .step-text {
-            color: #0b2b44;
-            font-weight: bold;
-        }
-        .progress-line {
-            position: absolute;
-            top: 20px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: #e2e8f0;
-            z-index: 0;
-        }
-
-        /* Formulario */
-        .form-step {
-            display: none;
-        }
-        .form-step.active-step {
-            display: block;
-        }
-        .form-group {
-            margin-bottom: 18px;
-        }
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 6px;
-            font-size: 13px;
-            color: #2d3748;
-        }
-        input, select {
-            width: 100%;
-            padding: 12px 14px;
-            border: 1.5px solid #e2e8f0;
-            border-radius: 16px;
-            font-size: 14px;
-            transition: 0.2s;
-        }
-        input:focus, select:focus {
-            outline: none;
-            border-color: #0b2b44;
-            box-shadow: 0 0 0 2px rgba(11,43,68,0.1);
-        }
-        .row-2cols {
-            display: flex;
-            gap: 16px;
-        }
-        .row-2cols .form-group {
-            flex: 1;
-        }
-        .row-3cols {
-            display: flex;
-            gap: 12px;
-        }
-        .row-3cols .form-group {
-            flex: 1;
-        }
-        .result-box {
-            background: #eef2ff;
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            margin: 20px 0;
-        }
-        .cuota-value {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #0b2b44;
-        }
-        .requisitos-box {
-            background: #f8fafc;
-            border-radius: 20px;
-            padding: 18px;
-            margin: 18px 0;
-        }
-        .requisito-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 10px 0;
-        }
-        .alert {
-            padding: 12px 16px;
-            border-radius: 14px;
-            margin-bottom: 18px;
-            display: none;
-            font-size: 13px;
-        }
-        .alert-error {
-            background: #fee2e2;
-            color: #991b1b;
-            border-left: 4px solid #ef4444;
-        }
-        .alert-success {
-            background: #d1fae5;
-            color: #065f46;
-            border-left: 4px solid #10b981;
-        }
-        .referencias-container {
-            background: #f8fafc;
-            border-radius: 20px;
-            padding: 18px;
-            margin: 18px 0;
-        }
-        .ciudad-otra {
-            display: none;
-            margin-top: 10px;
-        }
-        footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 12px;
-            color: #4a5568;
-        }
-        .small-note {
-            font-size: 11px;
-            color: #4a5568;
-            margin-top: 8px;
-        }
-        h4 {
-            margin-bottom: 12px;
-            color: #0b2b44;
-        }
-
-        @media (max-width: 640px) {
-            .row-2cols, .row-3cols {
-                flex-direction: column;
-                gap: 0;
-            }
-            .container {
-                padding: 12px;
-            }
-            .hero h1 {
-                font-size: 22px;
-            }
-            .card-body {
-                padding: 20px;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f4f8; color: #1a202c; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .card { background: white; border-radius: 24px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); margin-bottom: 24px; }
+        .card-body { padding: 28px; }
+        .hero { background: #0b2b44; color: white; border-radius: 24px; padding: 32px; text-align: center; margin-bottom: 24px; }
+        .hero h1 { font-size: 28px; margin-bottom: 8px; }
+        .hero h1 span { color: #ffd966; }
+        .hero-badge { background: #ffd966; color: #0b2b44; display: inline-block; padding: 4px 14px; border-radius: 50px; font-size: 12px; font-weight: bold; margin-bottom: 16px; }
+        .features-grid { display: flex; flex-wrap: wrap; gap: 16px; margin: 24px 0; justify-content: center; }
+        .feature-card { background: #f8fafc; border-radius: 20px; padding: 16px; text-align: center; flex: 1; min-width: 120px; }
+        .stats-row { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; margin: 20px 0; }
+        .stat-number { font-size: 28px; font-weight: bold; color: #0b2b44; }
+        .checkbox-group { background: #f8fafc; border-radius: 20px; padding: 20px; margin: 20px 0; text-align: left; }
+        .checkbox-group label { display: block; margin: 12px 0; cursor: pointer; }
+        .btn-accept { background: #2c7a4d; color: white; width: 100%; padding: 14px; border-radius: 40px; font-weight: bold; border: none; cursor: pointer; }
+        .btn { border: none; padding: 12px 24px; border-radius: 40px; font-weight: 600; cursor: pointer; }
+        .btn-primary { background: #0b2b44; color: white; }
+        .btn-secondary { background: #e2e8f0; color: #2d3748; }
+        .btn-success { background: #2c7a4d; color: white; }
+        .button-group { display: flex; gap: 15px; justify-content: space-between; margin-top: 24px; }
+        .progress-steps { display: flex; justify-content: space-between; margin-bottom: 30px; position: relative; }
+        .progress-step { text-align: center; flex: 1; }
+        .step-circle { width: 40px; height: 40px; background: #e2e8f0; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; margin-bottom: 6px; }
+        .progress-step.active .step-circle { background: #0b2b44; color: white; }
+        .progress-step.completed .step-circle { background: #2c7a4d; color: white; }
+        .step-text { font-size: 12px; }
+        .progress-line { position: absolute; top: 20px; left: 0; right: 0; height: 2px; background: #e2e8f0; z-index: 0; }
+        .form-step { display: none; }
+        .form-step.active-step { display: block; }
+        .form-group { margin-bottom: 18px; }
+        label { font-weight: 600; font-size: 13px; display: block; margin-bottom: 6px; }
+        input, select { width: 100%; padding: 12px 14px; border: 1.5px solid #e2e8f0; border-radius: 16px; font-size: 14px; }
+        input:focus, select:focus { outline: none; border-color: #0b2b44; }
+        .row-2cols, .row-3cols { display: flex; gap: 16px; }
+        .row-2cols .form-group, .row-3cols .form-group { flex: 1; }
+        .result-box { background: #eef2ff; border-radius: 20px; padding: 20px; text-align: center; margin: 20px 0; }
+        .cuota-value { font-size: 2rem; font-weight: 800; color: #0b2b44; }
+        .requisitos-box, .referencias-container { background: #f8fafc; border-radius: 20px; padding: 18px; margin: 18px 0; }
+        .requisito-item { display: flex; align-items: center; gap: 10px; margin: 10px 0; }
+        .alert { padding: 12px; border-radius: 14px; margin-bottom: 18px; display: none; font-size: 13px; }
+        .alert-error { background: #fee2e2; color: #991b1b; border-left: 4px solid #ef4444; }
+        .alert-success { background: #d1fae5; color: #065f46; }
+        .ciudad-otra { display: none; margin-top: 10px; }
+        footer { text-align: center; padding: 20px; font-size: 12px; color: #4a5568; }
+        @media (max-width: 640px) { .row-2cols, .row-3cols { flex-direction: column; gap: 0; } .container { padding: 12px; } .hero h1 { font-size: 22px; } }
     </style>
 </head>
 <body>
 <div class="container">
-    <!-- PANTALLA DE ACEPTACIÓN (mismos colores) -->
+    <!-- ACEPTACIÓN -->
     <div id="acceptScreen" class="card">
         <div class="card-body" style="text-align: center;">
             <div class="hero-badge">🔐 Confianza y Transparencia</div>
-            <h2 style="font-size: 1.8rem; margin-bottom: 8px;">Isidro Cabrera</h2>
-            <p style="color: #4a5568; margin-bottom: 24px;">Asesoría de Crédito · Simulación sin compromiso</p>
-
+            <h2 style="font-size: 1.8rem;">Isidro Cabrera</h2>
+            <p style="margin-bottom: 20px;">Asesoría de Crédito · Simulación sin compromiso</p>
             <div class="features-grid">
-                <div class="feature-card"><div class="feature-icon">⚡</div><h3>Rápido</h3><p>Simulá en 2 minutos</p></div>
-                <div class="feature-card"><div class="feature-icon">🎯</div><h3>Sencillo</h3><p>Sin requisitos complicados</p></div>
-                <div class="feature-card"><div class="feature-icon">🛡️</div><h3>Seguro</h3><p>Tus datos protegidos</p></div>
-                <div class="feature-card"><div class="feature-icon">💬</div><h3>Asesoría</h3><p>Acompañamiento</p></div>
+                <div class="feature-card">⚡ Rápido</div>
+                <div class="feature-card">🎯 Sencillo</div>
+                <div class="feature-card">🛡️ Seguro</div>
+                <div class="feature-card">💬 Asesoría</div>
             </div>
-
             <div class="stats-row">
-                <div class="stat-item"><div class="stat-number">+500</div><div>Clientes atendidos</div></div>
+                <div class="stat-item"><div class="stat-number">+500</div><div>Clientes</div></div>
                 <div class="stat-item"><div class="stat-number">4.9★</div><div>Calificación</div></div>
-                <div class="stat-item"><div class="stat-number">24h</div><div>Respuesta</div></div>
             </div>
-
             <div class="checkbox-group">
-                <label><input type="checkbox" id="acceptData"> Acepto proveer mis datos personales de forma voluntaria.</label>
-                <label><input type="checkbox" id="acceptVerification"> Autorizo la verificación de mi historial en centrales de riesgo crediticio.</label>
-                <label><input type="checkbox" id="acceptTruth"> Declaro bajo fe de juramento que los datos son reales y verdaderos.</label>
+                <label><input type="checkbox" id="acceptData"> Acepto proveer mis datos voluntariamente.</label>
+                <label><input type="checkbox" id="acceptVerification"> Autorizo verificación en centrales de riesgo.</label>
+                <label><input type="checkbox" id="acceptTruth"> Declaro que mis datos son reales y verdaderos.</label>
             </div>
             <div class="alert alert-error" id="acceptError"></div>
-            <button class="btn-accept" id="btnAccept">✅ Aceptar y continuar al simulador</button>
+            <button class="btn-accept" id="btnAccept">✅ Aceptar y continuar</button>
         </div>
     </div>
 
-    <!-- SIMULADOR (mismos colores) -->
+    <!-- SIMULADOR -->
     <div id="simulatorScreen" style="display: none;">
-        <div class="hero">
-            <div class="hero-badge">📊 Simulador de Crédito</div>
-            <h1>Isidro Cabrera · <span>Asesoría de Crédito</span></h1>
-            <p>Completá tus datos y conocé tu cuota en segundos</p>
-        </div>
-
+        <div class="hero"><div class="hero-badge">📊 Simulador de Crédito</div><h1>Isidro Cabrera · <span>Asesoría de Crédito</span></h1><p>Completá tus datos correctamente</p></div>
         <div class="card">
             <div class="card-body">
                 <div class="progress-steps">
@@ -401,86 +108,41 @@
                     <div class="form-group">
                         <label>Ciudad *</label>
                         <select id="ciudadSelect" onchange="mostrarOtraCiudad()">
-                            <option value="">Seleccionar ciudad</option>
+                            <option value="">Seleccionar</option>
                             <option value="Asunción">Asunción</option>
-                            <option value="Concepción">Concepción</option>
                             <option value="San Lorenzo">San Lorenzo</option>
                             <option value="Capiatá">Capiatá</option>
                             <option value="Lambaré">Lambaré</option>
-                            <option value="Fernando de la Mora">Fernando de la Mora</option>
-                            <option value="Limpio">Limpio</option>
-                            <option value="Ñemby">Ñemby</option>
                             <option value="Encarnación">Encarnación</option>
                             <option value="Ciudad del Este">Ciudad del Este</option>
-                            <option value="OTRA">OTRA (escribir ciudad)</option>
+                            <option value="OTRA">OTRA</option>
                         </select>
                         <div id="otraCiudadDiv" class="ciudad-otra"><input type="text" id="otraCiudad" placeholder="Escribí tu ciudad"></div>
                     </div>
                     <div class="row-3cols">
-                        <div class="form-group"><label>Calle *</label><input type="text" id="calle" placeholder="Av. España"></div>
-                        <div class="form-group"><label>Número *</label><input type="text" id="numero" placeholder="123"></div>
-                        <div class="form-group"><label>Barrio *</label><input type="text" id="barrio" placeholder="Villa Morra"></div>
+                        <div class="form-group"><label>Calle *</label><input type="text" id="calle" placeholder="Av. España" onkeypress="return soloLetras(event)"></div>
+                        <div class="form-group"><label>Número *</label><input type="text" id="numero" placeholder="123" onkeypress="return soloNumeros(event)"></div>
+                        <div class="form-group"><label>Barrio *</label><input type="text" id="barrio" placeholder="Villa Morra" onkeypress="return soloLetras(event)"></div>
                     </div>
                     <div class="form-group"><label>Ingreso mensual (₲) *</label><input type="text" id="ingreso" placeholder="1.750.000" oninput="formatearMiles(this)"></div>
-                    <div class="form-group"><label>Informconf *</label>
-                        <select id="informconf"><option value="no">✅ No tengo deudas</option><option value="si">⚠️ Tengo deudas</option></select>
-                    </div>
-                    
+                    <div class="form-group"><label>Informconf *</label><select id="informconf"><option value="no">✅ No tengo deudas</option><option value="si">⚠️ Tengo deudas</option></select></div>
                     <div class="referencias-container">
                         <h4>📞 Referencias personales (2 obligatorias)</h4>
-                        <div class="row-3cols">
-                            <div class="form-group"><label>Nombre 1</label><input type="text" id="ref1_nombre" placeholder="Juan"></div>
-                            <div class="form-group"><label>Apellido 1</label><input type="text" id="ref1_apellido" placeholder="Pérez"></div>
-                            <div class="form-group"><label>Celular 1</label><input type="text" id="ref1_cel" placeholder="0991.123.456" maxlength="12" oninput="formatearWhatsApp(this)"></div>
-                        </div>
-                        <div class="row-3cols" style="margin-top: 10px;">
-                            <div class="form-group"><label>Nombre 2</label><input type="text" id="ref2_nombre" placeholder="María"></div>
-                            <div class="form-group"><label>Apellido 2</label><input type="text" id="ref2_apellido" placeholder="Gómez"></div>
-                            <div class="form-group"><label>Celular 2</label><input type="text" id="ref2_cel" placeholder="0987.654.321" maxlength="12" oninput="formatearWhatsApp(this)"></div>
-                        </div>
+                        <div class="row-3cols"><div class="form-group"><label>Nombre 1</label><input type="text" id="ref1_nombre"></div><div class="form-group"><label>Apellido 1</label><input type="text" id="ref1_apellido"></div><div class="form-group"><label>Celular 1 (10 díg)</label><input type="text" id="ref1_cel" maxlength="12" oninput="formatearWhatsApp(this)"></div></div>
+                        <div class="row-3cols" style="margin-top:10px"><div class="form-group"><label>Nombre 2</label><input type="text" id="ref2_nombre"></div><div class="form-group"><label>Apellido 2</label><input type="text" id="ref2_apellido"></div><div class="form-group"><label>Celular 2 (10 díg)</label><input type="text" id="ref2_cel" maxlength="12" oninput="formatearWhatsApp(this)"></div></div>
                     </div>
-                    
-                    <div class="button-group"><button type="button" class="btn btn-primary" onclick="nextStep(2)">Continuar →</button></div>
+                    <div class="button-group"><button class="btn btn-primary" onclick="nextStep(2)">Continuar →</button></div>
                 </div>
 
                 <!-- PASO 2 -->
                 <div class="form-step" id="step2">
                     <div class="alert alert-error" id="errorStep2"></div>
-                    <div class="form-group"><label>Perfil laboral *</label>
-                        <select id="perfil" onchange="cargarRequisitos()">
-                            <option value="">Seleccionar</option>
-                            <option value="1">Trabajador Formal (con IPS)</option>
-                            <option value="2">Trabajador Formal (con IVA)</option>
-                            <option value="3">Trabajador Informal (sin IPS)</option>
-                            <option value="4">Funcionario Público Permanente</option>
-                            <option value="5">Funcionario Público Contratado</option>
-                            <option value="6">Microempresa</option>
-                            <option value="7">Profesional Independiente</option>
-                            <option value="8">Jubilado</option>
-                            <option value="9">Rentista (Alquileres)</option>
-                        </select>
-                    </div>
+                    <div class="form-group"><label>Perfil laboral *</label><select id="perfil" onchange="cargarRequisitos()"><option value="">Seleccionar</option><option value="1">Trabajador Formal (con IPS)</option><option value="2">Trabajador Formal (con IVA)</option><option value="3">Trabajador Informal (sin IPS)</option><option value="4">Funcionario Público Permanente</option><option value="5">Funcionario Público Contratado</option><option value="6">Microempresa</option><option value="7">Profesional Independiente</option><option value="8">Jubilado</option><option value="9">Rentista (Alquileres)</option></select></div>
                     <div id="requisitosContainer" class="requisitos-box" style="display:none;"></div>
-                    
-                    <div class="row-2cols">
-                        <div class="form-group"><label>Dirección laboral *</label><input type="text" id="direccionLaboral" placeholder="Av. Mcal López 1234"></div>
-                        <div class="form-group"><label>Ubicación GPS (WhatsApp) *</label><input type="text" id="ubicacionGPS" placeholder="https://maps.app.goo.gl/..."></div>
-                    </div>
-                    
-                    <div class="row-2cols">
-                        <div class="form-group"><label>Monto (₲) *</label><input type="text" id="monto" placeholder="1.000.000" oninput="formatearMiles(this)"></div>
-                        <div class="form-group"><label>Plazo *</label>
-                            <select id="plazo">
-                                <option value="6">6 meses</option><option value="8">8 meses</option><option value="10">10 meses</option>
-                                <option value="12">12 meses</option><option value="15">15 meses</option><option value="18">18 meses</option>
-                                <option value="20">20 meses</option><option value="24">24 meses</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="result-box"><h3>📌 Cuota mensual estimada</h3><div class="cuota-value" id="cuotaPreview">₲ 0</div></div>
-                    
-                    <div class="button-group"><button type="button" class="btn btn-secondary" onclick="prevStep(1)">← Atrás</button><button type="button" class="btn btn-primary" onclick="nextStep(3)">Continuar →</button></div>
+                    <div class="row-2cols"><div class="form-group"><label>Dirección laboral *</label><input type="text" id="direccionLaboral" placeholder="Av. Mcal López 1234"></div><div class="form-group"><label>Ubicación GPS (WhatsApp) *</label><input type="text" id="ubicacionGPS" placeholder="https://maps.app.goo.gl/..."></div></div>
+                    <div class="row-2cols"><div class="form-group"><label>Monto (₲) *</label><input type="text" id="monto" placeholder="1.000.000" oninput="formatearMiles(this)"></div><div class="form-group"><label>Plazo *</label><select id="plazo"><option value="6">6</option><option value="8">8</option><option value="10">10</option><option value="12">12</option><option value="15">15</option><option value="18">18</option><option value="20">20</option><option value="24">24</option></select> meses</div></div>
+                    <div class="result-box"><h3>📌 Cuota mensual</h3><div class="cuota-value" id="cuotaPreview">₲ 0</div></div>
+                    <div class="button-group"><button class="btn btn-secondary" onclick="prevStep(1)">← Atrás</button><button class="btn btn-primary" onclick="nextStep(3)">Continuar →</button></div>
                 </div>
 
                 <!-- PASO 3 -->
@@ -488,274 +150,141 @@
                     <div class="alert alert-error" id="errorStep3"></div>
                     <div class="alert alert-success" id="successMessage" style="display:none;"></div>
                     <div id="resumenSolicitud"></div>
-                    <div class="button-group"><button type="button" class="btn btn-secondary" onclick="prevStep(2)">← Atrás</button><button type="button" class="btn btn-success" id="btnEnviar">📩 Enviar presolicitud</button></div>
+                    <div class="button-group"><button class="btn btn-secondary" onclick="prevStep(2)">← Atrás</button><button class="btn btn-success" id="btnEnviar">📩 Enviar presolicitud</button></div>
                 </div>
             </div>
         </div>
-        <footer>© 2025 Isidro Cabrera · Todos los derechos reservados</footer>
+        <footer>© 2025 Isidro Cabrera</footer>
     </div>
 </div>
 
 <script>
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/TU_ID_AQUI/exec';  // REEMPLAZAR
-
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/TU_ID_AQUI/exec';
     let intentosFallidos = JSON.parse(localStorage.getItem('intentosFallidos') || '{}');
 
-    const tablaCuotas = {
-        1000000: {6:235000,8:182000,10:150000,12:127000,15:112000,18:101000,20:96000,24:90000},
-        2000000: {6:465000,8:358000,10:292500,12:254000,15:223000,18:201000,20:191000,24:177000},
-        3000000: {6:685000,8:535000,10:435000,12:380000,15:334000,18:302000,20:287000,24:266000},
-        4000000: {6:900000,8:700000,10:571000,12:507000,15:445000,18:402000,20:382000,24:354000},
-        5000000: {6:1150000,8:885000,10:712000,12:633000,15:555000,18:503000,20:478000,24:443000}
-    };
-
-    const requisitosPorPerfil = {
-        1: {nombre:"Trabajador Formal (con IPS)", docs:["Boletas IPS (6 meses)","Liquidación de salario"]},
-        2: {nombre:"Trabajador Formal (con IVA)", docs:["3 últimos IVAs","6 facturas emitidas"]},
-        3: {nombre:"Trabajador Informal (sin IPS)", docs:["Certificado de trabajo","RUC de la empresa"]},
-        4: {nombre:"Funcionario Público Permanente", docs:["Liquidación de salario","Certificado de trabajo"]},
-        5: {nombre:"Funcionario Público Contratado", docs:["Liquidación de salario","Certificado de trabajo"]},
-        6: {nombre:"Microempresa", docs:["3 últimos IVAs","Fotos del negocio","RUC o Patente"]},
-        7: {nombre:"Profesional Independiente", docs:["3 últimos IVAs","Título profesional","RUC"]},
-        8: {nombre:"Jubilado", docs:["Boletas IPS o JUPE (2 cobros)"]},
-        9: {nombre:"Rentista", docs:["Contrato alquiler","Factura servicio","Fotos inmueble"]}
-    };
+    const tablaCuotas = { 1000000:{6:235000,8:182000,10:150000,12:127000,15:112000,18:101000,20:96000,24:90000}, 2000000:{6:465000,8:358000,10:292500,12:254000,15:223000,18:201000,20:191000,24:177000}, 3000000:{6:685000,8:535000,10:435000,12:380000,15:334000,18:302000,20:287000,24:266000}, 4000000:{6:900000,8:700000,10:571000,12:507000,15:445000,18:402000,20:382000,24:354000}, 5000000:{6:1150000,8:885000,10:712000,12:633000,15:555000,18:503000,20:478000,24:443000} };
+    const requisitosPorPerfil = { 1:["Boletas IPS (6 meses)","Liquidación de salario"], 2:["3 últimos IVAs","6 facturas emitidas"], 3:["Certificado de trabajo","RUC de la empresa"], 4:["Liquidación de salario","Certificado de trabajo"], 5:["Liquidación de salario","Certificado de trabajo"], 6:["3 últimos IVAs","Fotos del negocio","RUC o Patente"], 7:["3 últimos IVAs","Título profesional","RUC"], 8:["Boletas IPS o JUPE (2 cobros)"], 9:["Contrato alquiler","Factura servicio","Fotos inmueble"] };
 
     let cuotaCalculada = 0;
 
-    // Funciones de formateo visual (puntos de miles y formateo CI/WhatsApp)
-    function formatearMiles(input) {
-        let valor = input.value.replace(/\./g, '');
-        if (valor === '') return;
-        valor = valor.replace(/[^0-9]/g, '');
-        let entero = parseInt(valor, 10);
-        if (isNaN(entero)) entero = 0;
-        input.value = entero.toLocaleString('es-PY');
-    }
+    function soloLetras(e) { let key = e.key; if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') || key === ' ' || key === 'ñ' || key === 'Ñ') return true; e.preventDefault(); return false; }
+    function soloNumeros(e) { let key = e.key; if (key >= '0' && key <= '9') return true; e.preventDefault(); return false; }
+    function formatearMiles(input) { let v = input.value.replace(/\./g, '').replace(/[^0-9]/g, ''); if(v==='') return; input.value = parseInt(v,10).toLocaleString('es-PY'); }
+    function formatearCI(input) { let v = input.value.replace(/\./g, '').replace(/[^0-9]/g, '').slice(0,7); if(v==='') { input.value=''; return; } input.value = parseInt(v,10).toLocaleString('es-PY'); }
+    function formatearWhatsApp(input) { let v = input.value.replace(/\./g, '').replace(/[^0-9]/g, '').slice(0,10); if(v==='') { input.value=''; return; } let p = []; if(v.length>=4){ p.push(v.slice(0,4)); v=v.slice(4); } while(v.length>3){ p.push(v.slice(0,3)); v=v.slice(3); } if(v) p.push(v); input.value = p.join('.'); }
+    function limpiarPuntos(s) { return s.replace(/\./g, ''); }
 
-    function formatearCI(input) {
-        let valor = input.value.replace(/\./g, '');
-        valor = valor.replace(/[^0-9]/g, '');
-        if (valor.length > 7) valor = valor.slice(0,7);
-        if (valor === '') { input.value = ''; return; }
-        let entero = parseInt(valor, 10);
-        input.value = entero.toLocaleString('es-PY');
-    }
-
-    function formatearWhatsApp(input) {
-        let valor = input.value.replace(/\./g, '');
-        valor = valor.replace(/[^0-9]/g, '');
-        if (valor.length > 10) valor = valor.slice(0,10);
-        if (valor === '') { input.value = ''; return; }
-        // Formato: 0991.123.456
-        let partes = [];
-        if (valor.length >= 4) { partes.push(valor.slice(0,4)); valor = valor.slice(4); }
-        while (valor.length > 3) { partes.push(valor.slice(0,3)); valor = valor.slice(3); }
-        if (valor.length > 0) partes.push(valor);
-        input.value = partes.join('.');
-    }
-
-    function limpiarPuntos(str) {
-        return str.replace(/\./g, '');
-    }
-
-    function calcularCuota() {
-        let montoStr = limpiarPuntos(document.getElementById('monto').value);
-        let monto = parseInt(montoStr);
-        let plazo = parseInt(document.getElementById('plazo').value);
-        if (isNaN(monto) || monto < 1000000 || monto > 5000000) {
-            document.getElementById('cuotaPreview').innerHTML = '₲ 0';
-            cuotaCalculada = 0;
-            return;
-        }
-        let cuota = tablaCuotas[monto]?.[plazo] || 0;
-        cuotaCalculada = cuota;
-        document.getElementById('cuotaPreview').innerHTML = '₲ ' + cuota.toLocaleString('es-PY');
-    }
-
+    function calcularCuota() { let m = parseInt(limpiarPuntos(document.getElementById('monto').value)); let p = parseInt(document.getElementById('plazo').value); if(isNaN(m)||m<1e6||m>5e6){ document.getElementById('cuotaPreview').innerHTML='₲ 0'; cuotaCalculada=0; return; } let cuota = tablaCuotas[m]?.[p]||0; cuotaCalculada=cuota; document.getElementById('cuotaPreview').innerHTML='₲ '+cuota.toLocaleString('es-PY'); }
     document.getElementById('monto').addEventListener('input', calcularCuota);
     document.getElementById('plazo').addEventListener('change', calcularCuota);
-    document.getElementById('ingreso').addEventListener('input', function() {}); // ya se formatea
 
-    function mostrarOtraCiudad() {
-        let select = document.getElementById('ciudadSelect');
-        let otraDiv = document.getElementById('otraCiudadDiv');
-        otraDiv.style.display = select.value === 'OTRA' ? 'block' : 'none';
-    }
-
-    function obtenerCiudad() {
-        let select = document.getElementById('ciudadSelect');
-        if (select.value === 'OTRA') {
-            return document.getElementById('otraCiudad').value.trim() || 'No especificada';
-        }
-        return select.value;
-    }
+    function mostrarOtraCiudad() { let sel=document.getElementById('ciudadSelect'); document.getElementById('otraCiudadDiv').style.display = sel.value==='OTRA'?'block':'none'; }
+    function obtenerCiudad() { let sel=document.getElementById('ciudadSelect'); return sel.value==='OTRA'? document.getElementById('otraCiudad').value.trim() : sel.value; }
 
     function cargarRequisitos() {
         let perfilId = document.getElementById('perfil').value;
         let container = document.getElementById('requisitosContainer');
-        if (!perfilId || !requisitosPorPerfil[perfilId]) {
-            container.style.display = 'none';
-            return;
-        }
-        let req = requisitosPorPerfil[perfilId];
+        if(!perfilId || !requisitosPorPerfil[perfilId]) { container.style.display='none'; return; }
+        let docs = requisitosPorPerfil[perfilId];
         let html = '<h4>📋 Documentos requeridos (marcá los que poseés):</h4>';
-        req.docs.forEach((doc, i) => {
-            html += `<div class="requisito-item"><input type="checkbox" id="doc_${i}" value="${doc}"> <label for="doc_${i}">${doc}</label></div>`;
-        });
+        docs.forEach((doc,i)=>{ html+=`<div class="requisito-item"><input type="checkbox" id="doc_${i}" value="${doc}"> <label>${doc}</label></div>`; });
         container.innerHTML = html;
-        container.style.display = 'block';
+        container.style.display='block';
     }
 
-    function registrarIntentoFallido(ci) {
-        if (!intentosFallidos[ci]) intentosFallidos[ci] = 0;
-        intentosFallidos[ci]++;
-        localStorage.setItem('intentosFallidos', JSON.stringify(intentosFallidos));
-        return intentosFallidos[ci];
-    }
+    function registrarIntentoFallido(ci) { if(!intentosFallidos[ci]) intentosFallidos[ci]=0; intentosFallidos[ci]++; localStorage.setItem('intentosFallidos',JSON.stringify(intentosFallidos)); return intentosFallidos[ci]; }
 
-    // Aceptación
-    document.getElementById('btnAccept').addEventListener('click', function() {
-        let acceptData = document.getElementById('acceptData').checked;
-        let acceptVerification = document.getElementById('acceptVerification').checked;
-        let acceptTruth = document.getElementById('acceptTruth').checked;
-        let errorDiv = document.getElementById('acceptError');
-        if (!acceptData || !acceptVerification || !acceptTruth) {
-            errorDiv.textContent = '⚠️ Debes aceptar todas las condiciones para continuar.';
-            errorDiv.style.display = 'block';
-            return;
-        }
-        document.getElementById('acceptScreen').style.display = 'none';
-        document.getElementById('simulatorScreen').style.display = 'block';
-        errorDiv.style.display = 'none';
-    });
+    document.getElementById('btnAccept').addEventListener('click',function(){ let a=document.getElementById('acceptData').checked, b=document.getElementById('acceptVerification').checked, c=document.getElementById('acceptTruth').checked, err=document.getElementById('acceptError'); if(!a||!b||!c){ err.textContent='⚠️ Debes aceptar todas las condiciones.'; err.style.display='block'; return; } document.getElementById('acceptScreen').style.display='none'; document.getElementById('simulatorScreen').style.display='block'; });
 
-    function nextStep(step) {
-        if (step === 2 && !validateStep1()) return;
-        if (step === 3 && !validateStep2()) return;
-        document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active-step'));
-        document.getElementById(`step${step}`).classList.add('active-step');
-        let indicators = ['step1Indicator', 'step2Indicator', 'step3Indicator'];
-        indicators.forEach((id, idx) => {
-            let el = document.getElementById(id);
-            el.classList.remove('active', 'completed');
-            if (idx+1 < step) el.classList.add('completed');
-            if (idx+1 === step) el.classList.add('active');
-        });
-        if (step === 3) generarResumen();
-    }
-
+    function nextStep(step) { if(step===2 && !validateStep1()) return; if(step===3 && !validateStep2()) return; document.querySelectorAll('.form-step').forEach(el=>el.classList.remove('active-step')); document.getElementById(`step${step}`).classList.add('active-step'); ['step1Indicator','step2Indicator','step3Indicator'].forEach((id,idx)=>{ let el=document.getElementById(id); el.classList.remove('active','completed'); if(idx+1<step) el.classList.add('completed'); if(idx+1===step) el.classList.add('active'); }); if(step===3) generarResumen(); }
     function prevStep(step) { nextStep(step); }
 
     function validateStep1() {
         let nombre = document.getElementById('nombre').value.trim();
-        let ciRaw = limpiarPuntos(document.getElementById('ci').value);
-        let telefonoRaw = limpiarPuntos(document.getElementById('telefono').value);
+        let ci = limpiarPuntos(document.getElementById('ci').value);
+        let telefono = limpiarPuntos(document.getElementById('telefono').value);
         let edad = parseInt(document.getElementById('edad').value);
         let ciudad = obtenerCiudad();
         let calle = document.getElementById('calle').value.trim();
         let numero = document.getElementById('numero').value.trim();
         let barrio = document.getElementById('barrio').value.trim();
-        let ingresoRaw = limpiarPuntos(document.getElementById('ingreso').value);
-        let ingreso = parseInt(ingresoRaw);
+        let ingreso = parseInt(limpiarPuntos(document.getElementById('ingreso').value));
         let informconf = document.getElementById('informconf').value;
-
-        let ref1_nombre = document.getElementById('ref1_nombre').value.trim();
-        let ref1_apellido = document.getElementById('ref1_apellido').value.trim();
-        let ref1_cel = limpiarPuntos(document.getElementById('ref1_cel').value);
-        let ref2_nombre = document.getElementById('ref2_nombre').value.trim();
-        let ref2_apellido = document.getElementById('ref2_apellido').value.trim();
-        let ref2_cel = limpiarPuntos(document.getElementById('ref2_cel').value);
-
-        let errorDiv = document.getElementById('errorStep1');
-        errorDiv.style.display = 'none';
-
-        if (!nombre) { showError(errorDiv, 'Nombre completo requerido.'); return false; }
-        if (!ciRaw || ciRaw.length !== 7) { showError(errorDiv, 'CI debe tener exactamente 7 dígitos.'); return false; }
-        if (!telefonoRaw || telefonoRaw.length !== 10) { showError(errorDiv, 'WhatsApp debe tener 10 dígitos.'); return false; }
-        if (edad < 20 || edad > 70) { showError(errorDiv, 'Edad debe ser entre 20 y 70 años.'); return false; }
-        if (!ciudad || ciudad === 'No especificada') { showError(errorDiv, 'Ciudad requerida.'); return false; }
-        if (!calle) { showError(errorDiv, 'Calle requerida.'); return false; }
-        if (!numero) { showError(errorDiv, 'Número requerido.'); return false; }
-        if (!barrio) { showError(errorDiv, 'Barrio requerido.'); return false; }
-        if (!ingreso || ingreso < 1750000) { showError(errorDiv, 'Ingreso mínimo ₲ 1.750.000.'); return false; }
-        if (!ref1_nombre || !ref1_apellido) { showError(errorDiv, 'Referencia 1: Nombre y apellido requeridos.'); return false; }
-        if (!ref1_cel || ref1_cel.length !== 10) { showError(errorDiv, 'Referencia 1: Celular debe tener 10 dígitos.'); return false; }
-        if (!ref2_nombre || !ref2_apellido) { showError(errorDiv, 'Referencia 2: Nombre y apellido requeridos.'); return false; }
-        if (!ref2_cel || ref2_cel.length !== 10) { showError(errorDiv, 'Referencia 2: Celular debe tener 10 dígitos.'); return false; }
-
-        if (informconf === 'si') {
-            let intentos = registrarIntentoFallido(ciRaw);
-            if (intentos >= 3) {
-                showError(errorDiv, '⛔ Límite de 3 intentos con Informconf positivo. Contactá a tu asesor.');
-                return false;
-            }
-            showError(errorDiv, `⚠️ Informconf positivo. Intento ${intentos} de 3.`);
-            return false;
-        }
+        let ref1n = document.getElementById('ref1_nombre').value.trim();
+        let ref1a = document.getElementById('ref1_apellido').value.trim();
+        let ref1c = limpiarPuntos(document.getElementById('ref1_cel').value);
+        let ref2n = document.getElementById('ref2_nombre').value.trim();
+        let ref2a = document.getElementById('ref2_apellido').value.trim();
+        let ref2c = limpiarPuntos(document.getElementById('ref2_cel').value);
+        let err = document.getElementById('errorStep1');
+        err.style.display='none';
+        if(!nombre) { showError(err,'Nombre completo requerido.'); return false; }
+        if(ci.length!==7) { showError(err,'CI debe tener 7 dígitos.'); return false; }
+        if(telefono.length!==10) { showError(err,'WhatsApp debe tener 10 dígitos.'); return false; }
+        if(isNaN(edad) || edad<20 || edad>70) { showError(err,'Edad entre 20 y 70 años.'); return false; }
+        if(!ciudad || ciudad==='No especificada') { showError(err,'Seleccioná una ciudad.'); return false; }
+        if(!calle || calle.length<2) { showError(err,'Calle requerida (mínimo 2 letras).'); return false; }
+        if(!numero || !/^\d+$/.test(numero)) { showError(err,'Número debe contener solo dígitos.'); return false; }
+        if(!barrio || barrio.length<2) { showError(err,'Barrio requerido.'); return false; }
+        if(isNaN(ingreso) || ingreso<1750000) { showError(err,'Ingreso mínimo ₲ 1.750.000.'); return false; }
+        if(!ref1n || !ref1a) { showError(err,'Referencia 1: nombre y apellido requeridos.'); return false; }
+        if(ref1c.length!==10) { showError(err,'Referencia 1: celular debe tener 10 dígitos.'); return false; }
+        if(!ref2n || !ref2a) { showError(err,'Referencia 2: nombre y apellido requeridos.'); return false; }
+        if(ref2c.length!==10) { showError(err,'Referencia 2: celular debe tener 10 dígitos.'); return false; }
+        if(informconf==='si') { let int = registrarIntentoFallido(ci); if(int>=3){ showError(err,'⛔ Límite de 3 intentos con Informconf positivo. Contactá al asesor.'); return false; } showError(err,`⚠️ Informconf positivo. Intento ${int} de 3.`); return false; }
         return true;
     }
 
     function validateStep2() {
         let perfil = document.getElementById('perfil').value;
-        let montoRaw = limpiarPuntos(document.getElementById('monto').value);
-        let monto = parseInt(montoRaw);
+        let monto = parseInt(limpiarPuntos(document.getElementById('monto').value));
         let direccionLaboral = document.getElementById('direccionLaboral').value.trim();
         let ubicacionGPS = document.getElementById('ubicacionGPS').value.trim();
-        let errorDiv = document.getElementById('errorStep2');
-        errorDiv.style.display = 'none';
-        if (!perfil) { showError(errorDiv, 'Seleccioná tu perfil.'); return false; }
-        if (!direccionLaboral) { showError(errorDiv, 'Dirección laboral requerida.'); return false; }
-        if (!ubicacionGPS) { showError(errorDiv, 'Ubicación GPS requerida.'); return false; }
-        if (!monto || monto < 1000000 || monto > 5000000) { showError(errorDiv, 'Monto entre 1.000.000 y 5.000.000 ₲.'); return false; }
-        if (cuotaCalculada <= 0) { showError(errorDiv, 'Error en cuota.'); return false; }
+        let err = document.getElementById('errorStep2');
+        err.style.display='none';
+        if(!perfil) { showError(err,'Seleccioná tu perfil.'); return false; }
+        if(direccionLaboral.length<5 || !/[a-zA-Z]/.test(direccionLaboral)) { showError(err,'Dirección laboral válida requerida (mínimo 5 caracteres, con letras).'); return false; }
+        if(!ubicacionGPS.match(/^(https?:\/\/)?(www\.)?(maps\.app\.goo\.gl|goo\.gl\/maps|google\.com\/maps)/i)) { showError(err,'Ubicación GPS debe ser un enlace válido de Google Maps (ej: https://maps.app.goo.gl/...).'); return false; }
+        if(isNaN(monto) || monto<1000000 || monto>5000000) { showError(err,'Monto entre 1.000.000 y 5.000.000 ₲.'); return false; }
+        if(cuotaCalculada<=0) { showError(err,'Error en cuota. Revisá monto y plazo.'); return false; }
+        // Validar que al menos un documento esté marcado (si el perfil tiene requisitos)
+        let docs = requisitosPorPerfil[perfil];
+        let algunoMarcado = false;
+        if(docs) { for(let i=0;i<docs.length;i++){ if(document.getElementById(`doc_${i}`)?.checked) { algunoMarcado=true; break; } } }
+        if(docs && docs.length>0 && !algunoMarcado) { showError(err,'⚠️ Debes marcar al menos un documento requerido para tu perfil.'); return false; }
         return true;
     }
 
-    function showError(el, msg) { el.textContent = msg; el.style.display = 'block'; setTimeout(() => el.style.display = 'none', 5000); }
+    function showError(el, msg) { el.textContent=msg; el.style.display='block'; setTimeout(()=>el.style.display='none',5000); }
 
     function generarResumen() {
-        let docs = [];
-        for (let i = 0; i < 10; i++) {
-            let chk = document.getElementById(`doc_${i}`);
-            if (chk && chk.checked) docs.push(chk.value);
-        }
-        let direccionCompleta = `${document.getElementById('calle').value} ${document.getElementById('numero').value}, ${document.getElementById('barrio').value}`;
-        let html = `<div class="result-box" style="text-align:left;">
-            <p><strong>👤 Nombre:</strong> ${document.getElementById('nombre').value}</p>
-            <p><strong>📄 CI:</strong> ${document.getElementById('ci').value}</p>
-            <p><strong>📞 WhatsApp:</strong> ${document.getElementById('telefono').value}</p>
-            <p><strong>📍 Ciudad:</strong> ${obtenerCiudad()}</p>
-            <p><strong>🏠 Dirección:</strong> ${direccionCompleta}</p>
-            <p><strong>🏢 Dirección laboral:</strong> ${document.getElementById('direccionLaboral').value}</p>
-            <p><strong>📍 GPS:</strong> ${document.getElementById('ubicacionGPS').value}</p>
-            <p><strong>💼 Perfil:</strong> ${document.getElementById('perfil').options[document.getElementById('perfil').selectedIndex]?.text}</p>
-            <p><strong>💰 Monto:</strong> ₲ ${document.getElementById('monto').value}</p>
-            <p><strong>📅 Plazo:</strong> ${document.getElementById('plazo').value} meses</p>
-            <p><strong>📊 Cuota:</strong> ₲ ${cuotaCalculada.toLocaleString('es-PY')}</p>
-            <p><strong>📋 Documentos:</strong> ${docs.length ? docs.join(', ') : 'Ninguno'}</p>
-            <hr><p class="small-note">✅ Revisá antes de enviar.</p>
-        </div>`;
+        let docs=[];
+        for(let i=0;i<10;i++){ let chk=document.getElementById(`doc_${i}`); if(chk&&chk.checked) docs.push(chk.value); }
+        let direccion = `${document.getElementById('calle').value} ${document.getElementById('numero').value}, ${document.getElementById('barrio').value}`;
+        let html = `<div class="result-box" style="text-align:left;"><p><strong>👤 Nombre:</strong> ${document.getElementById('nombre').value}</p>
+        <p><strong>📄 CI:</strong> ${document.getElementById('ci').value}</p><p><strong>📞 WhatsApp:</strong> ${document.getElementById('telefono').value}</p>
+        <p><strong>📍 Ciudad:</strong> ${obtenerCiudad()}</p><p><strong>🏠 Dirección:</strong> ${direccion}</p>
+        <p><strong>🏢 Dirección laboral:</strong> ${document.getElementById('direccionLaboral').value}</p><p><strong>📍 GPS:</strong> ${document.getElementById('ubicacionGPS').value}</p>
+        <p><strong>💼 Perfil:</strong> ${document.getElementById('perfil').options[document.getElementById('perfil').selectedIndex]?.text}</p>
+        <p><strong>💰 Monto:</strong> ₲ ${document.getElementById('monto').value}</p><p><strong>📅 Plazo:</strong> ${document.getElementById('plazo').value} meses</p>
+        <p><strong>📊 Cuota:</strong> ₲ ${cuotaCalculada.toLocaleString('es-PY')}</p>
+        <p><strong>📋 Documentos:</strong> ${docs.length?docs.join(', '):'Ninguno'}</p><hr><p class="small-note">✅ Revisá antes de enviar.</p></div>`;
         document.getElementById('resumenSolicitud').innerHTML = html;
     }
 
     document.getElementById('btnEnviar').addEventListener('click', async () => {
         let btn = document.getElementById('btnEnviar');
-        btn.disabled = true;
-        btn.textContent = 'Enviando...';
-        let docs = [];
-        for (let i = 0; i < 10; i++) {
-            let chk = document.getElementById(`doc_${i}`);
-            if (chk && chk.checked) docs.push(chk.value);
-        }
-        let direccionCompleta = `${document.getElementById('calle').value} ${document.getElementById('numero').value}, ${document.getElementById('barrio').value}`;
+        btn.disabled=true; btn.textContent='Enviando...';
+        let docs=[];
+        for(let i=0;i<10;i++){ let chk=document.getElementById(`doc_${i}`); if(chk&&chk.checked) docs.push(chk.value); }
+        let direccion = `${document.getElementById('calle').value} ${document.getElementById('numero').value}, ${document.getElementById('barrio').value}`;
         let datos = {
             nombre: document.getElementById('nombre').value,
             ci: limpiarPuntos(document.getElementById('ci').value),
             telefono: limpiarPuntos(document.getElementById('telefono').value),
             edad: document.getElementById('edad').value,
             ciudad: obtenerCiudad(),
-            direccion: direccionCompleta,
+            direccion: direccion,
             direccionLaboral: document.getElementById('direccionLaboral').value,
             ubicacionGPS: document.getElementById('ubicacionGPS').value,
             perfil: document.getElementById('perfil').options[document.getElementById('perfil').selectedIndex]?.text,
@@ -774,27 +303,13 @@
             origen: 'tk-credito'
         };
         try {
-            let res = await fetch(APPS_SCRIPT_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams(datos)
-            });
+            let res = await fetch(APPS_SCRIPT_URL, { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:new URLSearchParams(datos) });
             let result = await res.json();
-            if (result.success) {
-                document.getElementById('successMessage').textContent = '✅ ¡Presolicitud enviada! Te contactamos por WhatsApp.';
-                document.getElementById('successMessage').style.display = 'block';
-                setTimeout(() => window.location.reload(), 4000);
-            } else {
-                showError(document.getElementById('errorStep3'), 'Error: ' + result.message);
-            }
-        } catch(e) {
-            showError(document.getElementById('errorStep3'), 'Error de conexión.');
-        } finally {
-            btn.disabled = false;
-            btn.textContent = '📩 Enviar presolicitud';
-        }
+            if(result.success) { document.getElementById('successMessage').textContent='✅ ¡Presolicitud enviada! Te contactamos por WhatsApp.'; document.getElementById('successMessage').style.display='block'; setTimeout(()=>window.location.reload(),4000); }
+            else { showError(document.getElementById('errorStep3'), 'Error: '+result.message); }
+        } catch(e) { showError(document.getElementById('errorStep3'), 'Error de conexión.'); }
+        finally { btn.disabled=false; btn.textContent='📩 Enviar presolicitud'; }
     });
-
     calcularCuota();
 </script>
 </body>
