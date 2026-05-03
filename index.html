@@ -633,23 +633,19 @@
         document.getElementById('resumenContainer').innerHTML = html;
     }
     document.getElementById('btnEnviar').addEventListener('click', async function() {
-        // Antes de enviar, mostrar recordatorio
+        // Mostrar recordatorio antes de enviar
         let perfilId = document.getElementById('perfil').value;
         let docsRequeridos = perfilesData[perfilId]?.docs || [];
         let docsPoseidos = [];
         document.querySelectorAll('.chk-doc:checked').forEach(chk => docsPoseidos.push(chk.value));
         let docsFaltantes = docsRequeridos.filter(doc => !docsPoseidos.includes(doc));
         let faltantesTexto = docsFaltantes.length ? docsFaltantes.join(', ') : 'Ninguno';
-        let mensajeConfirm = `⚠️ RECORDATORIO IMPORTANTE ⚠️\n\n`;
+        let mensajeConfirm = `⚠️ RECORDATORIO ⚠️\n\n`;
         if(docsFaltantes.length > 0) {
-            mensajeConfirm += `📋 Documentos faltantes: ${faltantesTexto}\n\n`;
+            mensajeConfirm += `Documentos faltantes: ${faltantesTexto}\n\n`;
         }
-        mensajeConfirm += `📍 Debes tener preparadas las ubicaciones GPS (dirección particular y dirección laboral) para enviar por WhatsApp cuando te las solicite.\n\n`;
-        mensajeConfirm += `¿Estás de acuerdo en continuar y enviar la presolicitud?`;
-        
-        if(!confirm(mensajeConfirm)) {
-            return; // El usuario canceló
-        }
+        mensajeConfirm += `Debes tener preparadas las ubicaciones GPS (dirección particular y laboral) para enviar por WhatsApp cuando te las solicite.\n\n¿Continuar?`;
+        if(!confirm(mensajeConfirm)) return;
         
         let err = document.getElementById('errorStep3');
         err.style.display = 'none';
@@ -674,7 +670,7 @@
             cargo: document.getElementById('cargoLaboral').value,
             perfil: document.getElementById('perfil').options[document.getElementById('perfil').selectedIndex]?.text,
             monto: document.getElementById('monto').value,
-            plazo: document.getElementById('plazo').value + ' meses',
+            plazo: document.getElementById('plazo').value,
             cuota: document.getElementById('cuotaPreview').innerText,
             ingreso: limpiarPuntos(document.getElementById('ingreso').value),
             informconf: informconfEstado,
@@ -689,27 +685,27 @@
         const btn = this; btn.disabled = true; btn.textContent = 'Enviando...';
         try { await fetch(APPS_SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(datos) }); } catch(e) { console.error('Error Sheets:', e); }
         
-        // Mensaje de WhatsApp con formato limpio (con emojis)
+        // MENSaje de WhatsApp CORREGIDO (sin emojis, con formato claro)
         const mensaje = `✅ *PRESOLICITUD DE CRÉDITO*%0A%0A` +
-            `👤 *Nombre:* ${datos.nombre}%0A` +
-            `📄 *CI:* ${datos.ci}%0A` +
-            `📞 *WhatsApp:* ${datos.whatsapp}%0A` +
-            `🎂 *Edad:* ${datos.edad}%0A` +
-            `📍 *Ciudad:* ${datos.ciudad}%0A` +
-            `🏠 *Dirección particular:* ${datos.direccion}%0A` +
-            `🏢 *Empresa/Institución:* ${datos.empresa}%0A` +
-            `💼 *Cargo:* ${datos.cargo}%0A` +
-            `📍 *Dirección laboral:* ${datos.direccionLaboral}%0A` +
-            `📞 *Teléfono laboral:* ${datos.telefonoLab}%0A` +
-            `📊 *Perfil:* ${datos.perfil}%0A` +
-            `💰 *Monto:* ₲ ${parseInt(datos.monto).toLocaleString('es-PY')}%0A` +
-            `📅 *Plazo:* ${datos.plazo}%0A` +
-            `💵 *Cuota:* ${datos.cuota}%0A` +
-            `💵 *Ingreso:* ₲ ${parseInt(datos.ingreso).toLocaleString('es-PY')}%0A` +
-            `🔍 *Informconf:* ${datos.informconf}%0A` +
-            `📋 *Documentos que posee:* ${datos.documentos_posee || 'Ninguno'}%0A` +
-            `⚠️ *Documentos faltantes:* ${datos.documentos_faltantes || 'Ninguno'}%0A` +
-            `📌 *Referencias:*%0A1) ${datos.ref1_nombre} - ${datos.ref1_cel}%0A2) ${datos.ref2_nombre} - ${datos.ref2_cel}%0A%0A` +
+            `[NOMBRE] ${datos.nombre}%0A` +
+            `[CI] ${datos.ci}%0A` +
+            `[WHATSAPP] ${datos.whatsapp}%0A` +
+            `[EDAD] ${datos.edad}%0A` +
+            `[CIUDAD] ${datos.ciudad}%0A` +
+            `[DIRECCION PARTICULAR] ${datos.direccion}%0A` +
+            `[EMPRESA/INSTITUCION] ${datos.empresa}%0A` +
+            `[CARGO] ${datos.cargo}%0A` +
+            `[DIRECCION LABORAL] ${datos.direccionLaboral}%0A` +
+            `[TELEFONO LABORAL] ${datos.telefonoLab}%0A` +
+            `[PERFIL] ${datos.perfil}%0A` +
+            `[MONTO] ₲ ${parseInt(datos.monto).toLocaleString('es-PY')}%0A` +
+            `[PLAZO] ${datos.plazo} meses%0A` +
+            `[CUOTA] ${datos.cuota}%0A` +
+            `[INGRESO] ₲ ${parseInt(datos.ingreso).toLocaleString('es-PY')}%0A` +
+            `[INFORMCONF] ${datos.informconf}%0A` +
+            `[DOCUMENTOS QUE POSEE] ${datos.documentos_posee || 'Ninguno'}%0A` +
+            `[DOCUMENTOS FALTANTES] ${datos.documentos_faltantes || 'Ninguno'}%0A` +
+            `[REFERENCIAS]%0A1) ${datos.ref1_nombre} - ${datos.ref1_cel}%0A2) ${datos.ref2_nombre} - ${datos.ref2_cel}%0A%0A` +
             `✅ *Presolicitud generada desde web*`;
         
         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${mensaje}`, '_blank');
