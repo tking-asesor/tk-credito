@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Isidro Cabrera · Asesoría de Crédito</title>
+    <title>Isidro Cabrera · Alpha Strategist</title>
     <style>
         /* COLORES TAURINOS */
         :root {
@@ -23,8 +23,10 @@
         .card { background: var(--blanco); border-radius: 24px; box-shadow: 0 10px 25px rgba(27, 67, 50, 0.08); margin-bottom: 24px; overflow: hidden; border-top: 4px solid var(--dorado-suave); }
         .card-body { padding: 32px; }
 
-        .hero { background: var(--verde-bosque); color: var(--blanco); border-radius: 24px; padding: 36px; text-align: center; margin-bottom: 24px; position: relative; overflow: hidden; }
+        .hero { background: var(--verde-bosque); color: var(--blanco); border-radius: 24px; padding: 36px; text-align: center; margin-bottom: 24px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; }
         .hero::before { content: ''; position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: var(--verde-esmeralda); border-radius: 50%; opacity: 0.5; }
+        .hero-logo { max-height: 80px; width: auto; display: block; z-index: 1; }
+        .hero-text { z-index: 1; }
         .hero h1 { font-size: 28px; margin-bottom: 8px; position: relative; z-index: 1; }
         .hero h1 span { color: var(--dorado-suave); }
         .hero-badge { background: var(--dorado-suave); color: var(--verde-bosque); display: inline-block; padding: 6px 18px; border-radius: 50px; font-size: 12px; font-weight: bold; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px; }
@@ -71,6 +73,7 @@
         @media (max-width: 640px) { 
             .row-2cols, .row-3cols { flex-direction: column; gap: 0; } 
             .container { padding: 12px; } 
+            .hero { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
@@ -80,8 +83,14 @@
     <div id="acceptScreen" class="card">
         <div class="card-body" style="text-align: center;">
             <div class="hero-badge">Acceso Exclusivo</div>
-            <h2 style="font-size: 2.2rem; color: var(--verde-bosque); margin-bottom: 5px;">Isidro Cabrera</h2>
-            <p style="margin-bottom: 25px; font-size: 1.1rem; color: #555;">Asesoría de Crédito Premium</p>
+            <div class="hero" style="margin-bottom: 20px;">
+                <!-- LOGO: reemplaza 'logo.png' por la ruta de tu imagen -->
+                <img src="logo.png" alt="Isidro Cabrera" class="hero-logo">
+                <div class="hero-text">
+                    <h1>Isidro Cabrera · <span>Alpha Strategist</span></h1>
+                    <p style="font-size: 1rem;">Estrategia financiera global</p>
+                </div>
+            </div>
             
             <p style="font-size: 14px; color: #444; margin-bottom: 20px; padding: 0 15px;">
                 Para brindarte una atención rápida y efectiva, operamos bajo estrictas políticas de perfilamiento. <strong>Por favor, confirma los siguientes puntos para acceder al simulador.</strong>
@@ -109,9 +118,12 @@
     </div>
 
     <div id="simulatorScreen" style="display: none;">
-        <div class="hero">
-            <div class="hero-badge" id="hero-badge-step">Paso 1 de 2</div>
-            <h1>Simulador <span>Financiero</span></h1>
+        <div class="hero" style="margin-bottom: 24px;">
+            <img src="logo.png" alt="Isidro Cabrera" class="hero-logo">
+            <div class="hero-text">
+                <div class="hero-badge" id="hero-badge-step">Paso 1 de 2</div>
+                <h1>Simulador <span>Alpha</span></h1>
+            </div>
         </div>
         
         <div class="card">
@@ -289,7 +301,7 @@
     </div>
     
     <footer>
-        © 2026 Isidro Cabrera · Asesoría de Crédito | 519_7148
+        © 2026 Isidro Cabrera · Alpha Strategist | 519_7148
     </footer>
 </div>
 
@@ -504,7 +516,7 @@
         return true;
     }
 
-    // EVENTO DE ENVÍO (WHATSAAP + GOOGLE SHEETS)
+    // EVENTO DE ENVÍO (WHATSAPP + GOOGLE SHEETS)
     document.getElementById('btnEnviar').addEventListener('click', async function() {
         let err = document.getElementById('errorStep2');
         err.style.display='none';
@@ -575,29 +587,28 @@
             ref1_cel: ref1c,
             ref2_nombre: ref2n,
             ref2_cel: ref2c,
-            origen: 'tk-credito'
+            origen: 'Alpha-Strategist'
         };
 
-        // Deshabilitar botón y mostrar "Enviando..."
+        // Deshabilitar botón
         const btn = this;
         btn.disabled = true;
         btn.textContent = 'Enviando...';
 
         // 1. Envío a Google Sheets (Apps Script)
         try {
-            const response = await fetch(APPS_SCRIPT_URL, {
+            await fetch(APPS_SCRIPT_URL, {
                 method: 'POST',
-                mode: 'no-cors', // para evitar CORS si no está configurado, pero mejor usar 'cors' si se puede
+                mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(datos)
             });
-            // No podemos leer respuesta con no-cors, pero asumimos éxito
         } catch (e) {
             console.error('Error al enviar a Google Sheets:', e);
         }
 
         // 2. Construir mensaje para WhatsApp
-        const mensaje = `*NUEVA PRESOLICITUD DE CRÉDITO*%0A%0A` +
+        const mensaje = `*NUEVA PRESOLICITUD ALPHA STRATEGIST*%0A%0A` +
             `👤 *Nombre:* ${datos.nombre}%0A` +
             `📄 *CI:* ${datos.ci}%0A` +
             `📞 *WhatsApp:* ${datos.whatsapp}%0A` +
@@ -612,7 +623,7 @@
             `💵 *Cuota:* ${datos.cuota}%0A` +
             `💵 *Ingreso:* ₲ ${parseInt(datos.ingreso).toLocaleString('es-PY')}%0A` +
             `🔍 *Informconf:* ${datos.informconf}%0A` +
-            `📋 *Documentos que posee:* ${datos.documentos || 'Ninguno'}%0A%0A` +
+            `📋 *Documentos:* ${datos.documentos || 'Ninguno'}%0A%0A` +
             `📌 *Referencias:*%0A` +
             `1) ${datos.ref1_nombre} - ${datos.ref1_cel}%0A` +
             `2) ${datos.ref2_nombre} - ${datos.ref2_cel}%0A%0A` +
@@ -620,11 +631,9 @@
 
         const urlWhatsApp = `https://wa.me/${WHATSAPP_NUMBER}?text=${mensaje}`;
 
-        // Mostrar mensaje de éxito y redirigir a WhatsApp
-        alert('✅ ¡Presolicitud enviada correctamente! Serás redirigido a WhatsApp para finalizar el proceso.');
+        alert('✅ ¡Presolicitud enviada! Serás redirigido a WhatsApp para finalizar.');
         window.open(urlWhatsApp, '_blank');
         
-        // Opcional: recargar la página después de unos segundos
         setTimeout(() => {
             window.location.reload();
         }, 5000);
