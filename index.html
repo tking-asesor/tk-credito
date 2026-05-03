@@ -6,11 +6,11 @@
     <title>Isidro Cabrera · Alpha Strategist</title>
     <link rel="icon" type="image/png" href="logo.png.png">
     <style>
-        /* COLORES OFICIALES DEL LOGO */
+        /* COLORES EXACTOS DEL LOGO */
         :root {
             --verde-logo: #1E5631;
             --azul-logo: #0B3B42;
-            --terracota-logo: #B85D19;
+            --terracota: #B85D19;
             --fondo-arena: #F7F5F0;
             --blanco: #FFFFFF;
             --texto-oscuro: #1A2620;
@@ -30,41 +30,27 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             margin-bottom: 24px;
             overflow: hidden;
-            border-top: 4px solid var(--terracota-logo);
+            border-top: 4px solid var(--terracota);
         }
         .card-body { padding: 32px; }
 
         .hero {
-            background: var(--verde-logo);
-            color: var(--blanco);
-            border-radius: 24px;
+            background: var(--blanco);
+            border-bottom: 2px solid var(--terracota);
+            border-radius: 24px 24px 0 0;
             padding: 36px;
             text-align: center;
             margin-bottom: 24px;
-            position: relative;
-            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 20px;
             flex-wrap: wrap;
         }
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50px;
-            right: -50px;
-            width: 150px;
-            height: 150px;
-            background: var(--azul-logo);
-            border-radius: 50%;
-            opacity: 0.2;
-        }
         .hero-logo {
             max-height: 80px;
             width: auto;
             display: block;
-            z-index: 1;
         }
         .hero-text { z-index: 1; }
         .hero h1 {
@@ -72,19 +58,20 @@
             margin-bottom: 8px;
             font-weight: 600;
             letter-spacing: -0.5px;
+            color: var(--azul-logo);
         }
         .hero h1 span {
-            color: var(--terracota-logo);
+            color: var(--terracota);
             font-weight: 700;
         }
         .hero-divider {
             width: 60px;
             height: 2px;
-            background: var(--terracota-logo);
+            background: var(--terracota);
             margin: 12px auto 0;
         }
         .hero-badge {
-            background: var(--terracota-logo);
+            background: var(--terracota);
             color: var(--blanco);
             display: inline-block;
             padding: 6px 18px;
@@ -102,7 +89,7 @@
             padding: 24px;
             margin: 24px 0;
             text-align: left;
-            border-left: 4px solid var(--terracota-logo);
+            border-left: 4px solid var(--terracota);
         }
         .checkbox-item {
             display: flex;
@@ -195,14 +182,14 @@
             padding: 24px;
             text-align: center;
             margin: 20px 0;
-            border: 2px dashed var(--terracota-logo);
+            border: 2px dashed var(--terracota);
         }
         .requisitos-box {
             background: #fefcf5;
             border-radius: 16px;
             padding: 20px;
             margin-top: 10px;
-            border-left: 4px solid var(--terracota-logo);
+            border-left: 4px solid var(--terracota);
             box-shadow: 0 4px 10px rgba(0,0,0,0.03);
         }
         .observacion-text {
@@ -264,7 +251,7 @@
     <div id="acceptScreen" class="card">
         <div class="card-body" style="text-align: center;">
             <div class="hero-badge">Acceso Exclusivo</div>
-            <div class="hero" style="margin-bottom: 20px;">
+            <div class="hero">
                 <img src="logo.png.png" alt="Isidro Cabrera" class="hero-logo" onerror="this.style.display='none'">
                 <div class="hero-text">
                     <h1>Isidro Cabrera · <span>Alpha Strategist</span></h1>
@@ -309,7 +296,7 @@
         
         <div class="card">
             <div class="card-body">
-                <!-- PASO 1, igual que antes, sin cambios funcionales -->
+                <!-- PASO 1 con todos los campos, mismo contenido funcional, solo actualizados colores -->
                 <div class="form-step active-step" id="step1">
                     <div class="result-box">
                         <h3 style="color: var(--verde-logo);">Calcula tu línea de crédito</h3>
@@ -320,7 +307,7 @@
                         <div class="cuota-value" id="cuotaPreview">₲ 0</div>
                     </div>
 
-                    <h4 style="color: var(--azul-logo); border-bottom-color: var(--terracota-logo);">Datos del Solicitante</h4>
+                    <h4 style="color: var(--azul-logo); border-bottom: 2px solid var(--terracota); padding-bottom: 5px;">Datos del Solicitante</h4>
                     <div class="row-2cols">
                         <div class="form-group"><label>Nombre completo *</label><input type="text" id="nombre"></div>
                         <div class="form-group"><label>Edad *</label><input type="text" id="edad" maxlength="2"></div>
@@ -330,7 +317,7 @@
                         <div class="form-group"><label>WhatsApp *</label><input type="tel" id="telefono" maxlength="12" oninput="formatearWhatsApp(this)"></div>
                     </div>
 
-                    <h4 style="color: var(--azul-logo); border-bottom-color: var(--terracota-logo);">Dirección Particular</h4>
+                    <h4 style="color: var(--azul-logo); border-bottom: 2px solid var(--terracota); padding-bottom: 5px;">Dirección Particular</h4>
                     <div class="form-group">
                         <select id="ciudadSelect" onchange="mostrarOtraCiudad()"><option value="">Ciudad...</option><option value="PJC">PJC</option><option value="Asunción">Asunción</option><option value="CDE">CDE</option><option value="OTRA">OTRA</option></select>
                         <input type="text" id="otraCiudad" style="display:none; margin-top:10px;">
@@ -352,7 +339,7 @@
 
                 <!-- PASO 2 -->
                 <div class="form-step" id="step2">
-                    <h4 style="color: var(--azul-logo); border-bottom-color: var(--terracota-logo);">Perfil Laboral</h4>
+                    <h4 style="color: var(--azul-logo); border-bottom: 2px solid var(--terracota); padding-bottom: 5px;">Perfil Laboral</h4>
                     <div class="row-2cols">
                         <div class="form-group"><label>Ingreso mensual *</label><input type="text" id="ingreso" oninput="formatearMiles(this)"></div>
                         <div class="form-group"><label>Perfil Exacto *</label><select id="perfil" onchange="cargarRequisitos()"><option value="">Selecciona...</option><option value="1">Trabajador IPS</option><option value="2">Trabajador IVA</option><option value="3">Informal (Sin IPS)</option><option value="4">Público Permanente</option><option value="5">Público Contratado</option><option value="6">Microempresa</option><option value="7">Profesional Indep.</option><option value="8">Jubilado</option><option value="9">Rentista</option></select></div>
@@ -364,11 +351,11 @@
                     <div id="requisitosContainer" class="requisitos-box" style="display:none;"></div>
                     <div id="microempresaExtra" style="display:none;"><input type="checkbox" id="chkSinRucPatente" onchange="validarMicroempresa()"> No poseo RUC ni Patente</div>
 
-                    <h4 style="color: var(--azul-logo); border-bottom-color: var(--terracota-logo);">Referencias Personales</h4>
+                    <h4 style="color: var(--azul-logo); border-bottom: 2px solid var(--terracota); padding-bottom: 5px;">Referencias Personales</h4>
                     <div class="row-2cols"><div class="form-group"><input type="text" id="ref1_nombre" placeholder="Nombre Ref 1"><input type="tel" id="ref1_cel" maxlength="12" oninput="formatearWhatsApp(this)" placeholder="Celular Ref 1"></div>
                     <div class="form-group"><input type="text" id="ref2_nombre" placeholder="Nombre Ref 2"><input type="tel" id="ref2_cel" maxlength="12" oninput="formatearWhatsApp(this)" placeholder="Celular Ref 2"></div></div>
                     <div class="alert alert-error" id="errorStep2"></div>
-                    <div class="button-group"><button class="btn btn-secondary" onclick="prevStep(1)">← Atrás</button><button class="btn btn-primary" id="btnEnviar" style="background: var(--terracota-logo); color: white;">📩 Enviar Solicitud</button></div>
+                    <div class="button-group"><button class="btn btn-secondary" onclick="prevStep(1)">← Atrás</button><button class="btn btn-primary" id="btnEnviar" style="background: var(--terracota); color: white;">📩 Enviar Solicitud</button></div>
                 </div>
             </div>
         </div>
@@ -377,11 +364,10 @@
 </div>
 
 <script>
-    // ========== CONFIGURACIÓN DE ENVÍOS ==========
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/TU_ID_AQUI/exec';  // <-- REEMPLAZAR
+    // ========== CONFIGURACIÓN DE ENVÍOS (exactamente igual que antes, solo cambian colores) ==========
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/TU_ID_AQUI/exec';
     const WHATSAPP_NUMBER = '595992271485';
 
-    // Formateo y validaciones (mismo código funcional que antes, intacto)
     function formatearMiles(input) { let v = input.value.replace(/\./g, '').replace(/[^0-9]/g, ''); if(v==='') return; input.value = parseInt(v,10).toLocaleString('es-PY'); }
     function formatearCI(input) { let v = input.value.replace(/\./g, '').replace(/[^0-9]/g, ''); if(v==='') { input.value=''; return; } input.value = parseInt(v,10).toLocaleString('es-PY'); }
     function formatearWhatsApp(input) { let v = input.value.replace(/[^0-9]/g, '').slice(0,10); if(v==='') { input.value=''; return; } let p = []; if(v.length>=4){ p.push(v.slice(0,4)); v=v.slice(4); } while(v.length>3){ p.push(v.slice(0,3)); v=v.slice(3); } if(v) p.push(v); input.value = p.join('.'); }
