@@ -4,7 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Isidro Cabrera · Alpha Strategist · Agente Tking Credit</title>
-    <link rel="icon" type="image/png" href="logo.png.png">
+    
+    <!-- METAS PARA COMPARTIR EN WHATSAPP -->
+    <meta property="og:title" content="Isidro Cabrera · Alpha Strategist">
+    <meta property="og:description" content="Simulador de crédito · Agente Autorizado de Tking Credit. Evaluación rápida y sin compromiso.">
+    <meta property="og:image" content="https://tking-asesor.github.io/tk-credito/foto.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <!-- FAVICON PROVISIONAL (letra I sobre fondo verde) -->
+    <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%231E5631'/%3E%3Ctext x='50' y='72' font-size='60' text-anchor='middle' fill='white' font-weight='bold' font-family='Arial'%3EI%3C/text%3E%3C/svg%3E">
+    
     <style>
         /* COLORES OFICIALES DEL LOGO */
         :root {
@@ -350,7 +362,7 @@
                     <div class="button-group"><button class="btn btn-primary" onclick="nextStep(2)">Continuar →</button></div>
                 </div>
 
-                <!-- PASO 2 (sin cambios funcionales) -->
+                <!-- PASO 2 -->
                 <div class="form-step" id="step2">
                     <h4 style="color: var(--azul-logo); border-bottom: 2px solid var(--terracota-logo); padding-bottom: 5px;">Perfil Laboral y Documentos</h4>
                     <div class="row-2cols">
@@ -358,8 +370,8 @@
                         <div class="form-group"><label>Perfil Exacto *</label><select id="perfil" onchange="cargarRequisitos()"><option value="">Selecciona...</option><option value="1">Trabajador IPS</option><option value="2">Trabajador IVA</option><option value="3">Informal (Sin IPS)</option><option value="4">Público Permanente</option><option value="5">Público Contratado</option><option value="6">Microempresa</option><option value="7">Profesional Indep.</option><option value="8">Jubilado</option><option value="9">Rentista</option></select></div>
                     </div>
                     <div class="row-2cols">
-                        <div class="form-group"><label>Empresa *</label><input type="text" id="empresaLaboral" placeholder="Nombre de la empresa"></div>
-                        <div class="form-group"><label>Cargo *</label><input type="text" id="cargoLaboral" placeholder="Ej: Vendedor"></div>
+                        <div class="form-group"><label>Empresa *</label><input type="text" id="empresaLaboral" placeholder="Ej: Empresa ABC" oninput="validarTextoConEspacio(this)"></div>
+                        <div class="form-group"><label>Cargo *</label><input type="text" id="cargoLaboral" placeholder="Ej: Vendedor" oninput="validarTextoConEspacio(this)"></div>
                     </div>
                     <div id="requisitosContainer" class="requisitos-box" style="display:none;"></div>
                     <div id="microempresaExtra" style="display:none;"><input type="checkbox" id="chkSinRucPatente" onchange="validarMicroempresa()"> No poseo RUC ni Patente</div>
@@ -415,8 +427,6 @@
     // ========== TABLA CUOTAS Y PERFILES ==========
     const tablaCuotas = { 1000000:{6:235000,8:182000,10:150000,12:127000,15:112000,18:101000,20:96000,24:90000}, 2000000:{6:465000,8:358000,10:292500,12:254000,15:223000,18:201000,20:191000,24:177000}, 3000000:{6:685000,8:535000,10:435000,12:380000,15:334000,18:302000,20:287000,24:266000}, 4000000:{6:900000,8:700000,10:571000,12:507000,15:445000,18:402000,20:382000,24:354000}, 5000000:{6:1150000,8:885000,10:712000,12:633000,15:555000,18:503000,20:478000,24:443000} };
     const perfilesData = { "1": { docs: ["Boletas IPS", "Liquidación"], obs: "Antigüedad 6 meses." }, "2": { docs: ["3 últimos IVAs", "6 facturas"], obs: "Antigüedad 6 meses." }, "3": { docs: ["Certificado Trabajo", "RUC Empresa"], obs: "Antigüedad 6 meses." }, "4": { docs: ["Liquidación", "Certificado"], obs: "Antigüedad 1 mes." }, "5": { docs: ["Liquidación", "Certificado"], obs: "Antigüedad 15 meses." }, "6": { docs: ["3 últimos IVAs", "Fotos Negocio"], obs: "Antigüedad 12 meses." }, "7": { docs: ["3 IVAs", "Título/Registro"], obs: "Antigüedad 12 meses." }, "8": { docs: ["Boletas Cobro"], obs: "Edad máx 70 años." }, "9": { docs: ["Contrato Alquiler", "Factura Servicio"], obs: "Contrato vigente." } };
-    const profesionesBloqueadas = ["albañil", "albanil"];
-    const profesionesCondicionadas = ["sereno", "guardia", "construccion", "construcción"];
 
     function calcularCuota() { let m = parseInt(document.getElementById('monto').value); let p = parseInt(document.getElementById('plazo').value); let cuota = tablaCuotas[m]?.[p] || 0; document.getElementById('cuotaPreview').innerHTML = '₲ ' + cuota.toLocaleString('es-PY'); }
     document.getElementById('monto').addEventListener('change', calcularCuota);
@@ -496,7 +506,7 @@
     function prevStep(step) { nextStep(step); }
     function showError(el, msg) { el.textContent = msg; el.style.display = 'block'; setTimeout(() => el.style.display = 'none', 6000); }
 
-    // ========== VALIDACIÓN PASO 1 (con nueva validación de OTRA ciudad) ==========
+    // ========== VALIDACIÓN PASO 1 ==========
     function validateStep1() {
         let err = document.getElementById('errorStep1');
         err.style.display = 'none';
@@ -522,33 +532,42 @@
         return true;
     }
 
-    // ========== VALIDACIÓN PASO 2 ==========
+    // ========== VALIDACIÓN PASO 2 (sin bloqueo por cargo, solo validación de formato y obligatoriedad) ==========
     function validateStep2() {
         let err = document.getElementById('errorStep2');
         err.style.display = 'none';
         let perfilId = document.getElementById('perfil').value;
         let ingresoRaw = document.getElementById('ingreso').value;
         let empresa = document.getElementById('empresaLaboral').value.trim();
-        let cargo = document.getElementById('cargoLaboral').value.trim().toLowerCase();
+        let cargo = document.getElementById('cargoLaboral').value.trim();
         let ref1n = document.getElementById('ref1_nombre').value.trim();
         let ref1c = document.getElementById('ref1_cel').value.replace(/[^0-9]/g, '');
         let ref2n = document.getElementById('ref2_nombre').value.trim();
         let ref2c = document.getElementById('ref2_cel').value.replace(/[^0-9]/g, '');
+        
         if(!perfilId) { showError(err, 'Selecciona tu perfil laboral.'); return false; }
-        if(perfilId !== "9") { let ing = parseInt(limpiarPuntos(ingresoRaw)); if(isNaN(ing) || ing < 1750000) { showError(err, 'Ingreso mínimo ₲ 1.750.000.'); return false; } }
-        if(empresa.length < 5) { showError(err, 'Empresa: mínimo 5 letras.'); return false; }
-        if(cargo.length < 3) { showError(err, 'Cargo válido.'); return false; }
-        let esBloqueado = profesionesBloqueadas.some(p => cargo.includes(p));
-        let esCondicionado = profesionesCondicionadas.some(p => cargo.includes(p));
-        if(esBloqueado || (esCondicionado && perfilId === "3")) { showError(err, 'Perfil no califica para crédito.'); return false; }
+        if(perfilId !== "9") {
+            let ing = parseInt(limpiarPuntos(ingresoRaw));
+            if(isNaN(ing) || ing < 1750000) { showError(err, 'Ingreso mínimo ₲ 1.750.000.'); return false; }
+        }
+        // Empresa y cargo: solo letras, espacios, mínimo 2 caracteres
+        if(empresa.length < 2) { showError(err, 'Empresa: debe tener al menos 2 letras.'); return false; }
+        if(!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(empresa)) { showError(err, 'Empresa: solo letras.'); return false; }
+        if(cargo.length < 2) { showError(err, 'Cargo: debe tener al menos 2 letras.'); return false; }
+        if(!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(cargo)) { showError(err, 'Cargo: solo letras.'); return false; }
+        
+        // Validación de documentos
         let docs = []; document.querySelectorAll('.chk-doc:checked').forEach(chk => docs.push(chk.nextSibling?.nodeValue?.trim() || chk.id));
-        if(docs.length === 0) { showError(err, 'Marca al menos un documento.'); return false; }
-        if(ref1n.length < 2 || ref1c.length !== 10 || !ref1c.startsWith('09')) { showError(err, 'Referencia 1 incompleta.'); return false; }
-        if(ref2n.length < 2 || ref2c.length !== 10 || !ref2c.startsWith('09')) { showError(err, 'Referencia 2 incompleta.'); return false; }
+        if(docs.length === 0) { showError(err, 'Marca al menos un documento requerido para tu perfil.'); return false; }
+        
+        // Referencias
+        if(ref1n.length < 2 || ref1c.length !== 10 || !ref1c.startsWith('09')) { showError(err, 'Referencia 1: nombre y celular válido (10 dígitos, empieza con 09).'); return false; }
+        if(ref2n.length < 2 || ref2c.length !== 10 || !ref2c.startsWith('09')) { showError(err, 'Referencia 2: nombre y celular válido.'); return false; }
+        
         return true;
     }
 
-    // ========== GENERAR RESUMEN COMPLETO (paso 3) ==========
+    // ========== GENERAR RESUMEN COMPLETO ==========
     function generarResumen() {
         let docsMarcados = [];
         document.querySelectorAll('.chk-doc:checked').forEach(chk => docsMarcados.push(chk.nextSibling?.nodeValue?.trim() || chk.id));
@@ -588,7 +607,6 @@
         let successMsg = document.getElementById('successMessage');
         successMsg.style.display = 'none';
 
-        // Re-validar paso 2 (por si acaso)
         if(!validateStep2()) return;
 
         let docs = [];
@@ -629,10 +647,8 @@
         btn.disabled = true;
         btn.textContent = 'Enviando...';
 
-        // Envío a Google Sheets
         try { await fetch(APPS_SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(datos) }); } catch(e) { console.error('Error Sheets:', e); }
 
-        // Mensaje WhatsApp
         const mensaje = `*NUEVA PRESOLICITUD ALPHA STRATEGIST*%0A%0A` +
             `👤 *Nombre:* ${datos.nombre}%0A` +
             `📄 *CI:* ${datos.ci}%0A` +
