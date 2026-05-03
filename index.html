@@ -16,6 +16,7 @@
     <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%232C7A4D'/%3E%3Ctext x='50' y='72' font-size='60' text-anchor='middle' fill='white' font-weight='bold' font-family='Arial'%3EI%3C/text%3E%3C/svg%3E">
     
     <style>
+        /* ========== UI RENOVADA (mismo CSS de antes, solo se mantiene) ========== */
         :root {
             --primario-verde: #2C7A4D;
             --secundario-azul: #0F3B47;
@@ -60,9 +61,7 @@
             font-weight: 700;
             color: var(--secundario-azul);
         }
-        .hero h1 span {
-            color: var(--acento-terracota);
-        }
+        .hero h1 span { color: var(--acento-terracota); }
         .hero-agente {
             font-size: 14px;
             color: var(--acento-terracota);
@@ -212,14 +211,13 @@
             margin-bottom: 6px;
             color: var(--secundario-azul);
         }
-        input[type="text"], input[type="tel"], select {
+        input, select {
             width: 100%;
             padding: 14px 16px;
             border: 1px solid #E2DFDA;
             border-radius: 20px;
             font-size: 15px;
             background: var(--blanco);
-            transition: 0.2s;
         }
         select { cursor: pointer; }
         input:focus, select:focus {
@@ -328,18 +326,9 @@
             </p>
 
             <div class="checkbox-group">
-                <div class="checkbox-item">
-                    <input type="checkbox" id="chkVerdad">
-                    <label for="chkVerdad">Declaro que la información que proporcionaré es 100% real y comprobable.</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="chkInformconf">
-                    <label for="chkInformconf">Confirmo que <strong>NO poseo operaciones en mora</strong>, reportes negativos en Informconf, ni deudas vendidas a casas de cobranza.</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="chkAutorizo">
-                    <label for="chkAutorizo">Autorizo la verificación de mi perfil en las centrales de riesgo y bases de datos financieras.</label>
-                </div>
+                <div class="checkbox-item"><input type="checkbox" id="chkVerdad"><label>Declaro que la información que proporcionaré es 100% real y comprobable.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="chkInformconf"><label>Confirmo que <strong>NO poseo operaciones en mora</strong>, reportes negativos en Informconf, ni deudas vendidas a casas de cobranza.</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="chkAutorizo"><label>Autorizo la verificación de mi perfil en las centrales de riesgo y bases de datos financieras.</label></div>
             </div>
 
             <div class="alert alert-error" id="acceptError">⚠️ Debes confirmar todas las condiciones para continuar.</div>
@@ -453,34 +442,19 @@
 
 <script>
     // ========== CONFIGURACIÓN ==========
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxg15ajjyCeE6KW_lKXQNtC7-wZuoIiILDivLtQfqjnTPvRb9ivDeD18VoL8i4wif3e/exec';
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/TU_ID_AQUI/exec';
     const WHATSAPP_NUMBER = '595992271485';
 
-    // ========== VALIDACIONES Y FORMATEO ==========
-    function validarNombre(input) {
-        input.value = input.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
-    }
-    function validarTextoConEspacio(input) {
-        input.value = input.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
-    }
+    // ========== VALIDACIONES Y FORMATEO (igual que antes) ==========
+    function validarNombre(input) { input.value = input.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, ''); }
+    function validarTextoConEspacio(input) { input.value = input.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, ''); }
     function formatearMiles(input) { let v = input.value.replace(/\./g, '').replace(/[^0-9]/g, ''); if(v === '') return; input.value = parseInt(v, 10).toLocaleString('es-PY'); }
     function formatearCI(input) { let v = input.value.replace(/\./g, '').replace(/[^0-9]/g, ''); if(v === '') { input.value = ''; return; } input.value = parseInt(v, 10).toLocaleString('es-PY'); }
     function formatearWhatsApp(input) { let v = input.value.replace(/[^0-9]/g, '').slice(0, 10); if(v === '') { input.value = ''; return; } let p = []; if(v.length >= 4) { p.push(v.slice(0, 4)); v = v.slice(4); } while(v.length > 3) { p.push(v.slice(0, 3)); v = v.slice(3); } if(v) p.push(v); input.value = p.join('.'); }
     function limpiarPuntos(s) { return s.replace(/\./g, ''); }
 
-    // ========== DATOS ==========
     const tablaCuotas = { 1000000:{6:235000,8:182000,10:150000,12:127000,15:112000,18:101000,20:96000,24:90000}, 2000000:{6:465000,8:358000,10:292500,12:254000,15:223000,18:201000,20:191000,24:177000}, 3000000:{6:685000,8:535000,10:435000,12:380000,15:334000,18:302000,20:287000,24:266000}, 4000000:{6:900000,8:700000,10:571000,12:507000,15:445000,18:402000,20:382000,24:354000}, 5000000:{6:1150000,8:885000,10:712000,12:633000,15:555000,18:503000,20:478000,24:443000} };
-    const perfilesData = { 
-        "1": { docs: ["Boletas IPS", "Liquidación de salario"], obs: "Antigüedad 6 meses." }, 
-        "2": { docs: ["3 últimos IVAs", "6 facturas emitidas"], obs: "Antigüedad 6 meses." }, 
-        "3": { docs: ["Certificado de trabajo", "RUC de la empresa"], obs: "Antigüedad 6 meses." }, 
-        "4": { docs: ["Liquidación de salario", "Certificado de trabajo"], obs: "Antigüedad 1 mes." }, 
-        "5": { docs: ["Liquidación de salario", "Certificado de trabajo"], obs: "Antigüedad 15 meses." }, 
-        "6": { docs: ["3 últimos IVAs", "Fotos del negocio", "RUC o Patente"], obs: "Antigüedad 12 meses." }, 
-        "7": { docs: ["3 últimos IVAs", "Título profesional", "RUC"], obs: "Antigüedad 12 meses." }, 
-        "8": { docs: ["Boletas IPS o JUPE (2 cobros)"], obs: "Edad máx 70 años." }, 
-        "9": { docs: ["Contrato de alquiler", "Factura de servicio", "Fotos del inmueble"], obs: "Contrato vigente." } 
-    };
+    const perfilesData = { "1": { docs: ["Boletas IPS", "Liquidación de salario"], obs: "Antigüedad 6 meses." }, "2": { docs: ["3 últimos IVAs", "6 facturas emitidas"], obs: "Antigüedad 6 meses." }, "3": { docs: ["Certificado de trabajo", "RUC de la empresa"], obs: "Antigüedad 6 meses." }, "4": { docs: ["Liquidación de salario", "Certificado de trabajo"], obs: "Antigüedad 1 mes." }, "5": { docs: ["Liquidación de salario", "Certificado de trabajo"], obs: "Antigüedad 15 meses." }, "6": { docs: ["3 últimos IVAs", "Fotos del negocio", "RUC o Patente"], obs: "Antigüedad 12 meses." }, "7": { docs: ["3 últimos IVAs", "Título profesional", "RUC"], obs: "Antigüedad 12 meses." }, "8": { docs: ["Boletas IPS o JUPE (2 cobros)"], obs: "Edad máx 70 años." }, "9": { docs: ["Contrato de alquiler", "Factura de servicio", "Fotos del inmueble"], obs: "Contrato vigente." } };
 
     function calcularCuota() { let m = parseInt(document.getElementById('monto').value); let p = parseInt(document.getElementById('plazo').value); let cuota = tablaCuotas[m]?.[p] || 0; document.getElementById('cuotaPreview').innerHTML = '₲ ' + cuota.toLocaleString('es-PY'); }
     document.getElementById('monto').addEventListener('change', calcularCuota);
@@ -493,12 +467,7 @@
     });
     function mostrarOtraCiudad() { let sel = document.getElementById('ciudadSelect'); let otra = document.getElementById('otraCiudad'); otra.style.display = (sel.value === 'OTRA') ? 'block' : 'none'; }
     function obtenerCiudadFinal() { let selVal = document.getElementById('ciudadSelect').value; if(selVal === 'OTRA') return document.getElementById('otraCiudad').value.trim(); return selVal; }
-    function obtenerDireccionLaboral() {
-        let calle = document.getElementById('calleLab').value.trim();
-        let numero = document.getElementById('numeroLab').value.trim();
-        let barrio = document.getElementById('barrioLab').value.trim();
-        return `${calle} ${numero}, ${barrio}`;
-    }
+    function obtenerDireccionLaboral() { return `${document.getElementById('calleLab').value.trim()} ${document.getElementById('numeroLab').value.trim()}, ${document.getElementById('barrioLab').value.trim()}`; }
     function cargarRequisitos() {
         let p = document.getElementById('perfil').value;
         let cont = document.getElementById('requisitosContainer');
@@ -633,7 +602,6 @@
         document.getElementById('resumenContainer').innerHTML = html;
     }
     document.getElementById('btnEnviar').addEventListener('click', async function() {
-        // Mostrar recordatorio antes de enviar
         let perfilId = document.getElementById('perfil').value;
         let docsRequeridos = perfilesData[perfilId]?.docs || [];
         let docsPoseidos = [];
@@ -641,9 +609,7 @@
         let docsFaltantes = docsRequeridos.filter(doc => !docsPoseidos.includes(doc));
         let faltantesTexto = docsFaltantes.length ? docsFaltantes.join(', ') : 'Ninguno';
         let mensajeConfirm = `⚠️ RECORDATORIO ⚠️\n\n`;
-        if(docsFaltantes.length > 0) {
-            mensajeConfirm += `Documentos faltantes: ${faltantesTexto}\n\n`;
-        }
+        if(docsFaltantes.length > 0) mensajeConfirm += `Documentos faltantes: ${faltantesTexto}\n\n`;
         mensajeConfirm += `Debes tener preparadas las ubicaciones GPS (dirección particular y laboral) para enviar por WhatsApp cuando te las solicite.\n\n¿Continuar?`;
         if(!confirm(mensajeConfirm)) return;
         
@@ -685,27 +651,27 @@
         const btn = this; btn.disabled = true; btn.textContent = 'Enviando...';
         try { await fetch(APPS_SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(datos) }); } catch(e) { console.error('Error Sheets:', e); }
         
-        // MENSaje de WhatsApp CORREGIDO (sin emojis, con formato claro)
+        // ========== MENSAJE DE WHATSAPP CON EMOJIS (tal como lo pide) ==========
         const mensaje = `✅ *PRESOLICITUD DE CRÉDITO*%0A%0A` +
-            `[NOMBRE] ${datos.nombre}%0A` +
-            `[CI] ${datos.ci}%0A` +
-            `[WHATSAPP] ${datos.whatsapp}%0A` +
-            `[EDAD] ${datos.edad}%0A` +
-            `[CIUDAD] ${datos.ciudad}%0A` +
-            `[DIRECCION PARTICULAR] ${datos.direccion}%0A` +
-            `[EMPRESA/INSTITUCION] ${datos.empresa}%0A` +
-            `[CARGO] ${datos.cargo}%0A` +
-            `[DIRECCION LABORAL] ${datos.direccionLaboral}%0A` +
-            `[TELEFONO LABORAL] ${datos.telefonoLab}%0A` +
-            `[PERFIL] ${datos.perfil}%0A` +
-            `[MONTO] ₲ ${parseInt(datos.monto).toLocaleString('es-PY')}%0A` +
-            `[PLAZO] ${datos.plazo} meses%0A` +
-            `[CUOTA] ${datos.cuota}%0A` +
-            `[INGRESO] ₲ ${parseInt(datos.ingreso).toLocaleString('es-PY')}%0A` +
-            `[INFORMCONF] ${datos.informconf}%0A` +
-            `[DOCUMENTOS QUE POSEE] ${datos.documentos_posee || 'Ninguno'}%0A` +
-            `[DOCUMENTOS FALTANTES] ${datos.documentos_faltantes || 'Ninguno'}%0A` +
-            `[REFERENCIAS]%0A1) ${datos.ref1_nombre} - ${datos.ref1_cel}%0A2) ${datos.ref2_nombre} - ${datos.ref2_cel}%0A%0A` +
+            `👤 *Nombre:* ${datos.nombre}%0A` +
+            `📄 *CI:* ${datos.ci}%0A` +
+            `📞 *WhatsApp:* ${datos.whatsapp}%0A` +
+            `🎂 *Edad:* ${datos.edad}%0A` +
+            `📍 *Ciudad:* ${datos.ciudad}%0A` +
+            `🏠 *Dirección particular:* ${datos.direccion}%0A` +
+            `🏢 *Empresa/Institución:* ${datos.empresa}%0A` +
+            `💼 *Cargo:* ${datos.cargo}%0A` +
+            `📍 *Dirección laboral:* ${datos.direccionLaboral}%0A` +
+            `📞 *Teléfono laboral:* ${datos.telefonoLab}%0A` +
+            `📊 *Perfil:* ${datos.perfil}%0A` +
+            `💰 *Monto:* ₲ ${parseInt(datos.monto).toLocaleString('es-PY')}%0A` +
+            `📅 *Plazo:* ${datos.plazo} meses%0A` +
+            `💵 *Cuota:* ${datos.cuota}%0A` +
+            `💵 *Ingreso:* ₲ ${parseInt(datos.ingreso).toLocaleString('es-PY')}%0A` +
+            `🔍 *Informconf:* ${datos.informconf}%0A` +
+            `📋 *Documentos que posee:* ${datos.documentos_posee || 'Ninguno'}%0A` +
+            `⚠️ *Documentos faltantes:* ${datos.documentos_faltantes || 'Ninguno'}%0A` +
+            `📌 *Referencias:*%0A1) ${datos.ref1_nombre} - ${datos.ref1_cel}%0A2) ${datos.ref2_nombre} - ${datos.ref2_cel}%0A%0A` +
             `✅ *Presolicitud generada desde web*`;
         
         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${mensaje}`, '_blank');
