@@ -16,7 +16,6 @@
     <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%232C7A4D'/%3E%3Ctext x='50' y='72' font-size='60' text-anchor='middle' fill='white' font-weight='bold' font-family='Arial'%3EI%3C/text%3E%3C/svg%3E">
     
     <style>
-        /* ========== UI RENOVADA (mismo CSS de antes, solo se mantiene) ========== */
         :root {
             --primario-verde: #2C7A4D;
             --secundario-azul: #0F3B47;
@@ -442,10 +441,10 @@
 
 <script>
     // ========== CONFIGURACIÓN ==========
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/TU_ID_AQUI/exec';
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbziZvIbOw8UB7dEeCqNyIj0rEXsd1N0is4WuTIN0A7ThR5cIMwQ-0erw5-zjI78XLB3/exec'; // <-- REEMPLAZAR
     const WHATSAPP_NUMBER = '595992271485';
 
-    // ========== VALIDACIONES Y FORMATEO (igual que antes) ==========
+    // ========== VALIDACIONES Y FORMATEO ==========
     function validarNombre(input) { input.value = input.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, ''); }
     function validarTextoConEspacio(input) { input.value = input.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, ''); }
     function formatearMiles(input) { let v = input.value.replace(/\./g, '').replace(/[^0-9]/g, ''); if(v === '') return; input.value = parseInt(v, 10).toLocaleString('es-PY'); }
@@ -651,8 +650,8 @@
         const btn = this; btn.disabled = true; btn.textContent = 'Enviando...';
         try { await fetch(APPS_SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(datos) }); } catch(e) { console.error('Error Sheets:', e); }
         
-        // ========== MENSAJE DE WHATSAPP CON EMOJIS (tal como lo pide) ==========
-        const mensaje = `✅ *PRESOLICITUD DE CRÉDITO*%0A%0A` +
+        // ========== MENSAJE DE WHATSAPP CON EMOJIS (VERSIÓN QUE SÍ FUNCIONA) ==========
+        const mensaje = `*NUEVA PRESOLICITUD DE CRÉDITO*%0A%0A` +
             `👤 *Nombre:* ${datos.nombre}%0A` +
             `📄 *CI:* ${datos.ci}%0A` +
             `📞 *WhatsApp:* ${datos.whatsapp}%0A` +
