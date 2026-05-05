@@ -72,7 +72,6 @@
             margin-bottom: 16px;
         }
 
-        /* Íconos de confianza: ahora solo 3 y más profesionales */
         .trust-icons {
             display: flex;
             justify-content: center;
@@ -128,6 +127,7 @@
         .btn-primary:hover { background: #0E3A5C; }
         .btn-secondary { background: #EFF3F8; color: var(--tking-azul-primario); border: 1px solid var(--tking-gris-borde); }
         .btn-secondary:hover { background: #E2E8F0; }
+        .btn-success { background: #2C7A4D; color: white; }
         .button-group { display: flex; gap: 12px; margin-top: 20px; flex-direction: column; }
         .button-group .btn { width: 100%; text-align: center; }
         @media (min-width: 640px) {
@@ -246,6 +246,17 @@
         .alert-warning { background: #FEF5E7; color: #B85D19; border-left: 4px solid #F59E0B; }
         .alert-success { background: var(--tking-exito-fondo); color: #065F46; border-left: 4px solid var(--tking-exito-borde); }
         
+        .mensaje-exito {
+            background: var(--tking-exito-fondo);
+            border-left: 4px solid var(--tking-exito-borde);
+            padding: 16px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .mensaje-exito h3 { color: #065F46; margin-bottom: 8px; }
+        .mensaje-exito p { font-size: 13px; margin-bottom: 12px; }
+        
         footer { text-align: center; padding: 20px; font-size: 11px; color: var(--tking-gris-texto); }
         .footer-agente { font-size: 12px; font-weight: 600; color: var(--tking-azul-primario); margin-bottom: 6px; }
         .grabovoi { font-size: 10px; font-family: monospace; color: var(--tking-gris-texto); margin-top: 6px; }
@@ -333,7 +344,7 @@
                     <div class="button-group"><button class="btn btn-primary" onclick="nextStep(2)">Continuar →</button></div>
                 </div>
 
-                <!-- PASO 2 (con validación de tiempo ejerciendo ≤ 50 años) -->
+                <!-- PASO 2 -->
                 <div class="form-step" id="step2">
                     <h4 style="font-size: 1rem;">Perfil Laboral y Documentos</h4>
                     <div class="row-2cols">
@@ -402,13 +413,22 @@
                     <div class="button-group"><button class="btn btn-secondary" onclick="prevStep(1)">← Atrás</button><button class="btn btn-primary" onclick="nextStep(3)">Continuar →</button></div>
                 </div>
 
-                <!-- PASO 3 -->
+                <!-- PASO 3 (mejorado) -->
                 <div class="form-step" id="step3">
-                    <h4 style="font-size: 1rem;">Confirmación de Datos</h4>
+                    <h4 style="font-size: 1rem;">🎯 ¡Ya casi tienes tu presolicitud lista!</h4>
+                    <div class="observacion-text" style="margin-bottom: 12px;">
+                        Revisá que todos tus datos sean correctos. Al enviarlos, un analista de Tking Credit evaluará tu perfil, y <strong>yo, Isidro Cabrera, te contactaré por WhatsApp</strong> para informarte el resultado. Este proceso es 100% digital, sin filas ni papeles. Tus datos están protegidos.
+                    </div>
                     <div id="resumenContainer" class="result-box"></div>
+                    <div id="mensajeExito" style="display:none;" class="mensaje-exito">
+                        <h3>✅ ¡Gracias!</h3>
+                        <p>Tus datos han sido recibidos. Un analista de Tking Credit revisará tu perfil, y yo, Isidro Cabrera, te contactaré por WhatsApp en los próximos minutos para informarte el resultado y continuar con tu presolicitud.</p>
+                        <p><strong>Recordatorio:</strong> Tené preparadas las ubicaciones GPS (dirección particular y laboral) y los documentos faltantes (marcados arriba), ya que te los solicitaré por WhatsApp para agilizar tu evaluación.</p>
+                        <button class="btn btn-success" id="btnAbrirWhatsApp">📩 Continuar a WhatsApp</button>
+                    </div>
                     <div class="alert alert-error" id="errorStep3"></div>
                     <div class="alert alert-success" id="successMessage" style="display:none;"></div>
-                    <div class="button-group">
+                    <div class="button-group" id="botoneraEnvio">
                         <button class="btn btn-secondary" onclick="prevStep(2)">← Atrás (corregir)</button>
                         <button class="btn btn-primary" id="btnEnviar">📩 Enviar Solicitud</button>
                     </div>
@@ -424,7 +444,7 @@
 
 <script>
     // ========== CONFIGURACIÓN ==========
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbydApFQkoEIz-Or-fdSnhYz_W4Ck9H6r0zeSaNfJNicKI_cwsvokfFRJnZrjzIBleY8/exec';
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/TU_ID_AQUI/exec';
     const WHATSAPP_NUMBER = '595992271485';
 
     // ========== VALIDACIONES Y FORMATEO ==========
@@ -433,9 +453,7 @@
         input.value = input.value.replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s\.,\-]/g, '');
     }
     function validarTiempoEjerciendo(input) {
-        // Permitir números y letras, pero luego validar que el número extraído sea ≤ 50
         let valor = input.value;
-        // Extraer el primer número de la cadena (ej: "5 años" -> 5, "2000 años" -> 2000)
         let numeros = valor.match(/\d+/);
         if (numeros) {
             let numero = parseInt(numeros[0], 10);
@@ -444,7 +462,6 @@
                 input.value = "";
             }
         }
-        // No restringimos caracteres (puede escribir "5 años" o "10"), pero si es solo número sin unidad, se acepta.
     }
     function formatearMiles(input) { let v = input.value.replace(/\./g, '').replace(/[^0-9]/g, ''); if(v === '') return; input.value = parseInt(v, 10).toLocaleString('es-PY'); }
     function formatearCI(input) { let v = input.value.replace(/\./g, '').replace(/[^0-9]/g, ''); if(v === '') { input.value = ''; return; } input.value = parseInt(v, 10).toLocaleString('es-PY'); }
@@ -499,7 +516,6 @@
         }
         else if (perfilId === "7") {
             if (profIndDiv) profIndDiv.style.display = 'block';
-            // Limpiar valores previos
             document.getElementById('modalidadIndependiente').value = '';
             document.getElementById('camposCuentaPropia').style.display = 'none';
             document.getElementById('avisoEmpresaIndependiente').style.display = 'none';
@@ -626,7 +642,6 @@
             if(isNaN(ing) || ing < 1750000) { showError(err, 'Ingreso mínimo ₲ 1.750.000.'); return false; }
         }
         
-        // Validar campos según perfil
         if (perfilId === "1" || perfilId === "2" || perfilId === "3" || perfilId === "4" || perfilId === "5") {
             let empresa = document.getElementById('empresaLaboral').value.trim();
             let cargo = document.getElementById('cargoLaboral').value.trim();
@@ -659,7 +674,6 @@
                 let tiempo = document.getElementById('tiempoEjerciendo').value.trim();
                 if(rubro.length < 3) { showError(err, 'Rubro profesional requerido (mínimo 3 caracteres).'); return false; }
                 if(tiempo.length < 2) { showError(err, 'Indica el tiempo que ejerces la actividad.'); return false; }
-                // Validar que el tiempo no supere 50 años
                 let numeros = tiempo.match(/\d+/);
                 if (numeros) {
                     let numero = parseInt(numeros[0], 10);
@@ -667,10 +681,6 @@
                         showError(err, 'El tiempo ejerciendo no puede ser mayor a 50 años.');
                         return false;
                     }
-                } else {
-                    // Si no contiene número, también puede ser texto como "más de 50 años", lo rechazamos
-                    showError(err, 'Indica un tiempo válido (ej: 5 años, 10).');
-                    return false;
                 }
             }
         }
@@ -764,23 +774,23 @@
         }
     });
 
+    // Envío y mensaje de éxito (sin confirm)
+    let mensajeWhatsAppURL = '';
     document.getElementById('btnEnviar').addEventListener('click', async function() {
+        let err = document.getElementById('errorStep3');
+        err.style.display = 'none';
+        let successMsg = document.getElementById('successMessage');
+        successMsg.style.display = 'none';
+        
+        if(!validateStep2()) return;
+        
+        // Construir datos y enviar a Sheets (mismo código que antes)
         let perfilId = document.getElementById('perfil').value;
         let docsRequeridos = perfilesData[perfilId]?.docs || [];
         let docsPoseidos = [];
         document.querySelectorAll('.chk-doc:checked').forEach(chk => docsPoseidos.push(chk.value));
         let docsFaltantes = docsRequeridos.filter(doc => !docsPoseidos.includes(doc));
         let faltantesTexto = docsFaltantes.length ? docsFaltantes.join(', ') : 'Ninguno';
-        let mensajeConfirm = `⚠️ RECORDATORIO ⚠️\n\n`;
-        if(docsFaltantes.length > 0) mensajeConfirm += `Documentos faltantes: ${faltantesTexto}\n\n`;
-        mensajeConfirm += `Debes tener preparadas las ubicaciones GPS (dirección particular y laboral) para enviar por WhatsApp cuando te las solicite.\n\n¿Continuar?`;
-        if(!confirm(mensajeConfirm)) return;
-        
-        let err = document.getElementById('errorStep3');
-        err.style.display = 'none';
-        let successMsg = document.getElementById('successMessage');
-        successMsg.style.display = 'none';
-        if(!validateStep2()) return;
         
         let ciudadFinal = obtenerCiudadFinal();
         let direccionCompleta = `${document.getElementById('calle').value} ${document.getElementById('numeroCasa').value}, ${document.getElementById('barrio').value}`;
@@ -832,9 +842,13 @@
             ref2_cel: document.getElementById('ref2_cel').value.replace(/[^0-9]/g, ''),
             origen: 'Tking-Agente'
         };
-        const btn = this; btn.disabled = true; btn.textContent = 'Enviando...';
+        
+        const btn = this;
+        btn.disabled = true;
+        btn.textContent = 'Enviando...';
         try { await fetch(APPS_SCRIPT_URL, { method: 'POST', mode: 'cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(datos) }); } catch(e) { console.error('Error Sheets:', e); }
         
+        // Construir mensaje de WhatsApp (igual que antes)
         const mensaje = `*NUEVA PRESOLICITUD DE CRÉDITO*%0A%0A` +
             `👤 *Nombre:* ${datos.nombre}%0A` +
             `📄 *CI:* ${datos.ci}%0A` +
@@ -856,11 +870,20 @@
             `⚠️ *Documentos faltantes:* ${datos.documentos_faltantes || 'Ninguno'}%0A` +
             `📌 *Referencias:*%0A1) ${datos.ref1_nombre} - ${datos.ref1_cel}%0A2) ${datos.ref2_nombre} - ${datos.ref2_cel}%0A%0A` +
             `✅ *Presolicitud generada desde web*`;
+        mensajeWhatsAppURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${mensaje}`;
         
-        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${mensaje}`, '_blank');
-        successMsg.textContent = '✅ Presolicitud enviada. Redirigiendo a WhatsApp...';
-        successMsg.style.display = 'block';
-        setTimeout(() => window.location.reload(), 4000);
+        // Ocultar botonera de envío y resumen, mostrar mensaje de éxito
+        document.getElementById('botoneraEnvio').style.display = 'none';
+        document.getElementById('resumenContainer').style.display = 'none';
+        document.getElementById('mensajeExito').style.display = 'block';
+        
+        btn.disabled = false;
+        btn.style.display = 'none';
+    });
+    
+    document.getElementById('btnAbrirWhatsApp').addEventListener('click', function() {
+        window.open(mensajeWhatsAppURL, '_blank');
+        setTimeout(() => window.location.reload(), 3000);
     });
 </script>
 </body>
