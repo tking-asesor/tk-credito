@@ -58,22 +58,9 @@
             margin-bottom: 24px;
             color: white;
         }
-        .hero h1 {
-            font-size: 28px;
-            margin-bottom: 6px;
-            font-weight: 700;
-        }
-        .hero-sub {
-            font-size: 14px;
-            opacity: 0.9;
-            margin-bottom: 12px;
-        }
-        .hero-divider {
-            width: 50px;
-            height: 2px;
-            background: rgba(255,255,255,0.3);
-            margin: 0 auto;
-        }
+        .hero h1 { font-size: 28px; margin-bottom: 6px; font-weight: 700; }
+        .hero-sub { font-size: 14px; opacity: 0.9; margin-bottom: 12px; }
+        .hero-divider { width: 50px; height: 2px; background: rgba(255,255,255,0.3); margin: 0 auto; }
         .hero-badge {
             background: rgba(255,255,255,0.15);
             backdrop-filter: blur(4px);
@@ -132,6 +119,10 @@
         .btn-secondary:hover { background: #E2E8F0; }
         .button-group { display: flex; gap: 12px; margin-top: 20px; flex-direction: column; }
         .button-group .btn { width: 100%; text-align: center; }
+        @media (min-width: 640px) {
+            .button-group { flex-direction: row; }
+            .button-group .btn { width: auto; }
+        }
 
         .progress-steps {
             display: flex;
@@ -201,23 +192,18 @@
         .row-3cols { display: flex; gap: 10px; flex-direction: column; }
         .row-2cols .form-group, .row-3cols .form-group { flex: 1; }
         @media (min-width: 640px) {
-            .container { padding: 24px 20px; }
-            .card-body { padding: 28px; }
             .row-2cols { flex-direction: row; gap: 20px; }
             .row-3cols { flex-direction: row; gap: 16px; }
-            .button-group { flex-direction: row; }
-            .button-group .btn { width: auto; }
         }
 
         .result-box {
             background: var(--tking-gris-claro);
             border-radius: 20px;
             padding: 16px;
-            text-align: center;
+            text-align: left;
             margin: 16px 0;
             border: 1px solid rgba(30,74,118,0.1);
         }
-        .cuota-value { font-size: 2rem; font-weight: 800; color: var(--tking-azul-primario); margin-top: 8px; }
         .requisitos-box {
             background: var(--tking-gris-claro);
             border-radius: 20px;
@@ -234,6 +220,7 @@
             margin-top: 12px;
             display: inline-block;
         }
+        .cuota-value { font-size: 2rem; font-weight: 800; color: var(--tking-azul-primario); margin-top: 8px; text-align: center; }
         
         .alert {
             padding: 12px 16px;
@@ -256,6 +243,7 @@
 <body>
 <div class="container">
     
+    <!-- Pantalla de aceptación -->
     <div id="acceptScreen" class="card">
         <div class="card-body" style="text-align: center;">
             <div class="hero-badge">Acceso Exclusivo</div>
@@ -284,7 +272,7 @@
         </div>
     </div>
 
-    <!-- Simulador (mismo contenido de antes, sin cambios) -->
+    <!-- Simulador -->
     <div id="simulatorScreen" style="display: none;">
         <div class="hero">
             <div class="hero-badge" id="hero-badge-step">Paso 1 de 3</div>
@@ -297,7 +285,7 @@
                 <!-- PASO 1 -->
                 <div class="form-step active-step" id="step1">
                     <div class="result-box">
-                        <h3 style="font-size: 1.2rem;">Calcula tu línea de crédito</h3>
+                        <h3 style="font-size: 1.2rem; text-align: center;">Calcula tu línea de crédito</h3>
                         <div class="row-2cols">
                             <div class="form-group"><label>Monto a solicitar (₲)</label><select id="monto"><option value="1000000">₲ 1.000.000</option><option value="2000000">₲ 2.000.000</option><option value="3000000">₲ 3.000.000</option><option value="4000000">₲ 4.000.000</option><option value="5000000">₲ 5.000.000</option></select></div>
                             <div class="form-group"><label>Plazo</label><select id="plazo"><option value="6">6 meses</option><option value="8">8 meses</option><option value="10">10 meses</option><option value="12">12 meses</option><option value="15">15 meses</option><option value="18">18 meses</option><option value="20">20 meses</option><option value="24" selected>24 meses</option></select></div>
@@ -335,7 +323,7 @@
                     <div class="button-group"><button class="btn btn-primary" onclick="nextStep(2)">Continuar →</button></div>
                 </div>
 
-                <!-- PASO 2 (contenido completo, se mantiene igual) -->
+                <!-- PASO 2 -->
                 <div class="form-step" id="step2">
                     <h4 style="font-size: 1rem;">Perfil Laboral y Documentos</h4>
                     <div class="row-2cols">
@@ -356,10 +344,11 @@
                         </div>
                     </div>
 
+                    <!-- Campos laborales estándar (para perfiles 1-5 y para profesional independiente opción empresa) -->
                     <div id="camposLaborales">
                         <div class="row-2cols">
-                            <div class="form-group"><label>Empresa / Institución donde trabajas</label><input type="text" id="empresaLaboral" placeholder="Ej: ABC S.A. o Ministerio de Hacienda" oninput="validarTextoConEspacioYNumeros(this)"></div>
-                            <div class="form-group"><label>Cargo</label><input type="text" id="cargoLaboral" placeholder="Ej: Vendedor, Analista" oninput="validarTextoConEspacioYNumeros(this)"></div>
+                            <div class="form-group"><label>Empresa / Institución</label><input type="text" id="empresaLaboral" placeholder="Ej: ABC S.A." oninput="validarTextoConEspacioYNumeros(this)"></div>
+                            <div class="form-group"><label>Cargo</label><input type="text" id="cargoLaboral" placeholder="Ej: Vendedor" oninput="validarTextoConEspacioYNumeros(this)"></div>
                         </div>
                         <h4 style="font-size: 0.9rem;">Dirección Laboral</h4>
                         <div class="row-3cols">
@@ -368,6 +357,27 @@
                             <div class="form-group"><label>Barrio (laboral)</label><input type="text" id="barrioLab" placeholder="Ej: Villa Morra" oninput="validarTextoConEspacioYNumeros(this)"></div>
                         </div>
                         <div class="form-group"><label>Teléfono laboral</label><input type="tel" id="telefonoLab" maxlength="12" oninput="formatearWhatsApp(this)" placeholder="0991.123.456"></div>
+                    </div>
+
+                    <!-- Opciones especiales para Profesional Independiente -->
+                    <div id="profesionalIndependienteOpciones" style="display:none;">
+                        <div class="form-group">
+                            <label>Modalidad de trabajo *</label>
+                            <select id="modalidadIndependiente" onchange="toggleSubCamposIndependiente()">
+                                <option value="">Selecciona...</option>
+                                <option value="empresa">Trabaja para empresa/institución</option>
+                                <option value="cuentaPropia">Trabaja por cuenta propia</option>
+                            </select>
+                        </div>
+                        <div id="camposEmpresaIndependiente" style="display:none;">
+                            <p class="observacion-text">Completa los datos de empresa, cargo, dirección laboral y teléfono (más arriba).</p>
+                        </div>
+                        <div id="camposCuentaPropia" style="display:none;">
+                            <div class="row-2cols">
+                                <div class="form-group"><label>Rubro *</label><input type="text" id="rubroCuentaPropia" placeholder="Ej: Abogado, Médico" oninput="validarTextoConEspacioYNumeros(this)"></div>
+                                <div class="form-group"><label>Tiempo ejerciendo *</label><input type="text" id="tiempoEjerciendo" placeholder="Ej: 5 años" oninput="validarTextoConEspacioYNumeros(this)"></div>
+                            </div>
+                        </div>
                     </div>
 
                     <div id="requisitosContainer" class="requisitos-box" style="display:none;"></div>
@@ -385,7 +395,7 @@
                 <!-- PASO 3 -->
                 <div class="form-step" id="step3">
                     <h4 style="font-size: 1rem;">Confirmación de Datos</h4>
-                    <div id="resumenContainer" class="result-box" style="text-align: left;"></div>
+                    <div id="resumenContainer" class="result-box"></div>
                     <div class="alert alert-error" id="errorStep3"></div>
                     <div class="alert alert-success" id="successMessage" style="display:none;"></div>
                     <div class="button-group">
@@ -418,7 +428,7 @@
     function limpiarPuntos(s) { return s.replace(/\./g, ''); }
 
     const tablaCuotas = { 1000000:{6:235000,8:182000,10:150000,12:127000,15:112000,18:101000,20:96000,24:90000}, 2000000:{6:465000,8:358000,10:292500,12:254000,15:223000,18:201000,20:191000,24:177000}, 3000000:{6:685000,8:535000,10:435000,12:380000,15:334000,18:302000,20:287000,24:266000}, 4000000:{6:900000,8:700000,10:571000,12:507000,15:445000,18:402000,20:382000,24:354000}, 5000000:{6:1150000,8:885000,10:712000,12:633000,15:555000,18:503000,20:478000,24:443000} };
-    const perfilesData = { "1": { docs: ["Boletas IPS", "Liquidación de salario"], obs: "Antigüedad 6 meses." }, "2": { docs: ["3 últimos IVAs", "6 facturas emitidas"], obs: "Antigüedad 6 meses." }, "3": { docs: ["Certificado de trabajo", "RUC de la empresa"], obs: "Antigüedad 6 meses." }, "4": { docs: ["Liquidación de salario", "Certificado de trabajo"], obs: "Antigüedad 1 mes." }, "5": { docs: ["Liquidación de salario", "Certificado de trabajo"], obs: "Antigüedad 15 meses." }, "6": { docs: ["3 últimos IVAs", "Fotos del negocio", "RUC o Patente"], obs: "Antigüedad 12 meses." }, "7": { docs: ["3 últimos IVAs", "Título profesional", "RUC"], obs: "Antigüedad 12 meses." }, "8": { docs: ["Boletas IPS o JUPE (2 cobros)"], obs: "Edad máx 70 años." }, "9": { docs: ["Contrato de alquiler", "Factura de servicio", "Fotos del inmueble"], obs: "Contrato vigente." } };
+    const perfilesData = { "1": { docs: ["Boletas IPS", "Liquidación de salario"], obs: "Antigüedad 6 meses." }, "2": { docs: ["3 últimos IVAs", "6 facturas emitidas"], obs: "Antigüedad 6 meses." }, "3": { docs: ["Certificado de trabajo", "RUC de la empresa"], obs: "Antigüedad 6 meses." }, "4": { docs: ["Liquidación de salario", "Certificado de trabajo"], obs: "Antigüedad 1 mes." }, "5": { docs: ["Liquidación de salario", "Certificado de trabajo"], obs: "Antigüedad 15 meses." }, "6": { docs: ["3 últimos IVAs", "Fotos del negocio", "RUC o Patente"], obs: "Antigüedad 12 meses." }, "7": { docs: ["3 últimos IVAs", "Título profesional", "RUC"], obs: "Antigüedad 12 meses." }, "8": { docs: ["Boletas IPS o JUPE (2 cobros)"], obs: "Edad máxima 70 años. (Jubilado)" }, "9": { docs: ["Contrato de alquiler", "Factura de servicio", "Fotos del inmueble"], obs: "Contrato vigente." } };
 
     function calcularCuota() { let m = parseInt(document.getElementById('monto').value); let p = parseInt(document.getElementById('plazo').value); let cuota = tablaCuotas[m]?.[p] || 0; document.getElementById('cuotaPreview').innerHTML = '₲ ' + cuota.toLocaleString('es-PY'); }
     document.getElementById('monto').addEventListener('change', calcularCuota);
@@ -449,9 +459,53 @@
     function mostrarOcultarCamposLaborales() {
         let perfilId = document.getElementById('perfil').value;
         let camposDiv = document.getElementById('camposLaborales');
+        let profIndDiv = document.getElementById('profesionalIndependienteOpciones');
         if (!camposDiv) return;
+        // Para microempresa, jubilado, rentista: ocultar todo
         if (perfilId === "6" || perfilId === "8" || perfilId === "9") {
             camposDiv.style.display = 'none';
+            profIndDiv.style.display = 'none';
+            // limpiar valores
+            document.getElementById('empresaLaboral').value = '';
+            document.getElementById('cargoLaboral').value = '';
+            document.getElementById('calleLab').value = '';
+            document.getElementById('numeroLab').value = '';
+            document.getElementById('barrioLab').value = '';
+            document.getElementById('telefonoLab').value = '';
+            document.getElementById('rubroCuentaPropia').value = '';
+            document.getElementById('tiempoEjerciendo').value = '';
+            document.getElementById('modalidadIndependiente').value = '';
+        } 
+        // Para profesional independiente: mostrar campos laborales y opciones adicionales
+        else if (perfilId === "7") {
+            camposDiv.style.display = 'block';
+            profIndDiv.style.display = 'block';
+            toggleSubCamposIndependiente(); // ajusta visibilidad según modalidad
+        } 
+        // Para el resto (1-5): mostrar campos laborales, ocultar opciones independiente
+        else {
+            camposDiv.style.display = 'block';
+            profIndDiv.style.display = 'none';
+            document.getElementById('rubroCuentaPropia').value = '';
+            document.getElementById('tiempoEjerciendo').value = '';
+            document.getElementById('modalidadIndependiente').value = '';
+        }
+    }
+
+    function toggleSubCamposIndependiente() {
+        let modalidad = document.getElementById('modalidadIndependiente').value;
+        let camposEmpresa = document.getElementById('camposEmpresaIndependiente');
+        let camposCuentaPropia = document.getElementById('camposCuentaPropia');
+        if (modalidad === 'empresa') {
+            camposEmpresa.style.display = 'block';
+            camposCuentaPropia.style.display = 'none';
+            // limpiar campos de cuenta propia
+            document.getElementById('rubroCuentaPropia').value = '';
+            document.getElementById('tiempoEjerciendo').value = '';
+        } else if (modalidad === 'cuentaPropia') {
+            camposEmpresa.style.display = 'none';
+            camposCuentaPropia.style.display = 'block';
+            // limpiar campos laborales estándar (empresa, cargo, dirección, teléfono)
             document.getElementById('empresaLaboral').value = '';
             document.getElementById('cargoLaboral').value = '';
             document.getElementById('calleLab').value = '';
@@ -459,7 +513,8 @@
             document.getElementById('barrioLab').value = '';
             document.getElementById('telefonoLab').value = '';
         } else {
-            camposDiv.style.display = 'block';
+            camposEmpresa.style.display = 'none';
+            camposCuentaPropia.style.display = 'none';
         }
     }
 
@@ -493,11 +548,12 @@
         document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active-step'));
         document.getElementById(`step${step}`).classList.add('active-step');
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        if(step === 3) generarResumen();
     }
     function prevStep(step) { nextStep(step); }
     function showError(el, msg) { el.textContent = msg; el.style.display = 'block'; setTimeout(() => el.style.display = 'none', 6000); }
     
-    function validateStep1() { /* ... mismo código que antes ... */ 
+    function validateStep1() {
         let err = document.getElementById('errorStep1');
         err.style.display = 'none';
         let nombre = document.getElementById('nombre').value.trim();
@@ -521,16 +577,29 @@
         if(informconf !== 'limpio') { showError(err, 'Debes tener historial limpio.'); return false; }
         return true;
     }
-    function validateStep2() { /* ... mismo código que antes ... */
+
+    function validateStep2() {
         let err = document.getElementById('errorStep2');
         err.style.display = 'none';
         let perfilId = document.getElementById('perfil').value;
         let ingresoRaw = document.getElementById('ingreso').value;
         if(!perfilId) { showError(err, 'Selecciona tu perfil laboral.'); return false; }
+        
+        // Edad específica para Jubilado (perfil 8)
+        let edad = parseInt(document.getElementById('edad').value);
+        if(perfilId === "8") {
+            if(edad < 60 || edad > 70) {
+                showError(err, 'Para jubilados, la edad debe estar entre 60 y 70 años.');
+                return false;
+            }
+        }
+        
         if(perfilId !== "9") {
             let ing = parseInt(limpiarPuntos(ingresoRaw));
             if(isNaN(ing) || ing < 1750000) { showError(err, 'Ingreso mínimo ₲ 1.750.000.'); return false; }
         }
+        
+        // Validar campos según perfil
         if (perfilId === "1" || perfilId === "2" || perfilId === "3" || perfilId === "4" || perfilId === "5") {
             let empresa = document.getElementById('empresaLaboral').value.trim();
             let cargo = document.getElementById('cargoLaboral').value.trim();
@@ -543,16 +612,42 @@
             if(calleLab.length < 2 || barrioLab.length < 2 || numeroLab === '' || !/^\d+$/.test(numeroLab)) { showError(err, 'Dirección laboral completa requerida.'); return false; }
             if(telefonoLabRaw.length !== 10 || !telefonoLabRaw.startsWith('09')) { showError(err, 'Teléfono laboral: 10 dígitos, empieza con 09.'); return false; }
         }
+        
+        if (perfilId === "7") {
+            let modalidad = document.getElementById('modalidadIndependiente').value;
+            if(!modalidad) { showError(err, 'Selecciona la modalidad de trabajo.'); return false; }
+            if(modalidad === 'empresa') {
+                let empresa = document.getElementById('empresaLaboral').value.trim();
+                let cargo = document.getElementById('cargoLaboral').value.trim();
+                let calleLab = document.getElementById('calleLab').value.trim();
+                let numeroLab = document.getElementById('numeroLab').value.trim();
+                let barrioLab = document.getElementById('barrioLab').value.trim();
+                let telefonoLabRaw = document.getElementById('telefonoLab').value.replace(/[^0-9]/g, '');
+                if(empresa.length < 2) { showError(err, 'Empresa/Institución: mínimo 2 caracteres.'); return false; }
+                if(cargo.length < 2) { showError(err, 'Cargo: mínimo 2 caracteres.'); return false; }
+                if(calleLab.length < 2 || barrioLab.length < 2 || numeroLab === '' || !/^\d+$/.test(numeroLab)) { showError(err, 'Dirección laboral completa requerida.'); return false; }
+                if(telefonoLabRaw.length !== 10 || !telefonoLabRaw.startsWith('09')) { showError(err, 'Teléfono laboral: 10 dígitos, empieza con 09.'); return false; }
+            } else if(modalidad === 'cuentaPropia') {
+                let rubro = document.getElementById('rubroCuentaPropia').value.trim();
+                let tiempo = document.getElementById('tiempoEjerciendo').value.trim();
+                if(rubro.length < 3) { showError(err, 'Rubro profesional requerido (mínimo 3 caracteres).'); return false; }
+                if(tiempo.length < 2) { showError(err, 'Indica el tiempo que ejerces la actividad.'); return false; }
+            }
+        }
+        
         let docs = []; document.querySelectorAll('.chk-doc:checked').forEach(chk => docs.push(chk.value));
         if(docs.length === 0) { showError(err, 'Marca al menos un documento requerido.'); return false; }
+        
         let ref1n = document.getElementById('ref1_nombre').value.trim();
         let ref1c = document.getElementById('ref1_cel').value.replace(/[^0-9]/g, '');
         let ref2n = document.getElementById('ref2_nombre').value.trim();
         let ref2c = document.getElementById('ref2_cel').value.replace(/[^0-9]/g, '');
         if(ref1n.length < 2 || ref1c.length !== 10 || !ref1c.startsWith('09')) { showError(err, 'Referencia 1 inválida.'); return false; }
         if(ref2n.length < 2 || ref2c.length !== 10 || !ref2c.startsWith('09')) { showError(err, 'Referencia 2 inválida.'); return false; }
+        
         return true;
     }
+
     function generarResumen() {
         let perfilId = document.getElementById('perfil').value;
         let docsRequeridos = perfilesData[perfilId]?.docs || [];
@@ -561,12 +656,36 @@
         let docsFaltantes = docsRequeridos.filter(doc => !docsPoseidos.includes(doc));
         let ciudadFinal = obtenerCiudadFinal();
         let direccionCompleta = `${document.getElementById('calle').value} ${document.getElementById('numeroCasa').value}, ${document.getElementById('barrio').value}`;
-        let direccionLaboralCompleta = (perfilId === "6" || perfilId === "8" || perfilId === "9") ? 'No aplica' : obtenerDireccionLaboral();
         let perfilText = document.getElementById('perfil').options[document.getElementById('perfil').selectedIndex]?.text || 'No seleccionado';
         let montoVal = document.getElementById('monto').value;
-        let empresaVal = (perfilId === "6" || perfilId === "8" || perfilId === "9") ? 'No aplica' : document.getElementById('empresaLaboral').value;
-        let cargoVal = (perfilId === "6" || perfilId === "8" || perfilId === "9") ? 'No aplica' : document.getElementById('cargoLaboral').value;
-        let telefonoLabVal = (perfilId === "6" || perfilId === "8" || perfilId === "9") ? 'No aplica' : document.getElementById('telefonoLab').value;
+        let empresaVal = '', cargoVal = '', direccionLaboralVal = '', telefonoLabVal = '', rubroVal = '', tiempoVal = '';
+        
+        if (perfilId === "6" || perfilId === "8" || perfilId === "9") {
+            empresaVal = 'No aplica'; cargoVal = 'No aplica'; direccionLaboralVal = 'No aplica'; telefonoLabVal = 'No aplica';
+        } else if (perfilId === "7") {
+            let modalidad = document.getElementById('modalidadIndependiente').value;
+            if(modalidad === 'empresa') {
+                empresaVal = document.getElementById('empresaLaboral').value || '';
+                cargoVal = document.getElementById('cargoLaboral').value || '';
+                direccionLaboralVal = obtenerDireccionLaboral();
+                telefonoLabVal = document.getElementById('telefonoLab').value || '';
+            } else if(modalidad === 'cuentaPropia') {
+                rubroVal = document.getElementById('rubroCuentaPropia').value || '';
+                tiempoVal = document.getElementById('tiempoEjerciendo').value || '';
+                empresaVal = `Cuenta propia - ${rubroVal}`;
+                cargoVal = tiempoVal;
+                direccionLaboralVal = 'No aplica';
+                telefonoLabVal = 'No aplica';
+            } else {
+                empresaVal = ''; cargoVal = ''; direccionLaboralVal = ''; telefonoLabVal = '';
+            }
+        } else {
+            empresaVal = document.getElementById('empresaLaboral').value || '';
+            cargoVal = document.getElementById('cargoLaboral').value || '';
+            direccionLaboralVal = obtenerDireccionLaboral();
+            telefonoLabVal = document.getElementById('telefonoLab').value || '';
+        }
+        
         let html = `<p><strong>👤 Nombre:</strong> ${document.getElementById('nombre').value}</p>
             <p><strong>📄 CI:</strong> ${document.getElementById('ci').value}</p>
             <p><strong>📞 WhatsApp:</strong> ${document.getElementById('telefono').value}</p>
@@ -574,8 +693,8 @@
             <p><strong>📍 Ciudad:</strong> ${ciudadFinal}</p>
             <p><strong>🏠 Dirección particular:</strong> ${direccionCompleta}</p>
             <p><strong>🏢 Empresa/Institución:</strong> ${empresaVal}</p>
-            <p><strong>💼 Cargo:</strong> ${cargoVal}</p>
-            <p><strong>📍 Dirección laboral:</strong> ${direccionLaboralCompleta}</p>
+            <p><strong>💼 Cargo/Rubro:</strong> ${cargoVal} ${rubroVal ? '('+rubroVal+')' : ''}</p>
+            <p><strong>📍 Dirección laboral:</strong> ${direccionLaboralVal}</p>
             <p><strong>📞 Teléfono laboral:</strong> ${telefonoLabVal}</p>
             <p><strong>📊 Perfil laboral:</strong> ${perfilText}</p>
             <p><strong>💰 Monto solicitado:</strong> ₲ ${parseInt(montoVal).toLocaleString('es-PY')}</p>
@@ -627,6 +746,27 @@
         let direccionCompleta = `${document.getElementById('calle').value} ${document.getElementById('numeroCasa').value}, ${document.getElementById('barrio').value}`;
         let direccionLaboralCompleta = (perfilId === "6" || perfilId === "8" || perfilId === "9") ? '' : obtenerDireccionLaboral();
         let informconfEstado = document.getElementById('informconfSelect').value === 'limpio' ? 'Limpio' : 'Moroso';
+        
+        let empresaVal = '', cargoVal = '', telefonoLabVal = '';
+        if (perfilId === "7") {
+            let modalidad = document.getElementById('modalidadIndependiente').value;
+            if(modalidad === 'empresa') {
+                empresaVal = document.getElementById('empresaLaboral').value;
+                cargoVal = document.getElementById('cargoLaboral').value;
+                telefonoLabVal = document.getElementById('telefonoLab').value.replace(/[^0-9]/g, '');
+            } else if(modalidad === 'cuentaPropia') {
+                empresaVal = `Cuenta propia: ${document.getElementById('rubroCuentaPropia').value}`;
+                cargoVal = document.getElementById('tiempoEjerciendo').value;
+                telefonoLabVal = '';
+            }
+        } else if (perfilId === "6" || perfilId === "8" || perfilId === "9") {
+            empresaVal = ''; cargoVal = ''; telefonoLabVal = '';
+        } else {
+            empresaVal = document.getElementById('empresaLaboral').value;
+            cargoVal = document.getElementById('cargoLaboral').value;
+            telefonoLabVal = document.getElementById('telefonoLab').value.replace(/[^0-9]/g, '');
+        }
+        
         const datos = {
             nombre: document.getElementById('nombre').value,
             ci: limpiarPuntos(document.getElementById('ci').value),
@@ -635,9 +775,9 @@
             ciudad: ciudadFinal,
             direccion: direccionCompleta,
             direccionLaboral: direccionLaboralCompleta,
-            telefonoLab: (perfilId === "6" || perfilId === "8" || perfilId === "9") ? '' : document.getElementById('telefonoLab').value.replace(/[^0-9]/g, ''),
-            empresa: (perfilId === "6" || perfilId === "8" || perfilId === "9") ? '' : document.getElementById('empresaLaboral').value,
-            cargo: (perfilId === "6" || perfilId === "8" || perfilId === "9") ? '' : document.getElementById('cargoLaboral').value,
+            telefonoLab: telefonoLabVal,
+            empresa: empresaVal,
+            cargo: cargoVal,
             perfil: document.getElementById('perfil').options[document.getElementById('perfil').selectedIndex]?.text,
             monto: document.getElementById('monto').value,
             plazo: document.getElementById('plazo').value,
@@ -663,7 +803,7 @@
             `📍 *Ciudad:* ${datos.ciudad}%0A` +
             `🏠 *Dirección particular:* ${datos.direccion}%0A` +
             `🏢 *Empresa/Institución:* ${datos.empresa || 'No aplica'}%0A` +
-            `💼 *Cargo:* ${datos.cargo || 'No aplica'}%0A` +
+            `💼 *Cargo/Rubro:* ${datos.cargo || 'No aplica'}%0A` +
             `📍 *Dirección laboral:* ${datos.direccionLaboral || 'No aplica'}%0A` +
             `📞 *Teléfono laboral:* ${datos.telefonoLab || 'No aplica'}%0A` +
             `📊 *Perfil:* ${datos.perfil}%0A` +
