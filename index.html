@@ -72,21 +72,34 @@
             margin-bottom: 16px;
         }
 
+        /* Íconos de confianza: uniformes en móvil */
         .trust-icons {
             display: flex;
             justify-content: center;
-            gap: 16px;
+            gap: 12px;
             flex-wrap: wrap;
             margin: 20px 0 24px;
         }
         .trust-item {
             background: white;
-            padding: 8px 16px;
+            padding: 6px 14px;
             border-radius: 40px;
             border: 1px solid var(--tking-gris-borde);
-            font-size: 13px;
+            font-size: 12px;
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
         }
-        .trust-item i { font-size: 16px; margin-right: 6px; color: var(--tking-azul-primario); }
+        .trust-item i {
+            font-size: 14px;
+            color: var(--tking-azul-primario);
+        }
+        @media (max-width: 500px) {
+            .trust-item { white-space: normal; font-size: 10px; padding: 4px 10px; }
+            .trust-item i { font-size: 12px; }
+        }
 
         .checkbox-group {
             background: var(--tking-gris-claro);
@@ -254,9 +267,9 @@
             </div>
             <div class="trust-icons">
                 <div class="trust-item"><i class="fas fa-shield-alt"></i> Seguro</div>
-                <div class="trust-item"><i class="fas fa-file-alt"></i> Información Clara</div>
+                <div class="trust-item"><i class="fas fa-file-alt"></i> Clara info</div>
                 <div class="trust-item"><i class="fas fa-handshake"></i> Confianza</div>
-                <div class="trust-item"><i class="fas fa-users"></i> +500 Clientes</div>
+                <div class="trust-item"><i class="fas fa-users"></i> +500 clientes</div>
             </div>
             <p style="font-size: 13px; margin-bottom: 16px;">
                 Para brindarte una atención rápida y efectiva, operamos bajo estrictas políticas de perfilamiento. <strong>Por favor, confirma los siguientes puntos para acceder al simulador.</strong>
@@ -282,7 +295,7 @@
 
         <div class="card">
             <div class="card-body">
-                <!-- PASO 1 -->
+                <!-- PASO 1 (sin cambios) -->
                 <div class="form-step active-step" id="step1">
                     <div class="result-box">
                         <h3 style="font-size: 1.2rem; text-align: center;">Calcula tu línea de crédito</h3>
@@ -323,7 +336,7 @@
                     <div class="button-group"><button class="btn btn-primary" onclick="nextStep(2)">Continuar →</button></div>
                 </div>
 
-                <!-- PASO 2 -->
+                <!-- PASO 2 (reorganizado para profesional independiente) -->
                 <div class="form-step" id="step2">
                     <h4 style="font-size: 1rem;">Perfil Laboral y Documentos</h4>
                     <div class="row-2cols">
@@ -344,6 +357,27 @@
                         </div>
                     </div>
 
+                    <!-- Sección para profesional independiente: dropdown primero -->
+                    <div id="profesionalIndependienteOpciones" style="display:none;">
+                        <div class="form-group">
+                            <label>Modalidad de trabajo *</label>
+                            <select id="modalidadIndependiente" onchange="toggleSubCamposIndependiente()">
+                                <option value="">Selecciona...</option>
+                                <option value="empresa">Trabaja para empresa/institución</option>
+                                <option value="cuentaPropia">Trabaja por cuenta propia</option>
+                            </select>
+                        </div>
+                        <div id="camposCuentaPropia" style="display:none;">
+                            <div class="row-2cols">
+                                <div class="form-group"><label>Rubro *</label><input type="text" id="rubroCuentaPropia" placeholder="Ej: Abogado, Médico" oninput="validarTextoConEspacioYNumeros(this)"></div>
+                                <div class="form-group"><label>Tiempo ejerciendo *</label><input type="text" id="tiempoEjerciendo" placeholder="Ej: 5 años" oninput="validarTextoConEspacioYNumeros(this)"></div>
+                            </div>
+                        </div>
+                        <div id="avisoEmpresaIndependiente" style="display:none;">
+                            <p class="observacion-text">Completa los datos de empresa, cargo, dirección laboral y teléfono (campos a continuación).</p>
+                        </div>
+                    </div>
+
                     <!-- Campos laborales estándar (para perfiles 1-5 y para profesional independiente opción empresa) -->
                     <div id="camposLaborales">
                         <div class="row-2cols">
@@ -357,27 +391,6 @@
                             <div class="form-group"><label>Barrio (laboral)</label><input type="text" id="barrioLab" placeholder="Ej: Villa Morra" oninput="validarTextoConEspacioYNumeros(this)"></div>
                         </div>
                         <div class="form-group"><label>Teléfono laboral</label><input type="tel" id="telefonoLab" maxlength="12" oninput="formatearWhatsApp(this)" placeholder="0991.123.456"></div>
-                    </div>
-
-                    <!-- Opciones especiales para Profesional Independiente -->
-                    <div id="profesionalIndependienteOpciones" style="display:none;">
-                        <div class="form-group">
-                            <label>Modalidad de trabajo *</label>
-                            <select id="modalidadIndependiente" onchange="toggleSubCamposIndependiente()">
-                                <option value="">Selecciona...</option>
-                                <option value="empresa">Trabaja para empresa/institución</option>
-                                <option value="cuentaPropia">Trabaja por cuenta propia</option>
-                            </select>
-                        </div>
-                        <div id="camposEmpresaIndependiente" style="display:none;">
-                            <p class="observacion-text">Completa los datos de empresa, cargo, dirección laboral y teléfono (más arriba).</p>
-                        </div>
-                        <div id="camposCuentaPropia" style="display:none;">
-                            <div class="row-2cols">
-                                <div class="form-group"><label>Rubro *</label><input type="text" id="rubroCuentaPropia" placeholder="Ej: Abogado, Médico" oninput="validarTextoConEspacioYNumeros(this)"></div>
-                                <div class="form-group"><label>Tiempo ejerciendo *</label><input type="text" id="tiempoEjerciendo" placeholder="Ej: 5 años" oninput="validarTextoConEspacioYNumeros(this)"></div>
-                            </div>
-                        </div>
                     </div>
 
                     <div id="requisitosContainer" class="requisitos-box" style="display:none;"></div>
@@ -460,12 +473,28 @@
         let perfilId = document.getElementById('perfil').value;
         let camposDiv = document.getElementById('camposLaborales');
         let profIndDiv = document.getElementById('profesionalIndependienteOpciones');
+        let microExtra = document.getElementById('microempresaExtra');
         if (!camposDiv) return;
-        // Para microempresa, jubilado, rentista: ocultar todo
-        if (perfilId === "6" || perfilId === "8" || perfilId === "9") {
-            camposDiv.style.display = 'none';
-            profIndDiv.style.display = 'none';
-            // limpiar valores
+        
+        // Resetear visibilidad
+        camposDiv.style.display = 'none';
+        profIndDiv.style.display = 'none';
+        if (microExtra) microExtra.style.display = 'none';
+        
+        if (perfilId === "1" || perfilId === "2" || perfilId === "3" || perfilId === "4" || perfilId === "5") {
+            camposDiv.style.display = 'block';
+        } 
+        else if (perfilId === "6") {
+            if (microExtra) microExtra.style.display = 'block';
+            camposDiv.style.display = 'none'; // microempresa no tiene campos laborales
+        }
+        else if (perfilId === "7") {
+            profIndDiv.style.display = 'block';
+            // No mostrar campos laborales aún, se mostrarán según modalidad
+            // Limpiar valores previos
+            document.getElementById('modalidadIndependiente').value = '';
+            document.getElementById('camposCuentaPropia').style.display = 'none';
+            document.getElementById('avisoEmpresaIndependiente').style.display = 'none';
             document.getElementById('empresaLaboral').value = '';
             document.getElementById('cargoLaboral').value = '';
             document.getElementById('calleLab').value = '';
@@ -474,38 +503,31 @@
             document.getElementById('telefonoLab').value = '';
             document.getElementById('rubroCuentaPropia').value = '';
             document.getElementById('tiempoEjerciendo').value = '';
-            document.getElementById('modalidadIndependiente').value = '';
-        } 
-        // Para profesional independiente: mostrar campos laborales y opciones adicionales
-        else if (perfilId === "7") {
-            camposDiv.style.display = 'block';
-            profIndDiv.style.display = 'block';
-            toggleSubCamposIndependiente(); // ajusta visibilidad según modalidad
-        } 
-        // Para el resto (1-5): mostrar campos laborales, ocultar opciones independiente
-        else {
-            camposDiv.style.display = 'block';
-            profIndDiv.style.display = 'none';
-            document.getElementById('rubroCuentaPropia').value = '';
-            document.getElementById('tiempoEjerciendo').value = '';
-            document.getElementById('modalidadIndependiente').value = '';
+        }
+        else if (perfilId === "8" || perfilId === "9") {
+            // Jubilado y rentista: no muestran nada
+            camposDiv.style.display = 'none';
         }
     }
 
     function toggleSubCamposIndependiente() {
         let modalidad = document.getElementById('modalidadIndependiente').value;
-        let camposEmpresa = document.getElementById('camposEmpresaIndependiente');
         let camposCuentaPropia = document.getElementById('camposCuentaPropia');
+        let avisoEmpresa = document.getElementById('avisoEmpresaIndependiente');
+        let camposLaboralesDiv = document.getElementById('camposLaborales');
+        
         if (modalidad === 'empresa') {
-            camposEmpresa.style.display = 'block';
             camposCuentaPropia.style.display = 'none';
-            // limpiar campos de cuenta propia
+            avisoEmpresa.style.display = 'block';
+            camposLaboralesDiv.style.display = 'block'; // mostrar campos estándar
+            // limpiar cuenta propia
             document.getElementById('rubroCuentaPropia').value = '';
             document.getElementById('tiempoEjerciendo').value = '';
         } else if (modalidad === 'cuentaPropia') {
-            camposEmpresa.style.display = 'none';
             camposCuentaPropia.style.display = 'block';
-            // limpiar campos laborales estándar (empresa, cargo, dirección, teléfono)
+            avisoEmpresa.style.display = 'none';
+            camposLaboralesDiv.style.display = 'none'; // ocultar empresa, cargo, etc.
+            // limpiar campos laborales estándar
             document.getElementById('empresaLaboral').value = '';
             document.getElementById('cargoLaboral').value = '';
             document.getElementById('calleLab').value = '';
@@ -513,8 +535,9 @@
             document.getElementById('barrioLab').value = '';
             document.getElementById('telefonoLab').value = '';
         } else {
-            camposEmpresa.style.display = 'none';
             camposCuentaPropia.style.display = 'none';
+            avisoEmpresa.style.display = 'none';
+            camposLaboralesDiv.style.display = 'none';
         }
     }
 
@@ -585,7 +608,6 @@
         let ingresoRaw = document.getElementById('ingreso').value;
         if(!perfilId) { showError(err, 'Selecciona tu perfil laboral.'); return false; }
         
-        // Edad específica para Jubilado (perfil 8)
         let edad = parseInt(document.getElementById('edad').value);
         if(perfilId === "8") {
             if(edad < 60 || edad > 70) {
