@@ -56,32 +56,16 @@
         .logo-container {
             width: 48px;
             height: 48px;
-            background: var(--primary);
             border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-weight: 800;
-            font-size: 20px;
             flex-shrink: 0;
             overflow: hidden;
+            background: transparent;
         }
         .logo-container img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
             display: block;
-        }
-        .logo-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            font-weight: 800;
-            color: #fff;
         }
         .header h1 {
             font-size: 20px;
@@ -380,9 +364,9 @@
     <!-- ========================================================= -->
     <div id="consentScreen" class="consent-screen">
         <div class="header" style="border-bottom: none; margin-bottom: 8px;">
+            <!-- LOGO - Primera ubicación -->
             <div class="logo-container" id="logoContainer">
-                <!-- Placeholder del logo. Reemplazar con <img src="logo.png"> cuando esté disponible -->
-                <div class="logo-placeholder" id="logoTxt">SF</div>
+                <img src="logo.png" alt="Solución Flex" style="width:100%; height:100%; object-fit:contain;">
             </div>
             <h1>Solución Flex <small>Rápido y Fácil</small></h1>
             <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
@@ -426,8 +410,9 @@
     <div id="formScreen" style="display:none;">
 
         <div class="header" style="border-bottom: 2px solid var(--border); margin-bottom: 16px;">
+            <!-- LOGO - Segunda ubicación (más pequeño) -->
             <div class="logo-container" style="width:40px; height:40px;">
-                <div class="logo-placeholder" style="font-size:18px;">SF</div>
+                <img src="logo.png" alt="Solución Flex" style="width:100%; height:100%; object-fit:contain;">
             </div>
             <h1 style="font-size:18px;">Solución Flex <small>Simulador</small></h1>
             <button class="theme-toggle" id="themeToggle2"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
