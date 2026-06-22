@@ -202,6 +202,11 @@
         .btn-success:hover {
             background: #14633a;
         }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
 
         /* ===== STEPS ===== */
         .step-indicator {
@@ -437,6 +442,18 @@
             font-weight: 800;
             color: var(--primary);
         }
+        .flex-info {
+            font-size: 12px;
+            color: var(--text-light);
+            text-align: center;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+        }
+        .flex-info a {
+            color: var(--primary);
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -547,7 +564,7 @@
 
             <div class="form-group">
                 <label>Actividad Laboral *</label>
-                <select class="form-control" id="actividad" required>
+                <select class="form-control" id="actividad" required onchange="actualizarCheckboxes()">
                     <option value="">Seleccionar...</option>
                     <option value="empleado_privado">Empleado privado</option>
                     <option value="funcionario_permanente">Función Pública PERMANENTE</option>
@@ -566,15 +583,15 @@
                 <input class="form-control" type="number" id="ingreso" placeholder="1.800.000" min="1800000" required>
                 <div style="font-size:11px; color:var(--text-light); margin-top:3px;">Mínimo ₲ 1.800.000</div>
             </div>
-            <div class="checkbox-group">
-                <label><input type="checkbox" id="ips"> Aporta IPS</label>
-                <label><input type="checkbox" id="iva"> Declara IVA</label>
-                <label><input type="checkbox" id="patente"> Tiene Patente</label>
-                <label><input type="checkbox" id="informconf"> Tiene Informconf</label>
+
+            <!-- Checkboxes dinámicos según perfil -->
+            <div id="checkboxContainer" class="checkbox-group">
+                <!-- Se llenan con JS -->
             </div>
-            <div class="form-group">
+
+            <div class="form-group" style="margin-top: 12px;">
                 <label>¿Tiene deudas con casas de compra de carteras?</label>
-                <select class="form-control" id="carteras">
+                <select class="form-control" id="carteras" onchange="validarCartera()">
                     <option value="ninguna">Ninguna</option>
                     <option value="nexo">Nexo</option>
                     <option value="carsa">Carsa</option>
@@ -584,10 +601,11 @@
                 </select>
                 <input class="form-control hidden" type="text" id="otraCartera" placeholder="Especifica el nombre">
             </div>
+
             <div class="alert alert-error" id="errorStep2"></div>
             <div class="button-group">
                 <button type="button" class="btn btn-secondary" onclick="prevStep(1)">← Atrás</button>
-                <button type="button" class="btn btn-primary" onclick="nextStep(3)">Continuar →</button>
+                <button type="button" class="btn btn-primary" id="btnContinueStep2" onclick="nextStep(3)">Continuar →</button>
             </div>
         </div>
 
@@ -643,10 +661,13 @@
     </div>
 
     <!-- ================================ -->
-    <!-- AVISO DE PRIVACIDAD              -->
+    <!-- AVISO DE PRIVACIDAD Y FLEX      -->
     <!-- ================================ -->
     <div class="privacy-notice">
         <i class="fas fa-shield-alt"></i> Tus datos están protegidos y no serán compartidos con terceros.
+    </div>
+    <div class="flex-info">
+        <i class="fas fa-building"></i> Solución Flex · <a href="mailto:info.solucionflex@gmail.com">info.solucionflex@gmail.com</a> · <a href="tel:+595992271485">+595 992 271 485</a>
     </div>
 
     <!-- ===== TOAST ===== -->
@@ -657,9 +678,9 @@
     // ================================================================
     //  1. CONFIGURACIÓN
     // ================================================================
-    const WHATSAPP_NUMBER = '595992271485'; // <-- CAMBIAR POR TU NÚMERO
+    const WHATSAPP_NUMBER = '595992271485';
 
-    // Tabla de cuotas de referencia (solo para mostrar, sin nombre de banco)
+    // Tabla de cuotas de referencia (solo para mostrar)
     const cuotasReferencia = {
         1000000: {6:235000, 12:127000, 15:112000, 24:90000},
         2000000: {6:465000, 12:254000, 15:223000, 24:177000},
@@ -729,7 +750,107 @@
     }
 
     // ================================================================
-    //  4. MANEJO DEL FORMULARIO Y PASOS
+    //  4. CHECKBOX DINÁMICOS SEGÚN PERFIL
+    // ================================================================
+    function actualizarCheckboxes() {
+        const perfil = document.getElementById('actividad').value;
+        const container = document.getElementById('checkboxContainer');
+        let html = '';
+
+        // Definir qué checkboxes mostrar según perfil
+        const perfiles = {
+            'empleado_privado': { ips: true, iva: true, patente: true },
+            'funcionario_permanente': { ips: true, iva: false, patente: false },
+            'funcionario_contratado': { ips: true, iva: false, patente: false },
+            'jubilado': { ips: true, iva: false, patente: false },
+            'independiente': { ips: false, iva: true, patente: true },
+            'comerciante': { ips: false, iva: true, patente: true }
+        };
+
+        const config = perfiles[perfil] || { ips: false, iva: false, patente: false };
+
+        if (config.ips) {
+            html += `<label><input type="checkbox" id="ips" onchange="validarInformconf()"> Aporta IPS</label>`;
+        }
+        if (config.iva) {
+            html += `<label><input type="checkbox" id="iva"> Declara IVA</label>`;
+        }
+        if (config.patente) {
+            html += `<label><input type="checkbox" id="patente"> Tiene Patente</label>`;
+        }
+        // Siempre mostramos Informconf (es obligatorio evaluarlo)
+        html += `<label><input type="checkbox" id="informconf" onchange="validarInformconf()"> Tiene Informconf</label>`;
+
+        container.innerHTML = html;
+
+        // Resetear mensajes de error
+        document.getElementById('errorStep2').style.display = 'none';
+        document.getElementById('btnContinueStep2').disabled = false;
+    }
+
+    // ================================================================
+    //  5. VALIDACIONES DE INFORMCONF Y CARTERA
+    // ================================================================
+    function validarInformconf() {
+        const informconf = document.getElementById('informconf');
+        const error = document.getElementById('errorStep2');
+        const btn = document.getElementById('btnContinueStep2');
+
+        if (informconf && informconf.checked) {
+            error.textContent = '❌ No puedes continuar porque tienes Informconf. Debes tener historial crediticio limpio.';
+            error.style.display = 'block';
+            btn.disabled = true;
+            // Desmarcar no se permite, pero si el usuario insiste, no podrá avanzar.
+        } else {
+            error.style.display = 'none';
+            btn.disabled = false;
+            // También verificar cartera
+            validarCartera();
+        }
+    }
+
+    function validarCartera() {
+        const carteras = document.getElementById('carteras');
+        const otraCartera = document.getElementById('otraCartera');
+        const error = document.getElementById('errorStep2');
+        const btn = document.getElementById('btnContinueStep2');
+
+        let tieneCartera = false;
+        let msg = '';
+
+        if (carteras.value !== 'ninguna') {
+            tieneCartera = true;
+            if (carteras.value === 'otro' && otraCartera.value.trim() === '') {
+                msg = '❌ Especifica el nombre de la casa de cartera.';
+            } else {
+                msg = '❌ Tienes deuda con casa de cartera. No puedes continuar.';
+            }
+        }
+
+        // Si ya hay error por Informconf, no sobreescribir
+        const informconf = document.getElementById('informconf');
+        if (informconf && informconf.checked) {
+            return;
+        }
+
+        if (tieneCartera) {
+            error.textContent = msg;
+            error.style.display = 'block';
+            btn.disabled = true;
+        } else {
+            error.style.display = 'none';
+            btn.disabled = false;
+        }
+    }
+
+    // Escuchar cambios en "otraCartera"
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('carteras').addEventListener('change', validarCartera);
+        document.getElementById('otraCartera').addEventListener('input', validarCartera);
+    });
+
+    // ================================================================
+    //  6. MANEJO DEL FORMULARIO Y PASOS
     // ================================================================
     let currentStep = 1;
 
@@ -815,11 +936,16 @@
 
     function validateStep2() {
         const err = document.getElementById('errorStep2');
-        err.style.display = 'none';
+        // Si ya hay error visible, no continuar
+        if (err.style.display === 'block') {
+            return false;
+        }
 
         const actividad = document.getElementById('actividad').value;
         const ingreso = parseInt(document.getElementById('ingreso').value);
-        const informconf = document.getElementById('informconf').checked;
+        const ips = document.getElementById('ips');
+        const iva = document.getElementById('iva');
+        const patente = document.getElementById('patente');
 
         if (!actividad) {
             showErrorStep(err, 'Selecciona actividad laboral.');
@@ -829,11 +955,24 @@
             showErrorStep(err, 'Ingreso mínimo ₲ 1.800.000.');
             return false;
         }
-        // BLOQUEO POR INFORMCONF
-        if (informconf) {
-            showErrorStep(err, '❌ No puedes continuar porque tienes Informconf. Debes tener historial crediticio limpio para acceder a un préstamo.');
-            return false;
+
+        // Validaciones según perfil
+        if (actividad === 'funcionario_permanente' || actividad === 'funcionario_contratado' || actividad === 'jubilado') {
+            if (!ips || !ips.checked) {
+                showErrorStep(err, 'Para este perfil, es obligatorio aportar IPS.');
+                return false;
+            }
         }
+        // Para independiente y comerciante, al menos IVA o Patente
+        if (actividad === 'independiente' || actividad === 'comerciante') {
+            const tieneIva = iva && iva.checked;
+            const tienePatente = patente && patente.checked;
+            if (!tieneIva && !tienePatente) {
+                showErrorStep(err, 'Para este perfil, debe declarar IVA o tener Patente.');
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -859,13 +998,13 @@
         const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
         const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value) || 0;
         const ingreso = parseInt(document.getElementById('ingreso').value) || 0;
-        const ips = document.getElementById('ips').checked;
-        const iva = document.getElementById('iva').checked;
-        const patente = document.getElementById('patente').checked;
-        const informconf = document.getElementById('informconf').checked;
-        const carteras = document.getElementById('carteras').value;
+        const ips = document.getElementById('ips');
+        const iva = document.getElementById('iva');
+        const patente = document.getElementById('patente');
+        const informconf = document.getElementById('informconf');
+        const carteras = document.getElementById('carteras');
         const otraCartera = document.getElementById('otraCartera').value.trim();
-        const carteraFinal = carteras === 'otro' ? otraCartera : carteras;
+
         const edad = calcularEdad(fecha);
         const cuota = obtenerCuota(monto, plazo);
 
@@ -874,14 +1013,14 @@
             <p><strong>${nombres} ${apellidos}</strong> · ${cedula} · ${ciudadFinal}, ${departamento}</p>
             <p>Edad: ${edad} años · Ingreso: ₲ ${formatearNumero(ingreso)} · Solicita: ₲ ${formatearNumero(monto)} a ${plazo} meses</p>
             <p>Cuota ref.: ${cuota ? '₲ ' + formatearNumero(cuota) : 'N/A'}</p>
-            <p>IPS: ${ips ? 'Sí' : 'No'} · IVA: ${iva ? 'Sí' : 'No'} · Patente: ${patente ? 'Sí' : 'No'}</p>
-            <p><strong>Informconf:</strong> ${informconf ? '⚠️ SÍ (tiene deudas)' : '✅ No'}</p>
-            <p><strong>Cartera:</strong> ${carteraFinal}</p>
+            <p>IPS: ${ips ? (ips.checked ? 'Sí' : 'No') : 'No aplica'} · IVA: ${iva ? (iva.checked ? 'Sí' : 'No') : 'No aplica'} · Patente: ${patente ? (patente.checked ? 'Sí' : 'No') : 'No aplica'}</p>
+            <p><strong>Informconf:</strong> ${informconf ? (informconf.checked ? '⚠️ SÍ (tiene deudas)' : '✅ No') : 'No aplica'}</p>
+            <p><strong>Cartera:</strong> ${carteras.value === 'ninguna' ? 'Ninguna' : carteras.value === 'otro' ? otraCartera : carteras.value}</p>
         `;
     }
 
     // ================================================================
-    //  5. ENVÍO A WHATSAPP
+    //  7. ENVÍO A WHATSAPP
     // ================================================================
     document.getElementById('btnEnviar').addEventListener('click', function() {
         const err = document.getElementById('errorStep3');
@@ -906,13 +1045,12 @@
         const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
         const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value) || 0;
         const ingreso = parseInt(document.getElementById('ingreso').value) || 0;
-        const ips = document.getElementById('ips').checked;
-        const iva = document.getElementById('iva').checked;
-        const patente = document.getElementById('patente').checked;
-        const informconf = document.getElementById('informconf').checked;
-        const carteras = document.getElementById('carteras').value;
+        const ips = document.getElementById('ips');
+        const iva = document.getElementById('iva');
+        const patente = document.getElementById('patente');
+        const informconf = document.getElementById('informconf');
+        const carteras = document.getElementById('carteras');
         const otraCartera = document.getElementById('otraCartera').value.trim();
-        const carteraFinal = carteras === 'otro' ? otraCartera : carteras;
         const edad = calcularEdad(fecha);
         const cuota = obtenerCuota(monto, plazo);
 
@@ -928,11 +1066,11 @@
         mensaje += `💵 *Ingreso:* ₲ ${formatearNumero(ingreso)}%0A`;
         mensaje += `📊 *Actividad:* ${actividad.replace('_', ' ')}%0A`;
         mensaje += `🕒 *Antigüedad:* ${antiguedadAnios} años ${antiguedadMeses} meses%0A`;
-        mensaje += `🏷️ *IPS:* ${ips ? 'Sí' : 'No'}%0A`;
-        mensaje += `🧾 *IVA:* ${iva ? 'Sí' : 'No'}%0A`;
-        mensaje += `📋 *Patente:* ${patente ? 'Sí' : 'No'}%0A`;
-        mensaje += `⚠️ *INFORMCONF:* ${informconf ? 'SÍ (tiene deudas)' : 'NO (limpio)'}%0A`;
-        mensaje += `🏦 *Casa de cartera:* ${carteraFinal}%0A%0A`;
+        mensaje += `🏷️ *IPS:* ${ips ? (ips.checked ? 'Sí' : 'No') : 'No aplica'}%0A`;
+        mensaje += `🧾 *IVA:* ${iva ? (iva.checked ? 'Sí' : 'No') : 'No aplica'}%0A`;
+        mensaje += `📋 *Patente:* ${patente ? (patente.checked ? 'Sí' : 'No') : 'No aplica'}%0A`;
+        mensaje += `⚠️ *INFORMCONF:* ${informconf ? (informconf.checked ? 'SÍ (tiene deudas)' : 'NO (limpio)') : 'No aplica'}%0A`;
+        mensaje += `🏦 *Casa de cartera:* ${carteras.value === 'ninguna' ? 'Ninguna' : carteras.value === 'otro' ? otraCartera : carteras.value}%0A%0A`;
         mensaje += `_✅ El cliente completó todos los datos. Evaluar perfil y contactar._`;
 
         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${mensaje}`, '_blank');
@@ -944,7 +1082,7 @@
     });
 
     // ================================================================
-    //  6. CIUDADES DINÁMICAS
+    //  8. CIUDADES DINÁMICAS
     // ================================================================
     document.getElementById('departamento').addEventListener('change', function() {
         const depto = this.value;
@@ -981,29 +1119,14 @@
     });
 
     // ================================================================
-    //  7. CARTERAS: mostrar input si "Otro"
-    // ================================================================
-    document.getElementById('carteras').addEventListener('change', function() {
-        const otraInput = document.getElementById('otraCartera');
-        if (this.value === 'otro') {
-            otraInput.classList.remove('hidden');
-            otraInput.required = true;
-        } else {
-            otraInput.classList.add('hidden');
-            otraInput.required = false;
-            otraInput.value = '';
-        }
-    });
-
-    // ================================================================
-    //  8. VALIDACIONES EN TIEMPO REAL
+    //  9. VALIDACIONES EN TIEMPO REAL
     // ================================================================
     document.getElementById('nombres').addEventListener('input', soloLetras);
     document.getElementById('apellidos').addEventListener('input', soloLetras);
     document.getElementById('cedula').addEventListener('input', soloNumeros);
 
     // ================================================================
-    //  9. CALCULAR CUOTA DE REFERENCIA
+    //  10. CALCULAR CUOTA DE REFERENCIA
     // ================================================================
     function calcularCuotaPreview() {
         const monto = parseInt(document.getElementById('monto').value);
@@ -1015,7 +1138,7 @@
     document.getElementById('plazo').addEventListener('change', calcularCuotaPreview);
 
     // ================================================================
-    //  10. TEMA OSCURO
+    //  11. TEMA OSCURO
     // ================================================================
     document.getElementById('themeToggle').addEventListener('click', function() {
         document.body.classList.toggle('dark');
@@ -1026,7 +1149,7 @@
     }
 
     // ================================================================
-    //  11. INICIALIZACIÓN
+    //  12. INICIALIZACIÓN
     // ================================================================
     window.addEventListener('DOMContentLoaded', function() {
         document.getElementById('departamento').value = '';
@@ -1034,6 +1157,9 @@
         document.getElementById('otraCiudad').classList.add('hidden');
         document.getElementById('otraCartera').classList.add('hidden');
         calcularCuotaPreview();
+        actualizarCheckboxes();
+        // Asegurar que el botón de continuar del paso 2 esté habilitado
+        document.getElementById('btnContinueStep2').disabled = false;
     });
 
     window.nextStep = nextStep;
