@@ -6,7 +6,7 @@
     <title>Gestor Pro · Simulador de Crédito</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
-        /* ===== RESET Y VARIABLES ===== */
+        /* ===== RESET Y VARIABLES (mismo que antes) ===== */
         * {
             margin: 0;
             padding: 0;
@@ -35,7 +35,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: background 0.3s, color 0.3s;
         }
         .app-container {
             max-width: 560px;
@@ -44,9 +43,7 @@
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             padding: 20px 18px 30px;
-            transition: background 0.3s;
         }
-        /* ===== HEADER ===== */
         .header {
             display: flex;
             align-items: center;
@@ -68,11 +65,6 @@
             font-size: 20px;
             flex-shrink: 0;
         }
-        .logo-img {
-            height: 48px;
-            width: auto;
-            object-fit: contain;
-        }
         .header h1 {
             font-size: 20px;
             font-weight: 700;
@@ -92,13 +84,7 @@
             padding: 6px 12px;
             font-size: 18px;
             cursor: pointer;
-            transition: var(--transition);
         }
-        .theme-toggle:hover {
-            background: var(--primary-light);
-        }
-
-        /* ===== FORM ===== */
         .form-group {
             margin-bottom: 14px;
         }
@@ -108,7 +94,6 @@
             font-weight: 600;
             color: var(--text-light);
             margin-bottom: 3px;
-            letter-spacing: 0.3px;
         }
         .form-control {
             width: 100%;
@@ -124,27 +109,18 @@
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(15, 111, 133, 0.12);
-            background: var(--card-bg);
-        }
-        select.form-control {
-            appearance: auto;
-            cursor: pointer;
         }
         .row-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
         }
-        .row-3 {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
-        }
         .checkbox-group {
             display: flex;
             flex-wrap: wrap;
             gap: 6px 16px;
             padding-top: 4px;
+            margin-bottom: 12px;
         }
         .checkbox-group label {
             display: flex;
@@ -152,17 +128,13 @@
             gap: 6px;
             font-weight: 400;
             font-size: 13px;
-            color: var(--text);
             cursor: pointer;
         }
         .checkbox-group input[type="checkbox"] {
             width: 16px;
             height: 16px;
             accent-color: var(--primary);
-            cursor: pointer;
         }
-
-        /* ===== BUTTONS ===== */
         .btn {
             padding: 12px 20px;
             border: none;
@@ -184,31 +156,21 @@
         }
         .btn-primary:hover {
             background: var(--primary-dark);
-            transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(15, 111, 133, 0.25);
         }
         .btn-secondary {
             background: var(--bg);
             color: var(--text);
             border: 1px solid var(--border);
         }
-        .btn-secondary:hover {
-            background: var(--border);
-        }
         .btn-success {
             background: #1e7b4a;
             color: #fff;
-        }
-        .btn-success:hover {
-            background: #14633a;
         }
         .btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             transform: none !important;
         }
-
-        /* ===== STEPS ===== */
         .step-indicator {
             display: flex;
             justify-content: space-between;
@@ -271,8 +233,6 @@
             from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        /* ===== ALERTAS ===== */
         .alert {
             padding: 10px 14px;
             border-radius: var(--radius-sm);
@@ -291,44 +251,58 @@
             color: #065f46;
             border-left: 4px solid #10b981;
         }
-
-        /* ===== TESTIMONIOS ===== */
-        .testimonios {
-            margin-top: 20px;
-            padding-top: 16px;
-            border-top: 2px solid var(--border);
-        }
-        .testimonios h4 {
-            font-size: 14px;
-            text-align: center;
-            margin-bottom: 12px;
-            color: var(--text-light);
-        }
-        .testimonio-item {
-            background: var(--bg);
+        .cuota-box {
+            background: var(--primary-light);
             border-radius: var(--radius-sm);
-            padding: 12px 14px;
-            margin-bottom: 10px;
-            border-left: 3px solid var(--primary);
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 16px;
         }
-        .testimonio-item .stars {
-            color: #f5b342;
-            font-size: 13px;
-            margin-bottom: 4px;
-        }
-        .testimonio-item .comentario {
-            font-size: 13px;
-            font-style: italic;
-            color: var(--text);
-        }
-        .testimonio-item .autor {
+        .cuota-box .label {
             font-size: 12px;
-            font-weight: 600;
             color: var(--text-light);
-            margin-top: 4px;
         }
-
-        /* ===== TOAST ===== */
+        .cuota-box .value {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        .hidden {
+            display: none !important;
+        }
+        .privacy-notice {
+            font-size: 11px;
+            color: var(--text-light);
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            border-top: 1px solid var(--border);
+        }
+        .flex-info {
+            font-size: 12px;
+            color: var(--text-light);
+            text-align: center;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+        }
+        .flex-info a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .success-screen {
+            text-align: center;
+            padding: 20px 0;
+        }
+        .success-screen i {
+            font-size: 64px;
+            color: #10b981;
+            margin-bottom: 16px;
+        }
+        .success-screen h2 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
         .toast {
             position: fixed;
             bottom: 20px;
@@ -348,22 +322,8 @@
         }
         .toast.show {
             opacity: 1;
-            pointer-events: auto;
         }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 480px) {
-            .app-container { padding: 14px; }
-            .row-2 { grid-template-columns: 1fr; }
-            .row-3 { grid-template-columns: 1fr 1fr; }
-            .header h1 { font-size: 17px; }
-            .btn { font-size: 14px; padding: 11px 16px; }
-        }
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: var(--bg); border-radius: 8px; }
-        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 8px; }
-
-        /* ===== MODO OSCURO ===== */
+        /* modo oscuro simplificado */
         body.dark {
             --bg: #121e26;
             --card-bg: #1a2c36;
@@ -371,108 +331,35 @@
             --text-light: #9bb3c0;
             --border: #2a4050;
             --primary-light: #1f4050;
-            --shadow: 0 8px 30px rgba(0,0,0,0.4);
         }
         body.dark .form-control {
             background: #1f2f3a;
             color: #e6edf2;
         }
-        body.dark .testimonio-item {
-            background: #1f2f3a;
-        }
         body.dark .btn-secondary {
             background: #1f2f3a;
             color: #e6edf2;
-        }
-        body.dark .btn-secondary:hover {
-            background: #2a4050;
-        }
-        body.dark .theme-toggle {
-            background: #1f2f3a;
-            border-color: #2a4050;
         }
         .theme-toggle .fa-moon { display: inline; }
         .theme-toggle .fa-sun { display: none; }
         body.dark .theme-toggle .fa-moon { display: none; }
         body.dark .theme-toggle .fa-sun { display: inline; }
-
-        .hidden { display: none; }
-        .privacy-notice {
-            font-size: 11px;
-            color: var(--text-light);
-            text-align: center;
-            margin-top: 20px;
-            padding: 10px;
-            border-top: 1px solid var(--border);
-        }
-        .privacy-notice i {
-            margin-right: 6px;
-            color: var(--primary);
-        }
-        .success-screen {
-            text-align: center;
-            padding: 20px 0;
-        }
-        .success-screen i {
-            font-size: 64px;
-            color: #10b981;
-            margin-bottom: 16px;
-        }
-        .success-screen h2 {
-            font-size: 22px;
-            margin-bottom: 8px;
-        }
-        .success-screen p {
-            color: var(--text-light);
-            font-size: 15px;
-        }
-        .cuota-box {
-            background: var(--primary-light);
-            border-radius: var(--radius-sm);
-            padding: 10px;
-            text-align: center;
-            margin-bottom: 16px;
-        }
-        .cuota-box .label {
-            font-size: 12px;
-            color: var(--text-light);
-        }
-        .cuota-box .value {
-            font-size: 22px;
-            font-weight: 800;
-            color: var(--primary);
-        }
-        .flex-info {
-            font-size: 12px;
-            color: var(--text-light);
-            text-align: center;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid var(--border);
-        }
-        .flex-info a {
-            color: var(--primary);
-            text-decoration: none;
+        @media (max-width: 480px) {
+            .app-container { padding: 14px; }
+            .row-2 { grid-template-columns: 1fr; }
+            .header h1 { font-size: 17px; }
         }
     </style>
 </head>
 <body>
 
 <div class="app-container" id="app">
-    <!-- HEADER -->
     <header class="header">
-        <div class="logo-placeholder" id="logoContainer">
-            <span id="logoTxt">GP</span>
-        </div>
+        <div class="logo-placeholder" id="logoContainer"><span id="logoTxt">GP</span></div>
         <h1>Gestor Pro <small>Simulador de Crédito</small></h1>
-        <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
-            <i class="fas fa-moon"></i><i class="fas fa-sun"></i>
-        </button>
+        <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
     </header>
 
-    <!-- ================================ -->
-    <!-- FORMULARIO DE 3 PASOS           -->
-    <!-- ================================ -->
     <form id="formProspecto" autocomplete="off">
         <!-- PASO 1 -->
         <div class="form-step active-step" id="step1">
@@ -482,7 +369,6 @@
                 <div class="step-dot"><span class="circle">3</span><div class="step-label">Revisar</div></div>
                 <div class="step-line"></div>
             </div>
-
             <div class="form-group">
                 <label>Monto a solicitar (Gs.) *</label>
                 <select class="form-control" id="monto">
@@ -502,13 +388,10 @@
                     <option value="24">24</option>
                 </select>
             </div>
-
-            <!-- Cuotas de referencia (sin nombre de banco) -->
             <div class="cuota-box">
                 <div class="label">Cuotas de referencia</div>
                 <div class="value" id="cuotaPreview">₲ 0</div>
             </div>
-
             <div class="row-2">
                 <div class="form-group"><label>Nombres *</label><input class="form-control" type="text" id="nombres" placeholder="Juan" required></div>
                 <div class="form-group"><label>Apellidos *</label><input class="form-control" type="text" id="apellidos" placeholder="Pérez" required></div>
@@ -561,7 +444,6 @@
                 <div class="step-dot"><span class="circle">3</span><div class="step-label">Revisar</div></div>
                 <div class="step-line"></div>
             </div>
-
             <div class="form-group">
                 <label>Actividad Laboral *</label>
                 <select class="form-control" id="actividad" required onchange="actualizarCheckboxes()">
@@ -575,8 +457,8 @@
                 </select>
             </div>
             <div class="row-2">
-                <div class="form-group"><label>Antigüedad (años)</label><input class="form-control" type="number" id="antiguedad_anios" placeholder="3" min="0" step="1"></div>
-                <div class="form-group"><label>Antigüedad (meses)</label><input class="form-control" type="number" id="antiguedad_meses" placeholder="6" min="0" max="11" step="1"></div>
+                <div class="form-group"><label>Antigüedad (años) *</label><input class="form-control" type="number" id="antiguedad_anios" placeholder="0" min="0" step="1" required></div>
+                <div class="form-group"><label>Antigüedad (meses) *</label><input class="form-control" type="number" id="antiguedad_meses" placeholder="0" min="0" max="11" step="1" required></div>
             </div>
             <div class="form-group">
                 <label>Ingreso mensual (Gs.) *</label>
@@ -584,10 +466,8 @@
                 <div style="font-size:11px; color:var(--text-light); margin-top:3px;">Mínimo ₲ 1.800.000</div>
             </div>
 
-            <!-- Checkboxes dinámicos según perfil -->
-            <div id="checkboxContainer" class="checkbox-group">
-                <!-- Se llenan con JS -->
-            </div>
+            <!-- Contenedor de checkboxes dinámicos -->
+            <div id="checkboxContainer" class="checkbox-group"></div>
 
             <div class="form-group" style="margin-top: 12px;">
                 <label>¿Tiene deudas con casas de compra de carteras?</label>
@@ -603,7 +483,7 @@
             </div>
 
             <div class="alert alert-error" id="errorStep2"></div>
-            <div class="button-group">
+            <div class="button-group" style="display:flex; gap:10px; margin-top:16px;">
                 <button type="button" class="btn btn-secondary" onclick="prevStep(1)">← Atrás</button>
                 <button type="button" class="btn btn-primary" id="btnContinueStep2" onclick="nextStep(3)">Continuar →</button>
             </div>
@@ -617,70 +497,55 @@
                 <div class="step-dot active"><span class="circle">3</span><div class="step-label">Revisar</div></div>
                 <div class="step-line"></div>
             </div>
-
             <div id="resumenContainer" style="background:var(--bg); border-radius:var(--radius-sm); padding:14px; font-size:13px; margin-bottom:12px;"></div>
-
             <div class="alert alert-success" id="successMsg" style="display:none;"></div>
             <div class="alert alert-error" id="errorStep3"></div>
-
-            <div class="button-group">
+            <div class="button-group" style="display:flex; gap:10px; margin-top:16px;">
                 <button type="button" class="btn btn-secondary" onclick="prevStep(2)">← Atrás</button>
                 <button type="button" class="btn btn-success" id="btnEnviar">📩 Enviar solicitud</button>
             </div>
         </div>
     </form>
 
-    <!-- PANTALLA DE ÉXITO -->
+    <!-- Pantalla de éxito -->
     <div id="successScreen" class="success-screen" style="display:none;">
         <i class="fas fa-check-circle"></i>
         <h2>¡Gracias por tu solicitud!</h2>
-        <p>Un asesor se contactará contigo en breve para revisar tu perfil y ofrecerte la mejor opción.</p>
+        <p>Un asesor se contactará contigo en breve.</p>
         <button class="btn btn-primary" style="margin-top:20px;" onclick="location.reload()">Nueva simulación</button>
     </div>
 
-    <!-- ================================ -->
-    <!-- TESTIMONIOS                     -->
-    <!-- ================================ -->
-    <div class="testimonios" id="testimonios">
-        <h4><i class="fas fa-star" style="color:#f5b342;"></i> Lo que dicen nuestros clientes</h4>
-        <div class="testimonio-item">
-            <div class="stars">★★★★★</div>
-            <div class="comentario">"Increíble lo rápido que recibí mi préstamo. Todo fue transparente."</div>
-            <div class="autor">— Carlos M., Asunción</div>
+    <!-- Testimonios -->
+    <div class="testimonios" style="margin-top:20px; padding-top:16px; border-top:2px solid var(--border);">
+        <h4 style="font-size:14px; text-align:center; margin-bottom:12px; color:var(--text-light);"><i class="fas fa-star" style="color:#f5b342;"></i> Lo que dicen nuestros clientes</h4>
+        <div style="background:var(--bg); border-radius:var(--radius-sm); padding:12px 14px; margin-bottom:10px; border-left:3px solid var(--primary);">
+            <div style="color:#f5b342; font-size:13px;">★★★★★</div>
+            <div style="font-size:13px; font-style:italic;">"Increíble lo rápido que recibí mi préstamo. Todo fue transparente."</div>
+            <div style="font-size:12px; font-weight:600; color:var(--text-light);">— Carlos M., Asunción</div>
         </div>
-        <div class="testimonio-item">
-            <div class="stars">★★★★★</div>
-            <div class="comentario">"Nunca había tenido una asesoría tan clara. Recomiendo 100% a Gestor Pro."</div>
-            <div class="autor">— Laura G., CDE</div>
-        </div>
-        <div class="testimonio-item">
-            <div class="stars">★★★★★</div>
-            <div class="comentario">"Me ayudaron a encontrar la mejor opción para mi negocio. Proceso simple y seguro."</div>
-            <div class="autor">— Roberto D., Encarnación</div>
+        <div style="background:var(--bg); border-radius:var(--radius-sm); padding:12px 14px; margin-bottom:10px; border-left:3px solid var(--primary);">
+            <div style="color:#f5b342; font-size:13px;">★★★★★</div>
+            <div style="font-size:13px; font-style:italic;">"Nunca había tenido una asesoría tan clara. Recomiendo 100%."</div>
+            <div style="font-size:12px; font-weight:600; color:var(--text-light);">— Laura G., CDE</div>
         </div>
     </div>
 
-    <!-- ================================ -->
-    <!-- AVISO DE PRIVACIDAD Y FLEX      -->
-    <!-- ================================ -->
     <div class="privacy-notice">
-        <i class="fas fa-shield-alt"></i> Tus datos están protegidos y no serán compartidos con terceros.
+        <i class="fas fa-shield-alt"></i> Tus datos están protegidos y no serán compartidos.
     </div>
     <div class="flex-info">
         <i class="fas fa-building"></i> Solución Flex · <a href="mailto:info.solucionflex@gmail.com">info.solucionflex@gmail.com</a> · <a href="tel:+595992271485">+595 992 271 485</a>
     </div>
 
-    <!-- ===== TOAST ===== -->
     <div id="toast" class="toast">✅ Enviado</div>
 </div>
 
 <script>
     // ================================================================
-    //  1. CONFIGURACIÓN
+    // CONFIGURACIÓN
     // ================================================================
     const WHATSAPP_NUMBER = '595992271485';
 
-    // Tabla de cuotas de referencia (solo para mostrar)
     const cuotasReferencia = {
         1000000: {6:235000, 12:127000, 15:112000, 24:90000},
         2000000: {6:465000, 12:254000, 15:223000, 24:177000},
@@ -689,9 +554,6 @@
         5000000: {6:1150000, 12:633000, 15:555000, 24:443000}
     };
 
-    // ================================================================
-    //  2. MAPEO DEPARTAMENTO → CIUDADES
-    // ================================================================
     const ciudadesPorDepartamento = {
         'Asunción': ['Asunción'],
         'Central': ['San Lorenzo', 'Luque', 'Fernando de la Mora', 'Lambaré', 'Villa Elisa', 'Capiatá', 'Itauguá', 'Areguá', 'Ypacaraí', 'OTRA'],
@@ -712,9 +574,6 @@
         'Alto Paraguay': ['Fuerte Olimpo', 'Bahía Negra', 'OTRA']
     };
 
-    // ================================================================
-    //  3. FUNCIONES AUXILIARES
-    // ================================================================
     function calcularEdad(fechaNac) {
         if (!fechaNac) return 0;
         const hoy = new Date();
@@ -745,19 +604,17 @@
 
     function obtenerCuota(monto, plazo) {
         const fila = cuotasReferencia[monto];
-        if (!fila) return null;
-        return fila[plazo] || null;
+        return fila ? fila[plazo] || null : null;
     }
 
     // ================================================================
-    //  4. CHECKBOX DINÁMICOS SEGÚN PERFIL
+    // CHECKBOXES DINÁMICOS
     // ================================================================
     function actualizarCheckboxes() {
         const perfil = document.getElementById('actividad').value;
         const container = document.getElementById('checkboxContainer');
-        let html = '';
+        container.innerHTML = '';
 
-        // Definir qué checkboxes mostrar según perfil
         const perfiles = {
             'empleado_privado': { ips: true, iva: true, patente: true },
             'funcionario_permanente': { ips: true, iva: false, patente: false },
@@ -769,27 +626,33 @@
 
         const config = perfiles[perfil] || { ips: false, iva: false, patente: false };
 
-        if (config.ips) {
-            html += `<label><input type="checkbox" id="ips" onchange="validarInformconf()"> Aporta IPS</label>`;
-        }
-        if (config.iva) {
-            html += `<label><input type="checkbox" id="iva"> Declara IVA</label>`;
-        }
-        if (config.patente) {
-            html += `<label><input type="checkbox" id="patente"> Tiene Patente</label>`;
-        }
-        // Siempre mostramos Informconf (es obligatorio evaluarlo)
-        html += `<label><input type="checkbox" id="informconf" onchange="validarInformconf()"> Tiene Informconf</label>`;
+        const createCheckbox = (id, label) => {
+            const wrapper = document.createElement('label');
+            const input = document.createElement('input');
+            input.type = 'checkbox';
+            input.id = id;
+            if (id === 'informconf') {
+                input.onchange = validarInformconf;
+            }
+            wrapper.appendChild(input);
+            wrapper.appendChild(document.createTextNode(' ' + label));
+            return wrapper;
+        };
 
-        container.innerHTML = html;
+        if (config.ips) container.appendChild(createCheckbox('ips', 'Aporta IPS'));
+        if (config.iva) container.appendChild(createCheckbox('iva', 'Declara IVA'));
+        if (config.patente) container.appendChild(createCheckbox('patente', 'Tiene Patente'));
 
-        // Resetear mensajes de error
+        // Siempre mostrar Informconf
+        container.appendChild(createCheckbox('informconf', 'Tiene Informconf'));
+
+        // Resetear errores
         document.getElementById('errorStep2').style.display = 'none';
         document.getElementById('btnContinueStep2').disabled = false;
     }
 
     // ================================================================
-    //  5. VALIDACIONES DE INFORMCONF Y CARTERA
+    // VALIDACIONES DE INFORMCONF Y CARTERA
     // ================================================================
     function validarInformconf() {
         const informconf = document.getElementById('informconf');
@@ -800,12 +663,10 @@
             error.textContent = '❌ No puedes continuar porque tienes Informconf. Debes tener historial crediticio limpio.';
             error.style.display = 'block';
             btn.disabled = true;
-            // Desmarcar no se permite, pero si el usuario insiste, no podrá avanzar.
         } else {
             error.style.display = 'none';
             btn.disabled = false;
-            // También verificar cartera
-            validarCartera();
+            validarCartera(); // también revisar cartera
         }
     }
 
@@ -814,6 +675,10 @@
         const otraCartera = document.getElementById('otraCartera');
         const error = document.getElementById('errorStep2');
         const btn = document.getElementById('btnContinueStep2');
+
+        // Si ya hay error por Informconf, no sobreescribir
+        const informconf = document.getElementById('informconf');
+        if (informconf && informconf.checked) return;
 
         let tieneCartera = false;
         let msg = '';
@@ -827,12 +692,6 @@
             }
         }
 
-        // Si ya hay error por Informconf, no sobreescribir
-        const informconf = document.getElementById('informconf');
-        if (informconf && informconf.checked) {
-            return;
-        }
-
         if (tieneCartera) {
             error.textContent = msg;
             error.style.display = 'block';
@@ -843,17 +702,9 @@
         }
     }
 
-    // Escuchar cambios en "otraCartera"
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('carteras').addEventListener('change', validarCartera);
-        document.getElementById('otraCartera').addEventListener('input', validarCartera);
-    });
-
     // ================================================================
-    //  6. MANEJO DEL FORMULARIO Y PASOS
+    // PASOS
     // ================================================================
-    let currentStep = 1;
-
     function nextStep(step) {
         if (step === 2 && !validateStep1()) return;
         if (step === 3 && !validateStep2()) return;
@@ -868,13 +719,15 @@
             else if (num < step) dot.classList.add('completed');
         });
 
-        currentStep = step;
         if (step === 3) generarResumen();
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function prevStep(step) { nextStep(step); }
 
+    // ================================================================
+    // VALIDACIONES
+    // ================================================================
     function validateStep1() {
         const err = document.getElementById('errorStep1');
         err.style.display = 'none';
@@ -936,19 +789,24 @@
 
     function validateStep2() {
         const err = document.getElementById('errorStep2');
-        // Si ya hay error visible, no continuar
-        if (err.style.display === 'block') {
-            return false;
-        }
+        err.style.display = 'none';
 
         const actividad = document.getElementById('actividad').value;
+        const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value);
+        const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value);
         const ingreso = parseInt(document.getElementById('ingreso').value);
-        const ips = document.getElementById('ips');
-        const iva = document.getElementById('iva');
-        const patente = document.getElementById('patente');
 
+        // Validar que todos los campos estén completos
         if (!actividad) {
             showErrorStep(err, 'Selecciona actividad laboral.');
+            return false;
+        }
+        if (isNaN(antiguedadAnios) || antiguedadAnios < 0) {
+            showErrorStep(err, 'Ingresa antigüedad en años (número válido).');
+            return false;
+        }
+        if (isNaN(antiguedadMeses) || antiguedadMeses < 0 || antiguedadMeses > 11) {
+            showErrorStep(err, 'Ingresa antigüedad en meses (0 a 11).');
             return false;
         }
         if (isNaN(ingreso) || ingreso < 1800000) {
@@ -956,14 +814,17 @@
             return false;
         }
 
-        // Validaciones según perfil
+        // Validar checkbox según perfil
+        const ips = document.getElementById('ips');
+        const iva = document.getElementById('iva');
+        const patente = document.getElementById('patente');
+
         if (actividad === 'funcionario_permanente' || actividad === 'funcionario_contratado' || actividad === 'jubilado') {
             if (!ips || !ips.checked) {
                 showErrorStep(err, 'Para este perfil, es obligatorio aportar IPS.');
                 return false;
             }
         }
-        // Para independiente y comerciante, al menos IVA o Patente
         if (actividad === 'independiente' || actividad === 'comerciante') {
             const tieneIva = iva && iva.checked;
             const tienePatente = patente && patente.checked;
@@ -971,6 +832,11 @@
                 showErrorStep(err, 'Para este perfil, debe declarar IVA o tener Patente.');
                 return false;
             }
+        }
+
+        // Si hay error de Informconf o cartera, no permitir
+        if (err.style.display === 'block') {
+            return false;
         }
 
         return true;
@@ -982,6 +848,9 @@
         setTimeout(() => el.style.display = 'none', 5000);
     }
 
+    // ================================================================
+    // RESUMEN
+    // ================================================================
     function generarResumen() {
         const monto = parseInt(document.getElementById('monto').value);
         const plazo = parseInt(document.getElementById('plazo').value);
@@ -998,15 +867,16 @@
         const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
         const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value) || 0;
         const ingreso = parseInt(document.getElementById('ingreso').value) || 0;
+        const edad = calcularEdad(fecha);
+        const cuota = obtenerCuota(monto, plazo);
+
         const ips = document.getElementById('ips');
         const iva = document.getElementById('iva');
         const patente = document.getElementById('patente');
         const informconf = document.getElementById('informconf');
         const carteras = document.getElementById('carteras');
         const otraCartera = document.getElementById('otraCartera').value.trim();
-
-        const edad = calcularEdad(fecha);
-        const cuota = obtenerCuota(monto, plazo);
+        const carteraFinal = carteras.value === 'otro' ? otraCartera : carteras.value;
 
         const resumen = document.getElementById('resumenContainer');
         resumen.innerHTML = `
@@ -1015,12 +885,12 @@
             <p>Cuota ref.: ${cuota ? '₲ ' + formatearNumero(cuota) : 'N/A'}</p>
             <p>IPS: ${ips ? (ips.checked ? 'Sí' : 'No') : 'No aplica'} · IVA: ${iva ? (iva.checked ? 'Sí' : 'No') : 'No aplica'} · Patente: ${patente ? (patente.checked ? 'Sí' : 'No') : 'No aplica'}</p>
             <p><strong>Informconf:</strong> ${informconf ? (informconf.checked ? '⚠️ SÍ (tiene deudas)' : '✅ No') : 'No aplica'}</p>
-            <p><strong>Cartera:</strong> ${carteras.value === 'ninguna' ? 'Ninguna' : carteras.value === 'otro' ? otraCartera : carteras.value}</p>
+            <p><strong>Cartera:</strong> ${carteraFinal}</p>
         `;
     }
 
     // ================================================================
-    //  7. ENVÍO A WHATSAPP
+    // ENVÍO A WHATSAPP
     // ================================================================
     document.getElementById('btnEnviar').addEventListener('click', function() {
         const err = document.getElementById('errorStep3');
@@ -1045,14 +915,16 @@
         const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
         const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value) || 0;
         const ingreso = parseInt(document.getElementById('ingreso').value) || 0;
+        const edad = calcularEdad(fecha);
+        const cuota = obtenerCuota(monto, plazo);
+
         const ips = document.getElementById('ips');
         const iva = document.getElementById('iva');
         const patente = document.getElementById('patente');
         const informconf = document.getElementById('informconf');
         const carteras = document.getElementById('carteras');
         const otraCartera = document.getElementById('otraCartera').value.trim();
-        const edad = calcularEdad(fecha);
-        const cuota = obtenerCuota(monto, plazo);
+        const carteraFinal = carteras.value === 'otro' ? otraCartera : carteras.value;
 
         let mensaje = `*NUEVA SOLICITUD GESTOR PRO*%0A%0A`;
         mensaje += `👤 *Cliente:* ${nombres} ${apellidos}%0A`;
@@ -1070,7 +942,7 @@
         mensaje += `🧾 *IVA:* ${iva ? (iva.checked ? 'Sí' : 'No') : 'No aplica'}%0A`;
         mensaje += `📋 *Patente:* ${patente ? (patente.checked ? 'Sí' : 'No') : 'No aplica'}%0A`;
         mensaje += `⚠️ *INFORMCONF:* ${informconf ? (informconf.checked ? 'SÍ (tiene deudas)' : 'NO (limpio)') : 'No aplica'}%0A`;
-        mensaje += `🏦 *Casa de cartera:* ${carteras.value === 'ninguna' ? 'Ninguna' : carteras.value === 'otro' ? otraCartera : carteras.value}%0A%0A`;
+        mensaje += `🏦 *Casa de cartera:* ${carteraFinal}%0A%0A`;
         mensaje += `_✅ El cliente completó todos los datos. Evaluar perfil y contactar._`;
 
         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${mensaje}`, '_blank');
@@ -1082,7 +954,7 @@
     });
 
     // ================================================================
-    //  8. CIUDADES DINÁMICAS
+    // CIUDADES DINÁMICAS
     // ================================================================
     document.getElementById('departamento').addEventListener('change', function() {
         const depto = this.value;
@@ -1119,14 +991,14 @@
     });
 
     // ================================================================
-    //  9. VALIDACIONES EN TIEMPO REAL
+    // VALIDACIONES INPUT
     // ================================================================
     document.getElementById('nombres').addEventListener('input', soloLetras);
     document.getElementById('apellidos').addEventListener('input', soloLetras);
     document.getElementById('cedula').addEventListener('input', soloNumeros);
 
     // ================================================================
-    //  10. CALCULAR CUOTA DE REFERENCIA
+    // CALCULAR CUOTA
     // ================================================================
     function calcularCuotaPreview() {
         const monto = parseInt(document.getElementById('monto').value);
@@ -1138,7 +1010,7 @@
     document.getElementById('plazo').addEventListener('change', calcularCuotaPreview);
 
     // ================================================================
-    //  11. TEMA OSCURO
+    // TEMA OSCURO
     // ================================================================
     document.getElementById('themeToggle').addEventListener('click', function() {
         document.body.classList.toggle('dark');
@@ -1149,7 +1021,7 @@
     }
 
     // ================================================================
-    //  12. INICIALIZACIÓN
+    // INICIALIZACIÓN
     // ================================================================
     window.addEventListener('DOMContentLoaded', function() {
         document.getElementById('departamento').value = '';
@@ -1158,8 +1030,10 @@
         document.getElementById('otraCartera').classList.add('hidden');
         calcularCuotaPreview();
         actualizarCheckboxes();
-        // Asegurar que el botón de continuar del paso 2 esté habilitado
         document.getElementById('btnContinueStep2').disabled = false;
+        // Eventos para validaciones en tiempo real
+        document.getElementById('carteras').addEventListener('change', validarCartera);
+        document.getElementById('otraCartera').addEventListener('input', validarCartera);
     });
 
     window.nextStep = nextStep;
