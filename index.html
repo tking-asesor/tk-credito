@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-    <title>Gestor Pro · Simulador de Crédito</title>
+    <title>Solución Flex · Simulador de Crédito</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
-        /* ===== RESET Y VARIABLES (mismo que antes) ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
         }
         :root {
-            --bg: #f2f6fa;
+            --bg: #f0f6fb;
             --card-bg: #ffffff;
             --text: #0a2a33;
             --text-light: #3a5a6a;
@@ -43,7 +42,9 @@
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             padding: 20px 18px 30px;
+            transition: background 0.3s;
         }
+        /* ===== HEADER ===== */
         .header {
             display: flex;
             align-items: center;
@@ -52,7 +53,7 @@
             padding-bottom: 14px;
             border-bottom: 2px solid var(--border);
         }
-        .logo-placeholder {
+        .logo-container {
             width: 48px;
             height: 48px;
             background: var(--primary);
@@ -64,6 +65,23 @@
             font-weight: 800;
             font-size: 20px;
             flex-shrink: 0;
+            overflow: hidden;
+        }
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .logo-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
         }
         .header h1 {
             font-size: 20px;
@@ -85,9 +103,8 @@
             font-size: 18px;
             cursor: pointer;
         }
-        .form-group {
-            margin-bottom: 14px;
-        }
+        /* ===== FORM ===== */
+        .form-group { margin-bottom: 14px; }
         .form-group label {
             display: block;
             font-size: 12px;
@@ -110,11 +127,8 @@
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(15, 111, 133, 0.12);
         }
-        .row-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
+        .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
         .checkbox-group {
             display: flex;
             flex-wrap: wrap;
@@ -150,27 +164,12 @@
             gap: 8px;
             width: 100%;
         }
-        .btn-primary {
-            background: var(--primary);
-            color: #fff;
-        }
-        .btn-primary:hover {
-            background: var(--primary-dark);
-        }
-        .btn-secondary {
-            background: var(--bg);
-            color: var(--text);
-            border: 1px solid var(--border);
-        }
-        .btn-success {
-            background: #1e7b4a;
-            color: #fff;
-        }
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none !important;
-        }
+        .btn-primary { background: var(--primary); color: #fff; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-secondary { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
+        .btn-success { background: #1e7b4a; color: #fff; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+        /* ===== STEPS ===== */
         .step-indicator {
             display: flex;
             justify-content: space-between;
@@ -200,19 +199,9 @@
             transition: var(--transition);
             margin-bottom: 4px;
         }
-        .step-dot.active .circle {
-            background: var(--primary);
-            color: #fff;
-            box-shadow: 0 0 0 4px rgba(15, 111, 133, 0.15);
-        }
-        .step-dot.completed .circle {
-            background: var(--primary-dark);
-            color: #fff;
-        }
-        .step-dot.active .step-label {
-            color: var(--primary);
-            font-weight: 600;
-        }
+        .step-dot.active .circle { background: var(--primary); color: #fff; box-shadow: 0 0 0 4px rgba(15,111,133,0.15); }
+        .step-dot.completed .circle { background: var(--primary-dark); color: #fff; }
+        .step-dot.active .step-label { color: var(--primary); font-weight: 600; }
         .step-line {
             position: absolute;
             top: 16px;
@@ -222,17 +211,10 @@
             background: var(--border);
             z-index: 1;
         }
-        .form-step {
-            display: none;
-            animation: fadeUp 0.3s ease;
-        }
-        .form-step.active-step {
-            display: block;
-        }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .form-step { display: none; animation: fadeUp 0.3s ease; }
+        .form-step.active-step { display: block; }
+        @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+        /* ===== ALERTAS ===== */
         .alert {
             padding: 10px 14px;
             border-radius: var(--radius-sm);
@@ -241,16 +223,32 @@
             font-weight: 500;
             display: none;
         }
-        .alert-error {
-            background: #fee2e2;
-            color: #991b1b;
-            border-left: 4px solid #ef4444;
+        .alert-error { background: #fee2e2; color: #991b1b; border-left: 4px solid #ef4444; }
+        .alert-success { background: #d1fae5; color: #065f46; border-left: 4px solid #10b981; }
+        .alert-warning { background: #fef5e7; color: #b85d19; border-left: 4px solid #f59e0b; }
+        /* ===== TESTIMONIOS ===== */
+        .testimonios {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 2px solid var(--border);
         }
-        .alert-success {
-            background: #d1fae5;
-            color: #065f46;
-            border-left: 4px solid #10b981;
+        .testimonios h4 {
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 12px;
+            color: var(--text-light);
         }
+        .testimonio-item {
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            padding: 12px 14px;
+            margin-bottom: 10px;
+            border-left: 3px solid var(--primary);
+        }
+        .testimonio-item .stars { color: #f5b342; font-size: 13px; margin-bottom: 4px; }
+        .testimonio-item .comentario { font-size: 13px; font-style: italic; color: var(--text); }
+        .testimonio-item .autor { font-size: 12px; font-weight: 600; color: var(--text-light); margin-top: 4px; }
+        /* ===== OTROS ===== */
         .cuota-box {
             background: var(--primary-light);
             border-radius: var(--radius-sm);
@@ -258,18 +256,9 @@
             text-align: center;
             margin-bottom: 16px;
         }
-        .cuota-box .label {
-            font-size: 12px;
-            color: var(--text-light);
-        }
-        .cuota-box .value {
-            font-size: 22px;
-            font-weight: 800;
-            color: var(--primary);
-        }
-        .hidden {
-            display: none !important;
-        }
+        .cuota-box .label { font-size: 12px; color: var(--text-light); }
+        .cuota-box .value { font-size: 22px; font-weight: 800; color: var(--primary); }
+        .hidden { display: none !important; }
         .privacy-notice {
             font-size: 11px;
             color: var(--text-light);
@@ -286,23 +275,13 @@
             padding-top: 10px;
             border-top: 1px solid var(--border);
         }
-        .flex-info a {
-            color: var(--primary);
-            text-decoration: none;
-        }
+        .flex-info a { color: var(--primary); text-decoration: none; }
         .success-screen {
             text-align: center;
             padding: 20px 0;
         }
-        .success-screen i {
-            font-size: 64px;
-            color: #10b981;
-            margin-bottom: 16px;
-        }
-        .success-screen h2 {
-            font-size: 22px;
-            margin-bottom: 8px;
-        }
+        .success-screen i { font-size: 64px; color: #10b981; margin-bottom: 16px; }
+        .success-screen h2 { font-size: 22px; margin-bottom: 8px; }
         .toast {
             position: fixed;
             bottom: 20px;
@@ -320,10 +299,8 @@
             pointer-events: none;
             z-index: 999;
         }
-        .toast.show {
-            opacity: 1;
-        }
-        /* modo oscuro simplificado */
+        .toast.show { opacity: 1; }
+        /* ===== MODO OSCURO ===== */
         body.dark {
             --bg: #121e26;
             --card-bg: #1a2c36;
@@ -332,226 +309,348 @@
             --border: #2a4050;
             --primary-light: #1f4050;
         }
-        body.dark .form-control {
-            background: #1f2f3a;
-            color: #e6edf2;
-        }
-        body.dark .btn-secondary {
-            background: #1f2f3a;
-            color: #e6edf2;
-        }
+        body.dark .form-control { background: #1f2f3a; color: #e6edf2; }
+        body.dark .btn-secondary { background: #1f2f3a; color: #e6edf2; }
         .theme-toggle .fa-moon { display: inline; }
         .theme-toggle .fa-sun { display: none; }
         body.dark .theme-toggle .fa-moon { display: none; }
         body.dark .theme-toggle .fa-sun { display: inline; }
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 480px) {
             .app-container { padding: 14px; }
             .row-2 { grid-template-columns: 1fr; }
             .header h1 { font-size: 17px; }
+        }
+        /* ===== PANTALLA DE CONSENTIMIENTO ===== */
+        .consent-screen {
+            text-align: center;
+        }
+        .consent-screen .hero-icon {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+        .consent-screen h2 {
+            font-size: 22px;
+            margin-bottom: 6px;
+        }
+        .consent-screen p {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+        .consent-screen .badge-clientes {
+            display: inline-block;
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            padding: 4px 16px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+        .consent-checkbox-group {
+            text-align: left;
+            margin: 16px 0;
+        }
+        .consent-checkbox-group label {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 13px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            color: var(--text);
+        }
+        .consent-checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            accent-color: var(--primary);
+            flex-shrink: 0;
         }
     </style>
 </head>
 <body>
 
 <div class="app-container" id="app">
-    <header class="header">
-        <div class="logo-placeholder" id="logoContainer"><span id="logoTxt">GP</span></div>
-        <h1>Gestor Pro <small>Simulador de Crédito</small></h1>
-        <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
-    </header>
 
-    <form id="formProspecto" autocomplete="off">
-        <!-- PASO 1 -->
-        <div class="form-step active-step" id="step1">
-            <div class="step-indicator">
-                <div class="step-dot active"><span class="circle">1</span><div class="step-label">Datos</div></div>
-                <div class="step-dot"><span class="circle">2</span><div class="step-label">Perfil</div></div>
-                <div class="step-dot"><span class="circle">3</span><div class="step-label">Revisar</div></div>
-                <div class="step-line"></div>
+    <!-- ========================================================= -->
+    <!-- PANTALLA 1: CONSENTIMIENTO + PRESENTACIÓN               -->
+    <!-- ========================================================= -->
+    <div id="consentScreen" class="consent-screen">
+        <div class="header" style="border-bottom: none; margin-bottom: 8px;">
+            <div class="logo-container" id="logoContainer">
+                <!-- Placeholder del logo. Reemplazar con <img src="logo.png"> cuando esté disponible -->
+                <div class="logo-placeholder" id="logoTxt">SF</div>
             </div>
-            <div class="form-group">
-                <label>Monto a solicitar (Gs.) *</label>
-                <select class="form-control" id="monto">
-                    <option value="1000000">1.000.000</option>
-                    <option value="2000000">2.000.000</option>
-                    <option value="3000000">3.000.000</option>
-                    <option value="4000000">4.000.000</option>
-                    <option value="5000000" selected>5.000.000</option>
-                </select>
+            <h1>Solución Flex <small>Rápido y Fácil</small></h1>
+            <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
+        </div>
+
+        <div class="hero-icon"><i class="fas fa-handshake"></i></div>
+        <h2>Simulador de Crédito</h2>
+        <p>En Solución Flex te ayudamos a encontrar la mejor opción de préstamo. Simulá tu cuota en minutos y recibí atención personalizada.</p>
+        <div class="badge-clientes">🌟 +150 clientes satisfechos</div>
+
+        <div style="background:var(--bg); border-radius:var(--radius-sm); padding:14px; margin-bottom:16px; text-align:left; font-size:13px; color:var(--text-light);">
+            <i class="fas fa-check-circle" style="color:var(--primary);"></i> Simulación sin compromiso<br>
+            <i class="fas fa-check-circle" style="color:var(--primary);"></i> Atención por asesor<br>
+            <i class="fas fa-check-circle" style="color:var(--primary);"></i> Proceso simple y seguro
+        </div>
+
+        <hr style="border:1px solid var(--border); margin:16px 0;">
+
+        <div style="text-align:left; font-weight:600; font-size:14px; margin-bottom:10px;">
+            <i class="fas fa-shield-alt" style="color:var(--primary);"></i> Autorización y declaración
+        </div>
+        <div class="consent-checkbox-group">
+            <label><input type="checkbox" id="chk1"> Declaro que la información que proporcionaré es 100% real y comprobable.</label>
+            <label><input type="checkbox" id="chk2"> Autorizo voluntariamente a Solución Flex a utilizar mis datos personales para la gestión de mi presolicitud.</label>
+            <label><input type="checkbox" id="chk3"> Autorizo voluntariamente la verificación de mi estado crediticio en las entidades correspondientes.</label>
+        </div>
+
+        <div class="alert alert-error" id="consentError" style="display:none;">Debes aceptar todas las condiciones para continuar.</div>
+        <button class="btn btn-primary" id="btnConsent">Comenzar simulación →</button>
+
+        <!-- Datos de contacto en la presentación -->
+        <div class="flex-info" style="margin-top:20px; border-top:1px solid var(--border); padding-top:14px;">
+            <i class="fas fa-envelope"></i> <a href="mailto:info.solucionflex@gmail.com">info.solucionflex@gmail.com</a> &nbsp;·&nbsp;
+            <i class="fas fa-phone"></i> <a href="tel:+595992271485">+595 992 271 485</a>
+        </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PANTALLA 2: FORMULARIO (3 pasos)                         -->
+    <!-- ========================================================= -->
+    <div id="formScreen" style="display:none;">
+
+        <div class="header" style="border-bottom: 2px solid var(--border); margin-bottom: 16px;">
+            <div class="logo-container" style="width:40px; height:40px;">
+                <div class="logo-placeholder" style="font-size:18px;">SF</div>
             </div>
-            <div class="form-group">
-                <label>Plazo (meses) *</label>
-                <select class="form-control" id="plazo">
-                    <option value="6">6</option>
-                    <option value="12" selected>12</option>
-                    <option value="15">15</option>
-                    <option value="24">24</option>
-                </select>
-            </div>
-            <div class="cuota-box">
-                <div class="label">Cuotas de referencia</div>
-                <div class="value" id="cuotaPreview">₲ 0</div>
-            </div>
-            <div class="row-2">
-                <div class="form-group"><label>Nombres *</label><input class="form-control" type="text" id="nombres" placeholder="Juan" required></div>
-                <div class="form-group"><label>Apellidos *</label><input class="form-control" type="text" id="apellidos" placeholder="Pérez" required></div>
-            </div>
-            <div class="row-2">
-                <div class="form-group"><label>Cédula *</label><input class="form-control" type="text" id="cedula" placeholder="1234567" required></div>
-                <div class="form-group"><label>WhatsApp *</label><input class="form-control" type="tel" id="celular" placeholder="0991123456" required></div>
-            </div>
-            <div class="row-2">
-                <div class="form-group"><label>Fecha de Nacimiento *</label><input class="form-control" type="date" id="fechaNac" required></div>
-                <div class="form-group"><label>Departamento *</label>
-                    <select class="form-control" id="departamento" required>
-                        <option value="">Seleccionar</option>
-                        <option value="Asunción">Asunción</option>
-                        <option value="Central">Central</option>
-                        <option value="Alto Paraná">Alto Paraná</option>
-                        <option value="San Pedro">San Pedro</option>
-                        <option value="Itapúa">Itapúa</option>
-                        <option value="Misiones">Misiones</option>
-                        <option value="Paraguarí">Paraguarí</option>
-                        <option value="Cordillera">Cordillera</option>
-                        <option value="Guairá">Guairá</option>
-                        <option value="Concepción">Concepción</option>
-                        <option value="Ñeembucú">Ñeembucú</option>
-                        <option value="Caazapá">Caazapá</option>
-                        <option value="Pdte. Hayes">Pdte. Hayes</option>
-                        <option value="Canindeyú">Canindeyú</option>
-                        <option value="Amambay">Amambay</option>
-                        <option value="Boquerón">Boquerón</option>
-                        <option value="Alto Paraguay">Alto Paraguay</option>
+            <h1 style="font-size:18px;">Solución Flex <small>Simulador</small></h1>
+            <button class="theme-toggle" id="themeToggle2"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
+        </div>
+
+        <form id="formProspecto" autocomplete="off">
+            <!-- PASO 1 -->
+            <div class="form-step active-step" id="step1">
+                <div class="step-indicator">
+                    <div class="step-dot active"><span class="circle">1</span><div class="step-label">Datos</div></div>
+                    <div class="step-dot"><span class="circle">2</span><div class="step-label">Perfil</div></div>
+                    <div class="step-dot"><span class="circle">3</span><div class="step-label">Revisar</div></div>
+                    <div class="step-line"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Monto a solicitar (Gs.) *</label>
+                    <select class="form-control" id="monto">
+                        <option value="1000000">1.000.000</option>
+                        <option value="2000000">2.000.000</option>
+                        <option value="3000000">3.000.000</option>
+                        <option value="4000000">4.000.000</option>
+                        <option value="5000000" selected>5.000.000</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label>Plazo (meses) *</label>
+                    <select class="form-control" id="plazo">
+                        <option value="6">6</option>
+                        <option value="12" selected>12</option>
+                        <option value="18">18</option>
+                        <option value="24">24</option>
+                    </select>
+                </div>
+
+                <div class="cuota-box">
+                    <div class="label">Cuota estimada (referencial)</div>
+                    <div class="value" id="cuotaPreview">₲ 0</div>
+                </div>
+
+                <div class="row-2">
+                    <div class="form-group"><label>Nombres *</label><input class="form-control" type="text" id="nombres" placeholder="Juan" required></div>
+                    <div class="form-group"><label>Apellidos *</label><input class="form-control" type="text" id="apellidos" placeholder="Pérez" required></div>
+                </div>
+                <div class="row-2">
+                    <div class="form-group"><label>Cédula *</label><input class="form-control" type="text" id="cedula" placeholder="1234567" required></div>
+                    <div class="form-group"><label>WhatsApp *</label><input class="form-control" type="tel" id="celular" placeholder="0991123456" required></div>
+                </div>
+                <div class="row-2">
+                    <div class="form-group"><label>Fecha de Nacimiento *</label><input class="form-control" type="date" id="fechaNac" required></div>
+                    <div class="form-group"><label>Departamento *</label>
+                        <select class="form-control" id="departamento" required>
+                            <option value="">Seleccionar</option>
+                            <option value="Asunción">Asunción</option>
+                            <option value="Central">Central</option>
+                            <option value="Alto Paraná">Alto Paraná</option>
+                            <option value="San Pedro">San Pedro</option>
+                            <option value="Itapúa">Itapúa</option>
+                            <option value="Misiones">Misiones</option>
+                            <option value="Paraguarí">Paraguarí</option>
+                            <option value="Cordillera">Cordillera</option>
+                            <option value="Guairá">Guairá</option>
+                            <option value="Concepción">Concepción</option>
+                            <option value="Ñeembucú">Ñeembucú</option>
+                            <option value="Caazapá">Caazapá</option>
+                            <option value="Pdte. Hayes">Pdte. Hayes</option>
+                            <option value="Canindeyú">Canindeyú</option>
+                            <option value="Amambay">Amambay</option>
+                            <option value="Boquerón">Boquerón</option>
+                            <option value="Alto Paraguay">Alto Paraguay</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Ciudad *</label>
+                    <select class="form-control" id="ciudad" required>
+                        <option value="">Primero selecciona un departamento</option>
+                    </select>
+                    <input class="form-control hidden" type="text" id="otraCiudad" placeholder="Escribe el nombre de tu ciudad">
+                </div>
+                <div class="alert alert-error" id="errorStep1"></div>
+                <button type="button" class="btn btn-primary" onclick="nextStep(2)">Continuar →</button>
             </div>
-            <div class="form-group">
-                <label>Ciudad *</label>
-                <select class="form-control" id="ciudad" required>
-                    <option value="">Primero selecciona un departamento</option>
-                </select>
-                <input class="form-control hidden" type="text" id="otraCiudad" placeholder="Escribe el nombre de tu ciudad">
+
+            <!-- PASO 2 -->
+            <div class="form-step" id="step2">
+                <div class="step-indicator">
+                    <div class="step-dot completed"><span class="circle">1</span><div class="step-label">Datos</div></div>
+                    <div class="step-dot active"><span class="circle">2</span><div class="step-label">Perfil</div></div>
+                    <div class="step-dot"><span class="circle">3</span><div class="step-label">Revisar</div></div>
+                    <div class="step-line"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Actividad Laboral *</label>
+                    <select class="form-control" id="actividad" required onchange="actualizarCheckboxes()">
+                        <option value="">Seleccionar...</option>
+                        <option value="asalariado_ips">Asalariado con IPS</option>
+                        <option value="asalariado_iva">Asalariado con IVA</option>
+                        <option value="asalariado_informal">Asalariado Informal (sin IVA ni IPS)</option>
+                        <option value="funcionario_permanente">Funcionario Público PERMANENTE</option>
+                        <option value="funcionario_contratado">Funcionario Público CONTRATADO</option>
+                        <option value="jubilado">Jubilado</option>
+                        <option value="prof_independiente">Profesional Independiente</option>
+                        <option value="independiente">Independiente</option>
+                        <option value="micro_comerciante">Micro / Comerciante</option>
+                    </select>
+                </div>
+
+                <div class="row-2">
+                    <div class="form-group"><label>Antigüedad (años) *</label><input class="form-control" type="number" id="antiguedad_anios" placeholder="0" min="0" step="1" required></div>
+                    <div class="form-group"><label>Antigüedad (meses) *</label><input class="form-control" type="number" id="antiguedad_meses" placeholder="0" min="0" max="11" step="1" required></div>
+                </div>
+                <div class="form-group">
+                    <label>Ingreso mensual (Gs.) *</label>
+                    <input class="form-control" type="number" id="ingreso" placeholder="1.800.000" min="1800000" required>
+                    <div style="font-size:11px; color:var(--text-light); margin-top:3px;">Mínimo ₲ 1.800.000</div>
+                </div>
+
+                <!-- Contenedor dinámico para campos de tiempo (IPS/IVA/Patente) -->
+                <div id="tiempoContainer" class="row-2" style="margin-bottom:12px;"></div>
+
+                <!-- Informconf y Cartera -->
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="informconf" onchange="validarInformconf()"> Tengo deudas en Informconf</label>
+                </div>
+                <div class="form-group">
+                    <label>¿Tiene deudas con casas de compra de carteras?</label>
+                    <select class="form-control" id="carteras" onchange="validarCartera()">
+                        <option value="ninguna">Ninguna</option>
+                        <option value="nexo">Nexo</option>
+                        <option value="carsa">Carsa</option>
+                        <option value="ingesa">Ingesa</option>
+                        <option value="geco">Geco</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                    <input class="form-control hidden" type="text" id="otraCartera" placeholder="Especifica el nombre">
+                </div>
+
+                <!-- Advertencia de modificación -->
+                <div class="alert alert-warning" id="warningModificacion" style="display:none;">
+                    ⚠️ Detectamos que modificaste tu respuesta sobre Informconf o Casa de cartera para continuar. Recuerda que tus datos serán verificados.
+                </div>
+
+                <div class="alert alert-error" id="errorStep2"></div>
+                <div class="button-group" style="display:flex; gap:10px; margin-top:16px;">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(1)">← Atrás</button>
+                    <button type="button" class="btn btn-primary" id="btnContinueStep2" onclick="nextStep(3)">Continuar →</button>
+                </div>
             </div>
-            <div class="alert alert-error" id="errorStep1"></div>
-            <button type="button" class="btn btn-primary" onclick="nextStep(2)">Continuar →</button>
+
+            <!-- PASO 3 -->
+            <div class="form-step" id="step3">
+                <div class="step-indicator">
+                    <div class="step-dot completed"><span class="circle">1</span><div class="step-label">Datos</div></div>
+                    <div class="step-dot completed"><span class="circle">2</span><div class="step-label">Perfil</div></div>
+                    <div class="step-dot active"><span class="circle">3</span><div class="step-label">Revisar</div></div>
+                    <div class="step-line"></div>
+                </div>
+
+                <div id="resumenContainer" style="background:var(--bg); border-radius:var(--radius-sm); padding:14px; font-size:13px; margin-bottom:12px;"></div>
+
+                <div class="alert alert-error" id="errorStep3"></div>
+                <div class="button-group" style="display:flex; gap:10px; margin-top:16px;">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(2)">← Atrás</button>
+                    <button type="button" class="btn btn-success" id="btnEnviar">📩 Enviar solicitud</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Testimonios (visibles en el formulario) -->
+        <div class="testimonios">
+            <h4><i class="fas fa-star" style="color:#f5b342;"></i> Lo que dicen nuestros clientes</h4>
+            <div class="testimonio-item">
+                <div class="stars">★★★★★</div>
+                <div class="comentario">"Increíble lo rápido que recibí mi préstamo. Todo fue transparente y el asesor me guió en cada paso."</div>
+                <div class="autor">— Carlos M., Asunción</div>
+            </div>
+            <div class="testimonio-item">
+                <div class="stars">★★★★★</div>
+                <div class="comentario">"Nunca había tenido una asesoría tan clara. Recomiendo 100% a Solución Flex para cualquier tipo de crédito."</div>
+                <div class="autor">— Laura G., CDE</div>
+            </div>
+            <div class="testimonio-item">
+                <div class="stars">★★★★★</div>
+                <div class="comentario">"Me ayudaron a encontrar la mejor opción para mi negocio. El proceso fue simple, rápido y seguro."</div>
+                <div class="autor">— Roberto D., Encarnación</div>
+            </div>
         </div>
 
-        <!-- PASO 2 -->
-        <div class="form-step" id="step2">
-            <div class="step-indicator">
-                <div class="step-dot completed"><span class="circle">1</span><div class="step-label">Datos</div></div>
-                <div class="step-dot active"><span class="circle">2</span><div class="step-label">Perfil</div></div>
-                <div class="step-dot"><span class="circle">3</span><div class="step-label">Revisar</div></div>
-                <div class="step-line"></div>
-            </div>
-            <div class="form-group">
-                <label>Actividad Laboral *</label>
-                <select class="form-control" id="actividad" required onchange="actualizarCheckboxes()">
-                    <option value="">Seleccionar...</option>
-                    <option value="empleado_privado">Empleado privado</option>
-                    <option value="funcionario_permanente">Función Pública PERMANENTE</option>
-                    <option value="funcionario_contratado">Función Pública CONTRATADO</option>
-                    <option value="jubilado">JUBILADO</option>
-                    <option value="independiente">INDEPENDIENTE</option>
-                    <option value="comerciante">COMERCIANTE</option>
-                </select>
-            </div>
-            <div class="row-2">
-                <div class="form-group"><label>Antigüedad (años) *</label><input class="form-control" type="number" id="antiguedad_anios" placeholder="0" min="0" step="1" required></div>
-                <div class="form-group"><label>Antigüedad (meses) *</label><input class="form-control" type="number" id="antiguedad_meses" placeholder="0" min="0" max="11" step="1" required></div>
-            </div>
-            <div class="form-group">
-                <label>Ingreso mensual (Gs.) *</label>
-                <input class="form-control" type="number" id="ingreso" placeholder="1.800.000" min="1800000" required>
-                <div style="font-size:11px; color:var(--text-light); margin-top:3px;">Mínimo ₲ 1.800.000</div>
-            </div>
-
-            <!-- Contenedor de checkboxes dinámicos -->
-            <div id="checkboxContainer" class="checkbox-group"></div>
-
-            <div class="form-group" style="margin-top: 12px;">
-                <label>¿Tiene deudas con casas de compra de carteras?</label>
-                <select class="form-control" id="carteras" onchange="validarCartera()">
-                    <option value="ninguna">Ninguna</option>
-                    <option value="nexo">Nexo</option>
-                    <option value="carsa">Carsa</option>
-                    <option value="ingesa">Ingesa</option>
-                    <option value="geco">Geco</option>
-                    <option value="otro">Otro</option>
-                </select>
-                <input class="form-control hidden" type="text" id="otraCartera" placeholder="Especifica el nombre">
-            </div>
-
-            <div class="alert alert-error" id="errorStep2"></div>
-            <div class="button-group" style="display:flex; gap:10px; margin-top:16px;">
-                <button type="button" class="btn btn-secondary" onclick="prevStep(1)">← Atrás</button>
-                <button type="button" class="btn btn-primary" id="btnContinueStep2" onclick="nextStep(3)">Continuar →</button>
-            </div>
+        <!-- Pie de página -->
+        <div class="flex-info" style="margin-top:16px; border-top:1px solid var(--border); padding-top:14px;">
+            <i class="fas fa-envelope"></i> <a href="mailto:info.solucionflex@gmail.com">info.solucionflex@gmail.com</a> &nbsp;·&nbsp;
+            <i class="fas fa-phone"></i> <a href="tel:+595992271485">+595 992 271 485</a>
         </div>
+    </div>
 
-        <!-- PASO 3 -->
-        <div class="form-step" id="step3">
-            <div class="step-indicator">
-                <div class="step-dot completed"><span class="circle">1</span><div class="step-label">Datos</div></div>
-                <div class="step-dot completed"><span class="circle">2</span><div class="step-label">Perfil</div></div>
-                <div class="step-dot active"><span class="circle">3</span><div class="step-label">Revisar</div></div>
-                <div class="step-line"></div>
-            </div>
-            <div id="resumenContainer" style="background:var(--bg); border-radius:var(--radius-sm); padding:14px; font-size:13px; margin-bottom:12px;"></div>
-            <div class="alert alert-success" id="successMsg" style="display:none;"></div>
-            <div class="alert alert-error" id="errorStep3"></div>
-            <div class="button-group" style="display:flex; gap:10px; margin-top:16px;">
-                <button type="button" class="btn btn-secondary" onclick="prevStep(2)">← Atrás</button>
-                <button type="button" class="btn btn-success" id="btnEnviar">📩 Enviar solicitud</button>
-            </div>
-        </div>
-    </form>
-
-    <!-- Pantalla de éxito -->
+    <!-- ========================================================= -->
+    <!-- PANTALLA DE ÉXITO                                        -->
+    <!-- ========================================================= -->
     <div id="successScreen" class="success-screen" style="display:none;">
         <i class="fas fa-check-circle"></i>
-        <h2>¡Gracias por tu solicitud!</h2>
-        <p>Un asesor se contactará contigo en breve.</p>
+        <h2>¡Gracias por tu presolicitud!</h2>
+        <p>Nuestro equipo analizará tu perfil y te contactará a la brevedad para continuar con el proceso.</p>
         <button class="btn btn-primary" style="margin-top:20px;" onclick="location.reload()">Nueva simulación</button>
     </div>
 
-    <!-- Testimonios -->
-    <div class="testimonios" style="margin-top:20px; padding-top:16px; border-top:2px solid var(--border);">
-        <h4 style="font-size:14px; text-align:center; margin-bottom:12px; color:var(--text-light);"><i class="fas fa-star" style="color:#f5b342;"></i> Lo que dicen nuestros clientes</h4>
-        <div style="background:var(--bg); border-radius:var(--radius-sm); padding:12px 14px; margin-bottom:10px; border-left:3px solid var(--primary);">
-            <div style="color:#f5b342; font-size:13px;">★★★★★</div>
-            <div style="font-size:13px; font-style:italic;">"Increíble lo rápido que recibí mi préstamo. Todo fue transparente."</div>
-            <div style="font-size:12px; font-weight:600; color:var(--text-light);">— Carlos M., Asunción</div>
-        </div>
-        <div style="background:var(--bg); border-radius:var(--radius-sm); padding:12px 14px; margin-bottom:10px; border-left:3px solid var(--primary);">
-            <div style="color:#f5b342; font-size:13px;">★★★★★</div>
-            <div style="font-size:13px; font-style:italic;">"Nunca había tenido una asesoría tan clara. Recomiendo 100%."</div>
-            <div style="font-size:12px; font-weight:600; color:var(--text-light);">— Laura G., CDE</div>
-        </div>
-    </div>
-
-    <div class="privacy-notice">
-        <i class="fas fa-shield-alt"></i> Tus datos están protegidos y no serán compartidos.
-    </div>
-    <div class="flex-info">
-        <i class="fas fa-building"></i> Solución Flex · <a href="mailto:info.solucionflex@gmail.com">info.solucionflex@gmail.com</a> · <a href="tel:+595992271485">+595 992 271 485</a>
-    </div>
-
+    <!-- ===== TOAST ===== -->
     <div id="toast" class="toast">✅ Enviado</div>
 </div>
 
 <script>
     // ================================================================
-    // CONFIGURACIÓN
+    //  1. CONFIGURACIÓN
     // ================================================================
     const WHATSAPP_NUMBER = '595992271485';
 
     const cuotasReferencia = {
-        1000000: {6:235000, 12:127000, 15:112000, 24:90000},
-        2000000: {6:465000, 12:254000, 15:223000, 24:177000},
-        3000000: {6:685000, 12:380000, 15:334000, 24:266000},
-        4000000: {6:900000, 12:507000, 15:445000, 24:354000},
-        5000000: {6:1150000, 12:633000, 15:555000, 24:443000}
+        1000000: {6:235000, 12:127000, 18:101000, 24:90000},
+        2000000: {6:465000, 12:254000, 18:201000, 24:177000},
+        3000000: {6:685000, 12:380000, 18:302000, 24:266000},
+        4000000: {6:900000, 12:507000, 18:402000, 24:354000},
+        5000000: {6:1150000, 12:633000, 18:503000, 24:443000}
     };
 
     const ciudadesPorDepartamento = {
@@ -574,6 +673,9 @@
         'Alto Paraguay': ['Fuerte Olimpo', 'Bahía Negra', 'OTRA']
     };
 
+    // ================================================================
+    //  2. FUNCIONES AUXILIARES
+    // ================================================================
     function calcularEdad(fechaNac) {
         if (!fechaNac) return 0;
         const hoy = new Date();
@@ -608,43 +710,44 @@
     }
 
     // ================================================================
-    // CHECKBOXES DINÁMICOS
+    //  3. CHECKBOXES DINÁMICOS DE TIEMPO (IPS/IVA/PATENTE)
     // ================================================================
     function actualizarCheckboxes() {
         const perfil = document.getElementById('actividad').value;
-        const container = document.getElementById('checkboxContainer');
+        const container = document.getElementById('tiempoContainer');
         container.innerHTML = '';
 
+        // Definir qué campos mostrar según perfil
         const perfiles = {
-            'empleado_privado': { ips: true, iva: true, patente: true },
+            'asalariado_ips': { ips: true, iva: false, patente: false },
+            'asalariado_iva': { ips: false, iva: true, patente: false },
+            'asalariado_informal': { ips: false, iva: false, patente: false },
             'funcionario_permanente': { ips: true, iva: false, patente: false },
             'funcionario_contratado': { ips: true, iva: false, patente: false },
             'jubilado': { ips: true, iva: false, patente: false },
-            'independiente': { ips: false, iva: true, patente: true },
-            'comerciante': { ips: false, iva: true, patente: true }
+            'prof_independiente': { ips: false, iva: true, patente: false },
+            'independiente': { ips: false, iva: false, patente: true },
+            'micro_comerciante': { ips: false, iva: false, patente: true }
         };
 
         const config = perfiles[perfil] || { ips: false, iva: false, patente: false };
 
-        const createCheckbox = (id, label) => {
-            const wrapper = document.createElement('label');
-            const input = document.createElement('input');
-            input.type = 'checkbox';
-            input.id = id;
-            if (id === 'informconf') {
-                input.onchange = validarInformconf;
-            }
-            wrapper.appendChild(input);
-            wrapper.appendChild(document.createTextNode(' ' + label));
-            return wrapper;
+        const createTimeField = (id, label) => {
+            const div = document.createElement('div');
+            div.className = 'form-group';
+            div.innerHTML = `
+                <label>${label} (años * / meses *)</label>
+                <div class="row-2" style="gap:8px;">
+                    <input class="form-control" type="number" id="${id}_anios" placeholder="0" min="0" step="1" required>
+                    <input class="form-control" type="number" id="${id}_meses" placeholder="0" min="0" max="11" step="1" required>
+                </div>
+            `;
+            return div;
         };
 
-        if (config.ips) container.appendChild(createCheckbox('ips', 'Aporta IPS'));
-        if (config.iva) container.appendChild(createCheckbox('iva', 'Declara IVA'));
-        if (config.patente) container.appendChild(createCheckbox('patente', 'Tiene Patente'));
-
-        // Siempre mostrar Informconf
-        container.appendChild(createCheckbox('informconf', 'Tiene Informconf'));
+        if (config.ips) container.appendChild(createTimeField('ips', 'Aportes IPS'));
+        if (config.iva) container.appendChild(createTimeField('iva', 'Declaración IVA'));
+        if (config.patente) container.appendChild(createTimeField('patente', 'Patente / RUC'));
 
         // Resetear errores
         document.getElementById('errorStep2').style.display = 'none';
@@ -652,20 +755,30 @@
     }
 
     // ================================================================
-    // VALIDACIONES DE INFORMCONF Y CARTERA
+    //  4. VALIDACIONES DE INFORMCONF Y CARTERA (con detección de modificación)
     // ================================================================
+    let informconfModificado = false;
+    let carteraModificado = false;
+
     function validarInformconf() {
         const informconf = document.getElementById('informconf');
         const error = document.getElementById('errorStep2');
         const btn = document.getElementById('btnContinueStep2');
+        const warning = document.getElementById('warningModificacion');
 
-        if (informconf && informconf.checked) {
+        if (informconf.checked) {
             error.textContent = '❌ No puedes continuar porque tienes Informconf. Debes tener historial crediticio limpio.';
             error.style.display = 'block';
             btn.disabled = true;
+            // Si el usuario marca y luego desmarca, registramos la modificación
+            informconfModificado = true;
         } else {
             error.style.display = 'none';
             btn.disabled = false;
+            // Si ya había sido marcado antes, se considera modificación
+            if (informconfModificado) {
+                warning.style.display = 'block';
+            }
             validarCartera(); // también revisar cartera
         }
     }
@@ -675,10 +788,11 @@
         const otraCartera = document.getElementById('otraCartera');
         const error = document.getElementById('errorStep2');
         const btn = document.getElementById('btnContinueStep2');
+        const warning = document.getElementById('warningModificacion');
 
         // Si ya hay error por Informconf, no sobreescribir
         const informconf = document.getElementById('informconf');
-        if (informconf && informconf.checked) return;
+        if (informconf.checked) return;
 
         let tieneCartera = false;
         let msg = '';
@@ -696,15 +810,68 @@
             error.textContent = msg;
             error.style.display = 'block';
             btn.disabled = true;
+            // Registrar modificación si antes estaba en "ninguna"
+            if (carteras.value !== 'ninguna') {
+                carteraModificado = true;
+            }
         } else {
             error.style.display = 'none';
             btn.disabled = false;
+            // Si antes tenía cartera y ahora no, se considera modificación
+            if (carteraModificado) {
+                warning.style.display = 'block';
+            }
         }
     }
 
+    // Eventos para detección de modificación en cartera
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('carteras').addEventListener('change', function() {
+            // Si se selecciona algo distinto a "ninguna", marcar como modificado (si antes estaba en ninguna)
+            if (this.value !== 'ninguna') {
+                carteraModificado = true;
+            }
+            validarCartera();
+        });
+        document.getElementById('otraCartera').addEventListener('input', validarCartera);
+    });
+
     // ================================================================
-    // PASOS
+    //  5. MANEJO DE PANTALLAS Y PASOS
     // ================================================================
+    // Mostrar pantalla de consentimiento al inicio
+    document.getElementById('consentScreen').style.display = 'block';
+    document.getElementById('formScreen').style.display = 'none';
+
+    // Botón de consentimiento
+    document.getElementById('btnConsent').addEventListener('click', function() {
+        const chk1 = document.getElementById('chk1').checked;
+        const chk2 = document.getElementById('chk2').checked;
+        const chk3 = document.getElementById('chk3').checked;
+        const err = document.getElementById('consentError');
+
+        if (chk1 && chk2 && chk3) {
+            document.getElementById('consentScreen').style.display = 'none';
+            document.getElementById('formScreen').style.display = 'block';
+            err.style.display = 'none';
+            // Inicializar formulario
+            actualizarCheckboxes();
+            calcularCuotaPreview();
+            // Sincronizar tema oscuro
+            if (localStorage.getItem('solucionFlex_theme') === 'dark') {
+                document.body.classList.add('dark');
+            }
+        } else {
+            err.style.display = 'block';
+            setTimeout(() => err.style.display = 'none', 5000);
+        }
+    });
+
+    // ================================================================
+    //  6. MANEJO DE PASOS
+    // ================================================================
+    let currentStep = 1;
+
     function nextStep(step) {
         if (step === 2 && !validateStep1()) return;
         if (step === 3 && !validateStep2()) return;
@@ -726,7 +893,7 @@
     function prevStep(step) { nextStep(step); }
 
     // ================================================================
-    // VALIDACIONES
+    //  7. VALIDACIONES
     // ================================================================
     function validateStep1() {
         const err = document.getElementById('errorStep1');
@@ -789,14 +956,16 @@
 
     function validateStep2() {
         const err = document.getElementById('errorStep2');
-        err.style.display = 'none';
+        // Si ya hay error visible, no continuar
+        if (err.style.display === 'block') {
+            return false;
+        }
 
         const actividad = document.getElementById('actividad').value;
         const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value);
         const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value);
         const ingreso = parseInt(document.getElementById('ingreso').value);
 
-        // Validar que todos los campos estén completos
         if (!actividad) {
             showErrorStep(err, 'Selecciona actividad laboral.');
             return false;
@@ -814,30 +983,30 @@
             return false;
         }
 
-        // Validar checkbox según perfil
-        const ips = document.getElementById('ips');
-        const iva = document.getElementById('iva');
-        const patente = document.getElementById('patente');
+        // Validar campos de tiempo (IPS/IVA/Patente) según perfil
+        const perfilesConTiempo = {
+            'asalariado_ips': { id: 'ips', label: 'IPS', minMeses: 6 },
+            'asalariado_iva': { id: 'iva', label: 'IVA', minMeses: 6 },
+            'funcionario_permanente': { id: 'ips', label: 'IPS', minMeses: 6 },
+            'funcionario_contratado': { id: 'ips', label: 'IPS', minMeses: 6 },
+            'jubilado': { id: 'ips', label: 'IPS', minMeses: 2 },
+            'prof_independiente': { id: 'iva', label: 'IVA', minMeses: 12 },
+            'independiente': { id: 'patente', label: 'Patente/RUC', minMeses: 18 },
+            'micro_comerciante': { id: 'patente', label: 'Patente/RUC', minMeses: 12 }
+        };
 
-        if (actividad === 'funcionario_permanente' || actividad === 'funcionario_contratado' || actividad === 'jubilado') {
-            if (!ips || !ips.checked) {
-                showErrorStep(err, 'Para este perfil, es obligatorio aportar IPS.');
+        const req = perfilesConTiempo[actividad];
+        if (req) {
+            const anios = parseInt(document.getElementById(req.id + '_anios').value) || 0;
+            const meses = parseInt(document.getElementById(req.id + '_meses').value) || 0;
+            const totalMeses = anios * 12 + meses;
+            if (totalMeses < req.minMeses) {
+                showErrorStep(err, `❌ Debes tener al menos ${req.minMeses} meses de ${req.label}.`);
                 return false;
             }
         }
-        if (actividad === 'independiente' || actividad === 'comerciante') {
-            const tieneIva = iva && iva.checked;
-            const tienePatente = patente && patente.checked;
-            if (!tieneIva && !tienePatente) {
-                showErrorStep(err, 'Para este perfil, debe declarar IVA o tener Patente.');
-                return false;
-            }
-        }
 
-        // Si hay error de Informconf o cartera, no permitir
-        if (err.style.display === 'block') {
-            return false;
-        }
+        // Para asalariado informal, no hay campo de tiempo, pero debe tener certificado o RUC (no lo validamos aquí, lo hará el asesor)
 
         return true;
     }
@@ -849,7 +1018,7 @@
     }
 
     // ================================================================
-    // RESUMEN
+    //  8. RESUMEN
     // ================================================================
     function generarResumen() {
         const monto = parseInt(document.getElementById('monto').value);
@@ -870,33 +1039,52 @@
         const edad = calcularEdad(fecha);
         const cuota = obtenerCuota(monto, plazo);
 
-        const ips = document.getElementById('ips');
-        const iva = document.getElementById('iva');
-        const patente = document.getElementById('patente');
-        const informconf = document.getElementById('informconf');
-        const carteras = document.getElementById('carteras');
+        // Obtener valores de tiempo
+        const perfilesConTiempo = {
+            'asalariado_ips': 'ips', 'funcionario_permanente': 'ips', 'funcionario_contratado': 'ips', 'jubilado': 'ips',
+            'asalariado_iva': 'iva', 'prof_independiente': 'iva',
+            'independiente': 'patente', 'micro_comerciante': 'patente'
+        };
+        let tiempoTexto = '';
+        const key = perfilesConTiempo[actividad];
+        if (key) {
+            const anios = parseInt(document.getElementById(key + '_anios').value) || 0;
+            const meses = parseInt(document.getElementById(key + '_meses').value) || 0;
+            tiempoTexto = `${anios} años ${meses} meses`;
+        } else {
+            tiempoTexto = 'No aplica';
+        }
+
+        const informconf = document.getElementById('informconf').checked;
+        const carteras = document.getElementById('carteras').value;
         const otraCartera = document.getElementById('otraCartera').value.trim();
-        const carteraFinal = carteras.value === 'otro' ? otraCartera : carteras.value;
+        const carteraFinal = carteras === 'otro' ? otraCartera : carteras;
+
+        // Advertencia por modificación
+        let advertencia = '';
+        if (informconfModificado || carteraModificado) {
+            advertencia = '<div class="alert alert-warning" style="display:block; margin-top:8px;">⚠️ El cliente modificó su respuesta sobre Informconf o Casa de cartera para continuar. Los datos serán verificados.</div>';
+        }
 
         const resumen = document.getElementById('resumenContainer');
         resumen.innerHTML = `
             <p><strong>${nombres} ${apellidos}</strong> · ${cedula} · ${ciudadFinal}, ${departamento}</p>
             <p>Edad: ${edad} años · Ingreso: ₲ ${formatearNumero(ingreso)} · Solicita: ₲ ${formatearNumero(monto)} a ${plazo} meses</p>
             <p>Cuota ref.: ${cuota ? '₲ ' + formatearNumero(cuota) : 'N/A'}</p>
-            <p>IPS: ${ips ? (ips.checked ? 'Sí' : 'No') : 'No aplica'} · IVA: ${iva ? (iva.checked ? 'Sí' : 'No') : 'No aplica'} · Patente: ${patente ? (patente.checked ? 'Sí' : 'No') : 'No aplica'}</p>
-            <p><strong>Informconf:</strong> ${informconf ? (informconf.checked ? '⚠️ SÍ (tiene deudas)' : '✅ No') : 'No aplica'}</p>
-            <p><strong>Cartera:</strong> ${carteraFinal}</p>
+            <p>Antigüedad: ${antiguedadAnios} años ${antiguedadMeses} meses</p>
+            <p>${key ? key.toUpperCase() + ': ' + tiempoTexto : ''}</p>
+            <p><strong>Informconf:</strong> ${informconf ? '⚠️ SÍ (tiene deudas)' : '✅ No'}</p>
+            <p><strong>Casa de cartera:</strong> ${carteraFinal}</p>
+            ${advertencia}
         `;
     }
 
     // ================================================================
-    // ENVÍO A WHATSAPP
+    //  9. ENVÍO A WHATSAPP
     // ================================================================
     document.getElementById('btnEnviar').addEventListener('click', function() {
         const err = document.getElementById('errorStep3');
         err.style.display = 'none';
-        const success = document.getElementById('successMsg');
-        success.style.display = 'none';
 
         if (!validateStep2()) return;
 
@@ -918,15 +1106,41 @@
         const edad = calcularEdad(fecha);
         const cuota = obtenerCuota(monto, plazo);
 
-        const ips = document.getElementById('ips');
-        const iva = document.getElementById('iva');
-        const patente = document.getElementById('patente');
-        const informconf = document.getElementById('informconf');
-        const carteras = document.getElementById('carteras');
+        const informconf = document.getElementById('informconf').checked;
+        const carteras = document.getElementById('carteras').value;
         const otraCartera = document.getElementById('otraCartera').value.trim();
-        const carteraFinal = carteras.value === 'otro' ? otraCartera : carteras.value;
+        const carteraFinal = carteras === 'otro' ? otraCartera : carteras;
 
-        let mensaje = `*NUEVA SOLICITUD GESTOR PRO*%0A%0A`;
+        // Obtener tiempo
+        const perfilesConTiempo = {
+            'asalariado_ips': 'ips', 'funcionario_permanente': 'ips', 'funcionario_contratado': 'ips', 'jubilado': 'ips',
+            'asalariado_iva': 'iva', 'prof_independiente': 'iva',
+            'independiente': 'patente', 'micro_comerciante': 'patente'
+        };
+        let tiempoTexto = '';
+        const key = perfilesConTiempo[actividad];
+        if (key) {
+            const anios = parseInt(document.getElementById(key + '_anios').value) || 0;
+            const meses = parseInt(document.getElementById(key + '_meses').value) || 0;
+            tiempoTexto = `${anios} años ${meses} meses`;
+        } else {
+            tiempoTexto = 'No aplica';
+        }
+
+        // Mapeo de perfil a texto
+        const perfilTexto = {
+            'asalariado_ips': 'Asalariado con IPS',
+            'asalariado_iva': 'Asalariado con IVA',
+            'asalariado_informal': 'Asalariado Informal (sin IVA ni IPS)',
+            'funcionario_permanente': 'Funcionario Público PERMANENTE',
+            'funcionario_contratado': 'Funcionario Público CONTRATADO',
+            'jubilado': 'Jubilado',
+            'prof_independiente': 'Profesional Independiente',
+            'independiente': 'Independiente',
+            'micro_comerciante': 'Micro / Comerciante'
+        };
+
+        let mensaje = `*NUEVA PRESOLICITUD - SOLUCIÓN FLEX*%0A%0A`;
         mensaje += `👤 *Cliente:* ${nombres} ${apellidos}%0A`;
         mensaje += `📄 *CI:* ${cedula}%0A`;
         mensaje += `📞 *WhatsApp:* ${celular}%0A`;
@@ -936,25 +1150,31 @@
         mensaje += `📅 *Plazo:* ${plazo} meses%0A`;
         mensaje += `💵 *Cuota ref.:* ${cuota ? '₲ ' + formatearNumero(cuota) : 'N/A'}%0A`;
         mensaje += `💵 *Ingreso:* ₲ ${formatearNumero(ingreso)}%0A`;
-        mensaje += `📊 *Actividad:* ${actividad.replace('_', ' ')}%0A`;
+        mensaje += `📊 *Perfil:* ${perfilTexto[actividad] || actividad}%0A`;
         mensaje += `🕒 *Antigüedad:* ${antiguedadAnios} años ${antiguedadMeses} meses%0A`;
-        mensaje += `🏷️ *IPS:* ${ips ? (ips.checked ? 'Sí' : 'No') : 'No aplica'}%0A`;
-        mensaje += `🧾 *IVA:* ${iva ? (iva.checked ? 'Sí' : 'No') : 'No aplica'}%0A`;
-        mensaje += `📋 *Patente:* ${patente ? (patente.checked ? 'Sí' : 'No') : 'No aplica'}%0A`;
-        mensaje += `⚠️ *INFORMCONF:* ${informconf ? (informconf.checked ? 'SÍ (tiene deudas)' : 'NO (limpio)') : 'No aplica'}%0A`;
-        mensaje += `🏦 *Casa de cartera:* ${carteraFinal}%0A%0A`;
-        mensaje += `_✅ El cliente completó todos los datos. Evaluar perfil y contactar._`;
+        if (key) {
+            mensaje += `📌 *${key.toUpperCase()}:* ${tiempoTexto}%0A`;
+        }
+        mensaje += `⚠️ *INFORMCONF:* ${informconf ? 'SÍ (tiene deudas)' : 'NO (limpio)'}%0A`;
+        mensaje += `🏦 *Casa de cartera:* ${carteraFinal}%0A`;
+
+        // Advertencia si hubo modificación
+        if (informconfModificado || carteraModificado) {
+            mensaje += `%0A*⚠️ ADVERTENCIA:* El cliente modificó su respuesta sobre Informconf o Casa de cartera para continuar. Los datos serán verificados.%0A`;
+        }
+
+        mensaje += `%0A_✅ El cliente aceptó la declaración de veracidad y autorizó la verificación de datos._`;
 
         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${mensaje}`, '_blank');
 
-        document.getElementById('formProspecto').style.display = 'none';
-        document.getElementById('testimonios').style.display = 'none';
+        // Mostrar pantalla de éxito
+        document.getElementById('formScreen').style.display = 'none';
         document.getElementById('successScreen').style.display = 'block';
-        mostrarToast('✅ Enviado a WhatsApp');
+        mostrarToast('✅ Presolicitud enviada');
     });
 
     // ================================================================
-    // CIUDADES DINÁMICAS
+    //  10. CIUDADES DINÁMICAS
     // ================================================================
     document.getElementById('departamento').addEventListener('change', function() {
         const depto = this.value;
@@ -991,14 +1211,14 @@
     });
 
     // ================================================================
-    // VALIDACIONES INPUT
+    //  11. VALIDACIONES INPUT
     // ================================================================
     document.getElementById('nombres').addEventListener('input', soloLetras);
     document.getElementById('apellidos').addEventListener('input', soloLetras);
     document.getElementById('cedula').addEventListener('input', soloNumeros);
 
     // ================================================================
-    // CALCULAR CUOTA
+    //  12. CALCULAR CUOTA
     // ================================================================
     function calcularCuotaPreview() {
         const monto = parseInt(document.getElementById('monto').value);
@@ -1010,18 +1230,21 @@
     document.getElementById('plazo').addEventListener('change', calcularCuotaPreview);
 
     // ================================================================
-    // TEMA OSCURO
+    //  13. TEMA OSCURO
     // ================================================================
-    document.getElementById('themeToggle').addEventListener('click', function() {
+    function toggleTheme() {
         document.body.classList.toggle('dark');
-        localStorage.setItem('gestorPro_theme', document.body.classList.contains('dark') ? 'dark' : 'light');
-    });
-    if (localStorage.getItem('gestorPro_theme') === 'dark') {
+        localStorage.setItem('solucionFlex_theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    }
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+    document.getElementById('themeToggle2').addEventListener('click', toggleTheme);
+
+    if (localStorage.getItem('solucionFlex_theme') === 'dark') {
         document.body.classList.add('dark');
     }
 
     // ================================================================
-    // INICIALIZACIÓN
+    //  14. INICIALIZACIÓN
     // ================================================================
     window.addEventListener('DOMContentLoaded', function() {
         document.getElementById('departamento').value = '';
@@ -1031,13 +1254,13 @@
         calcularCuotaPreview();
         actualizarCheckboxes();
         document.getElementById('btnContinueStep2').disabled = false;
-        // Eventos para validaciones en tiempo real
-        document.getElementById('carteras').addEventListener('change', validarCartera);
-        document.getElementById('otraCartera').addEventListener('input', validarCartera);
     });
 
     window.nextStep = nextStep;
     window.prevStep = prevStep;
+    window.actualizarCheckboxes = actualizarCheckboxes;
+    window.validarInformconf = validarInformconf;
+    window.validarCartera = validarCartera;
 </script>
 </body>
 </html>
