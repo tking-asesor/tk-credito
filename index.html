@@ -4,59 +4,87 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <title>Solución Flex · Simulador de Crédito</title>
+
+    <!-- ========== META TAGS PARA COMPARTIR EN REDES ========== -->
+    <meta property="og:title" content="Solución Flex · Simulador de Crédito" />
+    <meta property="og:description" content="Simulá tu préstamo en minutos. Sin compromiso, atención personalizada y más de 150 clientes satisfechos." />
+    <meta property="og:image" content="https://tking-asesor.github.io/tk-credito/logo.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://tking-asesor.github.io/tk-credito/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Solución Flex · Simulador de Crédito" />
+    <meta name="twitter:description" content="Simulá tu préstamo en minutos. Sin compromiso, atención personalizada." />
+    <meta name="twitter:image" content="https://tking-asesor.github.io/tk-credito/logo.png" />
+
+    <!-- Font Awesome y Google Fonts (Inter) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+
     <style>
+        /* ===== RESET Y VARIABLES ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
         }
         :root {
-            --bg: #f0f6fb;
+            --bg: #f4f9fe;
             --card-bg: #ffffff;
             --text: #0a2a33;
-            --text-light: #3a5a6a;
+            --text-light: #4a6a7a;
             --primary: #0f6f85;
-            --primary-dark: #0a4b5c;
+            --primary-dark: #08505e;
             --primary-light: #d4eaf0;
-            --border: #dce6ec;
-            --shadow: 0 8px 30px rgba(0, 40, 60, 0.08);
-            --radius: 24px;
-            --radius-sm: 16px;
-            --transition: 0.25s ease;
+            --primary-gradient: linear-gradient(145deg, #0f6f85, #0a4b5c);
+            --border: #e2ecf2;
+            --shadow: 0 12px 40px rgba(10, 55, 70, 0.08);
+            --shadow-hover: 0 20px 60px rgba(10, 55, 70, 0.12);
+            --radius: 28px;
+            --radius-sm: 18px;
+            --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         body {
             background: var(--bg);
             color: var(--text);
-            padding: 16px;
+            padding: 20px;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            font-weight: 400;
+            line-height: 1.6;
         }
         .app-container {
-            max-width: 560px;
+            max-width: 580px;
             width: 100%;
             background: var(--card-bg);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            padding: 20px 18px 30px;
-            transition: background 0.3s;
+            padding: 24px 22px 32px;
+            transition: background 0.3s, box-shadow 0.3s;
+            animation: fadeInUp 0.6s ease;
         }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* ===== HEADER ===== */
         .header {
             display: flex;
             align-items: center;
             gap: 14px;
-            margin-bottom: 22px;
+            margin-bottom: 20px;
             padding-bottom: 14px;
-            border-bottom: 2px solid var(--border);
+            border-bottom: 1.5px solid var(--border);
         }
         .logo-container {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
             flex-shrink: 0;
             overflow: hidden;
             background: transparent;
@@ -68,38 +96,45 @@
             display: block;
         }
         .header h1 {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 700;
+            letter-spacing: -0.4px;
             line-height: 1.2;
         }
         .header h1 small {
             display: block;
             font-size: 12px;
-            font-weight: 400;
+            font-weight: 500;
             color: var(--text-light);
+            letter-spacing: 0.2px;
+            text-transform: uppercase;
         }
         .theme-toggle {
             margin-left: auto;
             background: var(--bg);
             border: 1px solid var(--border);
             border-radius: 40px;
-            padding: 6px 12px;
+            padding: 6px 14px;
             font-size: 18px;
             cursor: pointer;
+            transition: var(--transition);
         }
+        .theme-toggle:hover { background: var(--primary-light); }
+
         /* ===== FORM ===== */
-        .form-group { margin-bottom: 14px; }
+        .form-group { margin-bottom: 16px; }
         .form-group label {
             display: block;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
             color: var(--text-light);
-            margin-bottom: 3px;
+            margin-bottom: 4px;
+            letter-spacing: 0.2px;
         }
         .form-control {
             width: 100%;
-            padding: 11px 14px;
-            font-size: 14px;
+            padding: 12px 16px;
+            font-size: 15px;
             border: 1.5px solid var(--border);
             border-radius: var(--radius-sm);
             background: var(--bg);
@@ -109,250 +144,270 @@
         .form-control:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(15, 111, 133, 0.12);
+            box-shadow: 0 0 0 4px rgba(15, 111, 133, 0.12);
+            background: var(--card-bg);
         }
-        .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+        .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
         .checkbox-group {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px 16px;
-            padding-top: 4px;
+            gap: 8px 20px;
+            padding-top: 6px;
             margin-bottom: 12px;
         }
         .checkbox-group label {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             font-weight: 400;
-            font-size: 13px;
+            font-size: 14px;
             cursor: pointer;
+            color: var(--text);
         }
         .checkbox-group input[type="checkbox"] {
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             accent-color: var(--primary);
+            cursor: pointer;
         }
+
+        /* ===== BOTONES ===== */
         .btn {
-            padding: 12px 20px;
+            padding: 14px 24px;
             border: none;
             border-radius: 40px;
             font-weight: 600;
-            font-size: 15px;
+            font-size: 16px;
             cursor: pointer;
             transition: var(--transition);
             text-align: center;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
             width: 100%;
+            letter-spacing: 0.2px;
         }
-        .btn-primary { background: var(--primary); color: #fff; }
-        .btn-primary:hover { background: var(--primary-dark); }
-        .btn-secondary { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
-        .btn-success { background: #1e7b4a; color: #fff; }
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(15, 111, 133, 0.25);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(15, 111, 133, 0.35);
+        }
+        .btn-secondary {
+            background: var(--bg);
+            color: var(--text);
+            border: 1.5px solid var(--border);
+        }
+        .btn-secondary:hover { background: var(--border); }
+        .btn-success {
+            background: #1a7a4a;
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(26, 122, 74, 0.25);
+        }
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(26, 122, 74, 0.35);
+        }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+
         /* ===== STEPS ===== */
         .step-indicator {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 18px;
+            margin-bottom: 22px;
             position: relative;
         }
         .step-dot {
             flex: 1;
             text-align: center;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 500;
             color: var(--text-light);
             position: relative;
             z-index: 2;
         }
         .step-dot .circle {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             background: var(--border);
             border-radius: 50%;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 13px;
+            font-size: 14px;
             color: var(--text-light);
             transition: var(--transition);
             margin-bottom: 4px;
         }
-        .step-dot.active .circle { background: var(--primary); color: #fff; box-shadow: 0 0 0 4px rgba(15,111,133,0.15); }
+        .step-dot.active .circle { background: var(--primary); color: #fff; box-shadow: 0 0 0 6px rgba(15,111,133,0.15); }
         .step-dot.completed .circle { background: var(--primary-dark); color: #fff; }
         .step-dot.active .step-label { color: var(--primary); font-weight: 600; }
         .step-line {
             position: absolute;
-            top: 16px;
+            top: 18px;
             left: 10%;
             right: 10%;
             height: 2px;
             background: var(--border);
             z-index: 1;
         }
-        .form-step { display: none; animation: fadeUp 0.3s ease; }
+        .form-step { display: none; animation: fadeStep 0.4s ease; }
         .form-step.active-step { display: block; }
-        @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes fadeStep { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
         /* ===== ALERTAS ===== */
         .alert {
-            padding: 10px 14px;
+            padding: 12px 16px;
             border-radius: var(--radius-sm);
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             font-size: 13px;
             font-weight: 500;
             display: none;
         }
-        .alert-error { background: #fee2e2; color: #991b1b; border-left: 4px solid #ef4444; }
-        .alert-success { background: #d1fae5; color: #065f46; border-left: 4px solid #10b981; }
-        .alert-warning { background: #fef5e7; color: #b85d19; border-left: 4px solid #f59e0b; }
+        .alert-error { background: #fee9e9; color: #b91c1c; border-left: 4px solid #ef4444; }
+        .alert-success { background: #e3f5eb; color: #0b5e3a; border-left: 4px solid #10b981; }
+        .alert-warning { background: #fef5e7; color: #a16207; border-left: 4px solid #f59e0b; }
+
         /* ===== TESTIMONIOS ===== */
         .testimonios {
-            margin-top: 20px;
-            padding-top: 16px;
-            border-top: 2px solid var(--border);
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1.5px solid var(--border);
         }
         .testimonios h4 {
-            font-size: 14px;
+            font-size: 15px;
             text-align: center;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             color: var(--text-light);
+            font-weight: 600;
         }
         .testimonio-item {
             background: var(--bg);
             border-radius: var(--radius-sm);
-            padding: 12px 14px;
-            margin-bottom: 10px;
-            border-left: 3px solid var(--primary);
+            padding: 14px 18px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--primary);
+            transition: var(--transition);
         }
-        .testimonio-item .stars { color: #f5b342; font-size: 13px; margin-bottom: 4px; }
-        .testimonio-item .comentario { font-size: 13px; font-style: italic; color: var(--text); }
-        .testimonio-item .autor { font-size: 12px; font-weight: 600; color: var(--text-light); margin-top: 4px; }
-        /* ===== OTROS ===== */
+        .testimonio-item:hover { box-shadow: var(--shadow-hover); }
+        .testimonio-item .stars { color: #f5b342; font-size: 14px; margin-bottom: 4px; }
+        .testimonio-item .comentario { font-size: 14px; font-style: italic; color: var(--text); }
+        .testimonio-item .autor { font-size: 13px; font-weight: 600; color: var(--text-light); margin-top: 6px; }
+
+        /* ===== CUOTA BOX ===== */
         .cuota-box {
             background: var(--primary-light);
             border-radius: var(--radius-sm);
-            padding: 10px;
+            padding: 12px;
             text-align: center;
-            margin-bottom: 16px;
+            margin-bottom: 18px;
         }
-        .cuota-box .label { font-size: 12px; color: var(--text-light); }
-        .cuota-box .value { font-size: 22px; font-weight: 800; color: var(--primary); }
-        .hidden { display: none !important; }
-        .privacy-notice {
-            font-size: 11px;
-            color: var(--text-light);
-            text-align: center;
-            margin-top: 20px;
-            padding: 10px;
-            border-top: 1px solid var(--border);
+        .cuota-box .label { font-size: 12px; font-weight: 500; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; }
+        .cuota-box .value { font-size: 26px; font-weight: 800; color: var(--primary); }
+
+        /* ===== CONSENT SCREEN ===== */
+        .consent-screen { text-align: center; }
+        .consent-screen .hero-icon { font-size: 52px; color: var(--primary); margin-bottom: 12px; }
+        .consent-screen h2 { font-size: 24px; margin-bottom: 6px; font-weight: 700; }
+        .consent-screen p { color: var(--text-light); font-size: 15px; margin-bottom: 16px; }
+        .consent-screen .badge-clientes {
+            display: inline-block;
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
+        .consent-checkbox-group {
+            text-align: left;
+            margin: 18px 0;
+        }
+        .consent-checkbox-group label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 14px;
+            margin-bottom: 14px;
+            cursor: pointer;
+            color: var(--text);
+            line-height: 1.5;
+        }
+        .consent-checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            accent-color: var(--primary);
+            flex-shrink: 0;
         }
         .flex-info {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--text-light);
             text-align: center;
-            margin-top: 10px;
-            padding-top: 10px;
+            margin-top: 14px;
+            padding-top: 14px;
             border-top: 1px solid var(--border);
         }
-        .flex-info a { color: var(--primary); text-decoration: none; }
+        .flex-info a { color: var(--primary); text-decoration: none; font-weight: 500; }
         .success-screen {
             text-align: center;
-            padding: 20px 0;
+            padding: 28px 0;
         }
-        .success-screen i { font-size: 64px; color: #10b981; margin-bottom: 16px; }
-        .success-screen h2 { font-size: 22px; margin-bottom: 8px; }
+        .success-screen i { font-size: 72px; color: #10b981; margin-bottom: 16px; }
+        .success-screen h2 { font-size: 24px; margin-bottom: 8px; }
         .toast {
             position: fixed;
-            bottom: 20px;
+            bottom: 24px;
             left: 50%;
             transform: translateX(-50%);
             background: var(--text);
             color: #fff;
-            padding: 12px 24px;
+            padding: 14px 28px;
             border-radius: 40px;
             font-weight: 500;
-            font-size: 14px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            font-size: 15px;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.2);
             opacity: 0;
-            transition: 0.3s;
+            transition: 0.4s;
             pointer-events: none;
             z-index: 999;
         }
         .toast.show { opacity: 1; }
+        .hidden { display: none !important; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .app-container { padding: 16px; }
+            .row-2 { grid-template-columns: 1fr; }
+            .header h1 { font-size: 19px; }
+            .consent-screen h2 { font-size: 20px; }
+        }
         /* ===== MODO OSCURO ===== */
         body.dark {
-            --bg: #121e26;
+            --bg: #0f1e26;
             --card-bg: #1a2c36;
             --text: #e6edf2;
             --text-light: #9bb3c0;
             --border: #2a4050;
             --primary-light: #1f4050;
+            --shadow: 0 12px 40px rgba(0,0,0,0.4);
         }
         body.dark .form-control { background: #1f2f3a; color: #e6edf2; }
         body.dark .btn-secondary { background: #1f2f3a; color: #e6edf2; }
+        body.dark .btn-secondary:hover { background: #2a4050; }
+        body.dark .theme-toggle { background: #1f2f3a; border-color: #2a4050; }
         .theme-toggle .fa-moon { display: inline; }
         .theme-toggle .fa-sun { display: none; }
         body.dark .theme-toggle .fa-moon { display: none; }
         body.dark .theme-toggle .fa-sun { display: inline; }
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 480px) {
-            .app-container { padding: 14px; }
-            .row-2 { grid-template-columns: 1fr; }
-            .header h1 { font-size: 17px; }
-        }
-        /* ===== PANTALLA DE CONSENTIMIENTO ===== */
-        .consent-screen {
-            text-align: center;
-        }
-        .consent-screen .hero-icon {
-            font-size: 48px;
-            color: var(--primary);
-            margin-bottom: 12px;
-        }
-        .consent-screen h2 {
-            font-size: 22px;
-            margin-bottom: 6px;
-        }
-        .consent-screen p {
-            color: var(--text-light);
-            font-size: 14px;
-            margin-bottom: 16px;
-        }
-        .consent-screen .badge-clientes {
-            display: inline-block;
-            background: var(--primary-light);
-            color: var(--primary-dark);
-            padding: 4px 16px;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 14px;
-            margin-bottom: 16px;
-        }
-        .consent-checkbox-group {
-            text-align: left;
-            margin: 16px 0;
-        }
-        .consent-checkbox-group label {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            font-size: 13px;
-            margin-bottom: 12px;
-            cursor: pointer;
-            color: var(--text);
-        }
-        .consent-checkbox-group input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            margin-top: 2px;
-            accent-color: var(--primary);
-            flex-shrink: 0;
-        }
+        body.dark .testimonio-item { background: #1f2f3a; }
+        body.dark .consent-checkbox-group label { color: #e6edf2; }
     </style>
 </head>
 <body>
@@ -363,8 +418,7 @@
     <!-- PANTALLA 1: CONSENTIMIENTO + PRESENTACIÓN               -->
     <!-- ========================================================= -->
     <div id="consentScreen" class="consent-screen">
-        <div class="header" style="border-bottom: none; margin-bottom: 8px;">
-            <!-- LOGO - Primera ubicación -->
+        <div class="header" style="border-bottom: none; margin-bottom: 6px;">
             <div class="logo-container" id="logoContainer">
                 <img src="logo.png" alt="Solución Flex" style="width:100%; height:100%; object-fit:contain;">
             </div>
@@ -377,16 +431,16 @@
         <p>En Solución Flex te ayudamos a encontrar la mejor opción de préstamo. Simulá tu cuota en minutos y recibí atención personalizada.</p>
         <div class="badge-clientes">🌟 +150 clientes satisfechos</div>
 
-        <div style="background:var(--bg); border-radius:var(--radius-sm); padding:14px; margin-bottom:16px; text-align:left; font-size:13px; color:var(--text-light);">
-            <i class="fas fa-check-circle" style="color:var(--primary);"></i> Simulación sin compromiso<br>
-            <i class="fas fa-check-circle" style="color:var(--primary);"></i> Atención por asesor<br>
-            <i class="fas fa-check-circle" style="color:var(--primary);"></i> Proceso simple y seguro
+        <div style="background:var(--bg); border-radius:var(--radius-sm); padding:16px; margin-bottom:18px; text-align:left; font-size:14px; color:var(--text-light); display:flex; flex-direction:column; gap:6px;">
+            <span><i class="fas fa-check-circle" style="color:var(--primary); width:20px;"></i> Simulación sin compromiso</span>
+            <span><i class="fas fa-check-circle" style="color:var(--primary); width:20px;"></i> Atención por asesor</span>
+            <span><i class="fas fa-check-circle" style="color:var(--primary); width:20px;"></i> Proceso simple y seguro</span>
         </div>
 
-        <hr style="border:1px solid var(--border); margin:16px 0;">
+        <hr style="border:1px solid var(--border); margin:18px 0;">
 
-        <div style="text-align:left; font-weight:600; font-size:14px; margin-bottom:10px;">
-            <i class="fas fa-shield-alt" style="color:var(--primary);"></i> Autorización y declaración
+        <div style="text-align:left; font-weight:600; font-size:15px; margin-bottom:12px; color:var(--text);">
+            <i class="fas fa-shield-alt" style="color:var(--primary); margin-right:6px;"></i> Autorización y declaración
         </div>
         <div class="consent-checkbox-group">
             <label><input type="checkbox" id="chk1"> Declaro que la información que proporcionaré es 100% real y comprobable.</label>
@@ -397,8 +451,7 @@
         <div class="alert alert-error" id="consentError" style="display:none;">Debes aceptar todas las condiciones para continuar.</div>
         <button class="btn btn-primary" id="btnConsent">Comenzar simulación →</button>
 
-        <!-- Datos de contacto en la presentación -->
-        <div class="flex-info" style="margin-top:20px; border-top:1px solid var(--border); padding-top:14px;">
+        <div class="flex-info" style="margin-top:20px;">
             <i class="fas fa-envelope"></i> <a href="mailto:info.solucionflex@gmail.com">info.solucionflex@gmail.com</a> &nbsp;·&nbsp;
             <i class="fas fa-phone"></i> <a href="tel:+595992271485">+595 992 271 485</a>
         </div>
@@ -410,7 +463,6 @@
     <div id="formScreen" style="display:none;">
 
         <div class="header" style="border-bottom: 2px solid var(--border); margin-bottom: 16px;">
-            <!-- LOGO - Segunda ubicación (más pequeño) -->
             <div class="logo-container" style="width:40px; height:40px;">
                 <img src="logo.png" alt="Solución Flex" style="width:100%; height:100%; object-fit:contain;">
             </div>
@@ -529,13 +581,11 @@
                 <div class="form-group">
                     <label>Ingreso mensual (Gs.) *</label>
                     <input class="form-control" type="number" id="ingreso" placeholder="1.800.000" min="1800000" required>
-                    <div style="font-size:11px; color:var(--text-light); margin-top:3px;">Mínimo ₲ 1.800.000</div>
+                    <div style="font-size:11px; color:var(--text-light); margin-top:4px;">Mínimo ₲ 1.800.000</div>
                 </div>
 
-                <!-- Contenedor dinámico para campos de tiempo (IPS/IVA/Patente) -->
                 <div id="tiempoContainer" class="row-2" style="margin-bottom:12px;"></div>
 
-                <!-- Informconf y Cartera -->
                 <div class="checkbox-group">
                     <label><input type="checkbox" id="informconf" onchange="validarInformconf()"> Tengo deudas en Informconf</label>
                 </div>
@@ -552,13 +602,11 @@
                     <input class="form-control hidden" type="text" id="otraCartera" placeholder="Especifica el nombre">
                 </div>
 
-                <!-- Advertencia de modificación -->
                 <div class="alert alert-warning" id="warningModificacion" style="display:none;">
                     ⚠️ Detectamos que modificaste tu respuesta sobre Informconf o Casa de cartera para continuar. Recuerda que tus datos serán verificados.
                 </div>
-
                 <div class="alert alert-error" id="errorStep2"></div>
-                <div class="button-group" style="display:flex; gap:10px; margin-top:16px;">
+                <div class="button-group" style="display:flex; gap:12px; margin-top:18px;">
                     <button type="button" class="btn btn-secondary" onclick="prevStep(1)">← Atrás</button>
                     <button type="button" class="btn btn-primary" id="btnContinueStep2" onclick="nextStep(3)">Continuar →</button>
                 </div>
@@ -573,17 +621,17 @@
                     <div class="step-line"></div>
                 </div>
 
-                <div id="resumenContainer" style="background:var(--bg); border-radius:var(--radius-sm); padding:14px; font-size:13px; margin-bottom:12px;"></div>
+                <div id="resumenContainer" style="background:var(--bg); border-radius:var(--radius-sm); padding:16px; font-size:14px; margin-bottom:14px;"></div>
 
                 <div class="alert alert-error" id="errorStep3"></div>
-                <div class="button-group" style="display:flex; gap:10px; margin-top:16px;">
+                <div class="button-group" style="display:flex; gap:12px; margin-top:18px;">
                     <button type="button" class="btn btn-secondary" onclick="prevStep(2)">← Atrás</button>
                     <button type="button" class="btn btn-success" id="btnEnviar">📩 Enviar solicitud</button>
                 </div>
             </div>
         </form>
 
-        <!-- Testimonios (visibles en el formulario) -->
+        <!-- TESTIMONIOS -->
         <div class="testimonios">
             <h4><i class="fas fa-star" style="color:#f5b342;"></i> Lo que dicen nuestros clientes</h4>
             <div class="testimonio-item">
@@ -603,8 +651,7 @@
             </div>
         </div>
 
-        <!-- Pie de página -->
-        <div class="flex-info" style="margin-top:16px; border-top:1px solid var(--border); padding-top:14px;">
+        <div class="flex-info" style="margin-top:16px;">
             <i class="fas fa-envelope"></i> <a href="mailto:info.solucionflex@gmail.com">info.solucionflex@gmail.com</a> &nbsp;·&nbsp;
             <i class="fas fa-phone"></i> <a href="tel:+595992271485">+595 992 271 485</a>
         </div>
@@ -620,7 +667,6 @@
         <button class="btn btn-primary" style="margin-top:20px;" onclick="location.reload()">Nueva simulación</button>
     </div>
 
-    <!-- ===== TOAST ===== -->
     <div id="toast" class="toast">✅ Enviado</div>
 </div>
 
@@ -702,7 +748,6 @@
         const container = document.getElementById('tiempoContainer');
         container.innerHTML = '';
 
-        // Definir qué campos mostrar según perfil
         const perfiles = {
             'asalariado_ips': { ips: true, iva: false, patente: false },
             'asalariado_iva': { ips: false, iva: true, patente: false },
@@ -734,13 +779,12 @@
         if (config.iva) container.appendChild(createTimeField('iva', 'Declaración IVA'));
         if (config.patente) container.appendChild(createTimeField('patente', 'Patente / RUC'));
 
-        // Resetear errores
         document.getElementById('errorStep2').style.display = 'none';
         document.getElementById('btnContinueStep2').disabled = false;
     }
 
     // ================================================================
-    //  4. VALIDACIONES DE INFORMCONF Y CARTERA (con detección de modificación)
+    //  4. VALIDACIONES DE INFORMCONF Y CARTERA
     // ================================================================
     let informconfModificado = false;
     let carteraModificado = false;
@@ -755,16 +799,14 @@
             error.textContent = '❌ No puedes continuar porque tienes Informconf. Debes tener historial crediticio limpio.';
             error.style.display = 'block';
             btn.disabled = true;
-            // Si el usuario marca y luego desmarca, registramos la modificación
             informconfModificado = true;
         } else {
             error.style.display = 'none';
             btn.disabled = false;
-            // Si ya había sido marcado antes, se considera modificación
             if (informconfModificado) {
                 warning.style.display = 'block';
             }
-            validarCartera(); // también revisar cartera
+            validarCartera();
         }
     }
 
@@ -775,7 +817,6 @@
         const btn = document.getElementById('btnContinueStep2');
         const warning = document.getElementById('warningModificacion');
 
-        // Si ya hay error por Informconf, no sobreescribir
         const informconf = document.getElementById('informconf');
         if (informconf.checked) return;
 
@@ -795,24 +836,20 @@
             error.textContent = msg;
             error.style.display = 'block';
             btn.disabled = true;
-            // Registrar modificación si antes estaba en "ninguna"
             if (carteras.value !== 'ninguna') {
                 carteraModificado = true;
             }
         } else {
             error.style.display = 'none';
             btn.disabled = false;
-            // Si antes tenía cartera y ahora no, se considera modificación
             if (carteraModificado) {
                 warning.style.display = 'block';
             }
         }
     }
 
-    // Eventos para detección de modificación en cartera
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('carteras').addEventListener('change', function() {
-            // Si se selecciona algo distinto a "ninguna", marcar como modificado (si antes estaba en ninguna)
             if (this.value !== 'ninguna') {
                 carteraModificado = true;
             }
@@ -824,11 +861,9 @@
     // ================================================================
     //  5. MANEJO DE PANTALLAS Y PASOS
     // ================================================================
-    // Mostrar pantalla de consentimiento al inicio
     document.getElementById('consentScreen').style.display = 'block';
     document.getElementById('formScreen').style.display = 'none';
 
-    // Botón de consentimiento
     document.getElementById('btnConsent').addEventListener('click', function() {
         const chk1 = document.getElementById('chk1').checked;
         const chk2 = document.getElementById('chk2').checked;
@@ -839,10 +874,8 @@
             document.getElementById('consentScreen').style.display = 'none';
             document.getElementById('formScreen').style.display = 'block';
             err.style.display = 'none';
-            // Inicializar formulario
             actualizarCheckboxes();
             calcularCuotaPreview();
-            // Sincronizar tema oscuro
             if (localStorage.getItem('solucionFlex_theme') === 'dark') {
                 document.body.classList.add('dark');
             }
@@ -852,9 +885,6 @@
         }
     });
 
-    // ================================================================
-    //  6. MANEJO DE PASOS
-    // ================================================================
     let currentStep = 1;
 
     function nextStep(step) {
@@ -878,7 +908,7 @@
     function prevStep(step) { nextStep(step); }
 
     // ================================================================
-    //  7. VALIDACIONES
+    //  6. VALIDACIONES
     // ================================================================
     function validateStep1() {
         const err = document.getElementById('errorStep1');
@@ -941,7 +971,6 @@
 
     function validateStep2() {
         const err = document.getElementById('errorStep2');
-        // Si ya hay error visible, no continuar
         if (err.style.display === 'block') {
             return false;
         }
@@ -968,7 +997,6 @@
             return false;
         }
 
-        // Validar campos de tiempo (IPS/IVA/Patente) según perfil
         const perfilesConTiempo = {
             'asalariado_ips': { id: 'ips', label: 'IPS', minMeses: 6 },
             'asalariado_iva': { id: 'iva', label: 'IVA', minMeses: 6 },
@@ -991,8 +1019,6 @@
             }
         }
 
-        // Para asalariado informal, no hay campo de tiempo, pero debe tener certificado o RUC (no lo validamos aquí, lo hará el asesor)
-
         return true;
     }
 
@@ -1003,7 +1029,7 @@
     }
 
     // ================================================================
-    //  8. RESUMEN
+    //  7. RESUMEN
     // ================================================================
     function generarResumen() {
         const monto = parseInt(document.getElementById('monto').value);
@@ -1024,7 +1050,6 @@
         const edad = calcularEdad(fecha);
         const cuota = obtenerCuota(monto, plazo);
 
-        // Obtener valores de tiempo
         const perfilesConTiempo = {
             'asalariado_ips': 'ips', 'funcionario_permanente': 'ips', 'funcionario_contratado': 'ips', 'jubilado': 'ips',
             'asalariado_iva': 'iva', 'prof_independiente': 'iva',
@@ -1045,7 +1070,6 @@
         const otraCartera = document.getElementById('otraCartera').value.trim();
         const carteraFinal = carteras === 'otro' ? otraCartera : carteras;
 
-        // Advertencia por modificación
         let advertencia = '';
         if (informconfModificado || carteraModificado) {
             advertencia = '<div class="alert alert-warning" style="display:block; margin-top:8px;">⚠️ El cliente modificó su respuesta sobre Informconf o Casa de cartera para continuar. Los datos serán verificados.</div>';
@@ -1065,7 +1089,7 @@
     }
 
     // ================================================================
-    //  9. ENVÍO A WHATSAPP
+    //  8. ENVÍO A WHATSAPP
     // ================================================================
     document.getElementById('btnEnviar').addEventListener('click', function() {
         const err = document.getElementById('errorStep3');
@@ -1096,7 +1120,6 @@
         const otraCartera = document.getElementById('otraCartera').value.trim();
         const carteraFinal = carteras === 'otro' ? otraCartera : carteras;
 
-        // Obtener tiempo
         const perfilesConTiempo = {
             'asalariado_ips': 'ips', 'funcionario_permanente': 'ips', 'funcionario_contratado': 'ips', 'jubilado': 'ips',
             'asalariado_iva': 'iva', 'prof_independiente': 'iva',
@@ -1112,7 +1135,6 @@
             tiempoTexto = 'No aplica';
         }
 
-        // Mapeo de perfil a texto
         const perfilTexto = {
             'asalariado_ips': 'Asalariado con IPS',
             'asalariado_iva': 'Asalariado con IVA',
@@ -1143,7 +1165,6 @@
         mensaje += `⚠️ *INFORMCONF:* ${informconf ? 'SÍ (tiene deudas)' : 'NO (limpio)'}%0A`;
         mensaje += `🏦 *Casa de cartera:* ${carteraFinal}%0A`;
 
-        // Advertencia si hubo modificación
         if (informconfModificado || carteraModificado) {
             mensaje += `%0A*⚠️ ADVERTENCIA:* El cliente modificó su respuesta sobre Informconf o Casa de cartera para continuar. Los datos serán verificados.%0A`;
         }
@@ -1152,14 +1173,13 @@
 
         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${mensaje}`, '_blank');
 
-        // Mostrar pantalla de éxito
         document.getElementById('formScreen').style.display = 'none';
         document.getElementById('successScreen').style.display = 'block';
         mostrarToast('✅ Presolicitud enviada');
     });
 
     // ================================================================
-    //  10. CIUDADES DINÁMICAS
+    //  9. CIUDADES DINÁMICAS
     // ================================================================
     document.getElementById('departamento').addEventListener('change', function() {
         const depto = this.value;
@@ -1196,14 +1216,14 @@
     });
 
     // ================================================================
-    //  11. VALIDACIONES INPUT
+    //  10. VALIDACIONES INPUT
     // ================================================================
     document.getElementById('nombres').addEventListener('input', soloLetras);
     document.getElementById('apellidos').addEventListener('input', soloLetras);
     document.getElementById('cedula').addEventListener('input', soloNumeros);
 
     // ================================================================
-    //  12. CALCULAR CUOTA
+    //  11. CALCULAR CUOTA
     // ================================================================
     function calcularCuotaPreview() {
         const monto = parseInt(document.getElementById('monto').value);
@@ -1215,7 +1235,7 @@
     document.getElementById('plazo').addEventListener('change', calcularCuotaPreview);
 
     // ================================================================
-    //  13. TEMA OSCURO
+    //  12. TEMA OSCURO
     // ================================================================
     function toggleTheme() {
         document.body.classList.toggle('dark');
@@ -1229,7 +1249,7 @@
     }
 
     // ================================================================
-    //  14. INICIALIZACIÓN
+    //  13. INICIALIZACIÓN
     // ================================================================
     window.addEventListener('DOMContentLoaded', function() {
         document.getElementById('departamento').value = '';
