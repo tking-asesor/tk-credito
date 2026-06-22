@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <title>Gestor Pro · Simulador Inteligente</title>
-    <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
         /* ===== RESET Y VARIABLES ===== */
@@ -361,66 +360,40 @@
         .riesgo-medio { background: #fff3cd; color: #856404; }
         .riesgo-alto { background: #f8d7da; color: #721c24; }
 
-        /* ===== PANEL DE PROSPECTOS ===== */
-        .panel-toggle {
-            background: none;
-            border: none;
-            color: var(--primary);
-            font-weight: 600;
+        /* ===== TESTIMONIOS ===== */
+        .testimonios {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 2px solid var(--border);
+        }
+        .testimonios h4 {
             font-size: 14px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin: 16px 0 8px;
+            text-align: center;
+            margin-bottom: 12px;
+            color: var(--text-light);
         }
-        .panel-toggle:hover {
-            text-decoration: underline;
-        }
-        .panel-content {
-            display: none;
-            margin-top: 10px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        .panel-content.open {
-            display: block;
-        }
-        .panel-item {
+        .testimonio-item {
             background: var(--bg);
             border-radius: var(--radius-sm);
-            padding: 10px 14px;
-            margin-bottom: 8px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
             border-left: 3px solid var(--primary);
+        }
+        .testimonio-item .stars {
+            color: #f5b342;
             font-size: 13px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            margin-bottom: 4px;
         }
-        .panel-item .info {
-            display: flex;
-            flex-direction: column;
-        }
-        .panel-item .info .nombre {
-            font-weight: 600;
-        }
-        .panel-item .info .detalle {
-            font-size: 11px;
-            color: var(--text-light);
-        }
-        .panel-item .badge-entidad {
-            background: var(--primary);
-            color: #fff;
-            padding: 2px 10px;
-            border-radius: 40px;
-            font-size: 10px;
-            font-weight: 600;
-        }
-        .empty-panel {
-            color: var(--text-light);
+        .testimonio-item .comentario {
             font-size: 13px;
-            text-align: center;
-            padding: 20px 0;
+            font-style: italic;
+            color: var(--text);
+        }
+        .testimonio-item .autor {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-top: 4px;
         }
 
         /* ===== ALERTAS ===== */
@@ -484,7 +457,7 @@
         ::-webkit-scrollbar-track { background: var(--bg); border-radius: 8px; }
         ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 8px; }
 
-        /* ===== MODO OSCURO (toggle) ===== */
+        /* ===== MODO OSCURO ===== */
         body.dark {
             --bg: #121e26;
             --card-bg: #1a2c36;
@@ -501,7 +474,7 @@
         body.dark .result-card {
             background: #1f2f3a;
         }
-        body.dark .panel-item {
+        body.dark .testimonio-item {
             background: #1f2f3a;
         }
         body.dark .observacion {
@@ -522,6 +495,24 @@
         .theme-toggle .fa-sun { display: none; }
         body.dark .theme-toggle .fa-moon { display: none; }
         body.dark .theme-toggle .fa-sun { display: inline; }
+
+        /* ===== UTILIDADES ===== */
+        .hidden { display: none; }
+        .mt-8 { margin-top: 8px; }
+        .text-center { text-align: center; }
+        .text-muted { color: var(--text-light); font-size: 12px; }
+        .privacy-notice {
+            font-size: 11px;
+            color: var(--text-light);
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            border-top: 1px solid var(--border);
+        }
+        .privacy-notice i {
+            margin-right: 6px;
+            color: var(--primary);
+        }
     </style>
 </head>
 <body>
@@ -530,7 +521,6 @@
     <!-- HEADER -->
     <header class="header">
         <div class="logo-placeholder" id="logoContainer">
-            <!-- Cambiar src por "logo.png" cuando tengas -->
             <span id="logoTxt">GP</span>
         </div>
         <h1>Gestor Pro <small>Simulador Inteligente</small></h1>
@@ -543,7 +533,7 @@
     <!-- FORMULARIO DE 3 PASOS           -->
     <!-- ================================ -->
     <form id="formProspecto" autocomplete="off">
-        <!-- Paso 1: Datos personales y monto -->
+        <!-- PASO 1 -->
         <div class="form-step active-step" id="step1">
             <div class="step-indicator">
                 <div class="step-dot active"><span class="circle">1</span><div class="step-label">Datos</div></div>
@@ -566,11 +556,9 @@
                 <label>Plazo (meses) *</label>
                 <select class="form-control" id="plazo">
                     <option value="6">6</option>
-                    <option value="10">10</option>
-                    <option value="12">12</option>
+                    <option value="12" selected>12</option>
                     <option value="15">15</option>
-                    <option value="18">18</option>
-                    <option value="24" selected>24</option>
+                    <option value="24">24</option>
                 </select>
             </div>
             <div style="background:var(--primary-light); border-radius:var(--radius-sm); padding:10px; text-align:center; margin-bottom:16px;">
@@ -583,13 +571,13 @@
                 <div class="form-group"><label>Apellidos *</label><input class="form-control" type="text" id="apellidos" placeholder="Pérez" required></div>
             </div>
             <div class="row-2">
-                <div class="form-group"><label>Cédula *</label><input class="form-control" type="text" id="cedula" placeholder="1.234.567" required></div>
-                <div class="form-group"><label>WhatsApp *</label><input class="form-control" type="tel" id="celular" placeholder="0991.123.456" required></div>
+                <div class="form-group"><label>Cédula *</label><input class="form-control" type="text" id="cedula" placeholder="1234567" required></div>
+                <div class="form-group"><label>WhatsApp *</label><input class="form-control" type="tel" id="celular" placeholder="0991123456" required></div>
             </div>
             <div class="row-2">
                 <div class="form-group"><label>Fecha de Nacimiento *</label><input class="form-control" type="date" id="fechaNac" required></div>
-                <div class="form-group"><label>Ciudad / Depto *</label>
-                    <select class="form-control" id="ciudad">
+                <div class="form-group"><label>Departamento *</label>
+                    <select class="form-control" id="departamento" required>
                         <option value="">Seleccionar</option>
                         <option value="Asunción">Asunción</option>
                         <option value="Central">Central</option>
@@ -611,11 +599,18 @@
                     </select>
                 </div>
             </div>
+            <div class="form-group">
+                <label>Ciudad *</label>
+                <select class="form-control" id="ciudad" required>
+                    <option value="">Primero selecciona un departamento</option>
+                </select>
+                <input class="form-control hidden" type="text" id="otraCiudad" placeholder="Escribe el nombre de tu ciudad">
+            </div>
             <div class="alert alert-error" id="errorStep1"></div>
             <button type="button" class="btn btn-primary" onclick="nextStep(2)">Continuar →</button>
         </div>
 
-        <!-- Paso 2: Perfil laboral y extras -->
+        <!-- PASO 2 -->
         <div class="form-step" id="step2">
             <div class="step-indicator">
                 <div class="step-dot completed"><span class="circle">1</span><div class="step-label">Datos</div></div>
@@ -637,8 +632,13 @@
                 </select>
             </div>
             <div class="row-2">
-                <div class="form-group"><label>Antigüedad (años)</label><input class="form-control" type="number" id="antiguedad" placeholder="3" min="0" step="0.5"></div>
-                <div class="form-group"><label>Ingreso mensual (Gs.) *</label><input class="form-control" type="number" id="ingreso" placeholder="2.900.000" required></div>
+                <div class="form-group"><label>Antigüedad (años)</label><input class="form-control" type="number" id="antiguedad_anios" placeholder="3" min="0" step="1"></div>
+                <div class="form-group"><label>Antigüedad (meses)</label><input class="form-control" type="number" id="antiguedad_meses" placeholder="6" min="0" max="11" step="1"></div>
+            </div>
+            <div class="form-group">
+                <label>Ingreso mensual (Gs.) *</label>
+                <input class="form-control" type="number" id="ingreso" placeholder="1.800.000" min="1800000" required>
+                <div style="font-size:11px; color:var(--text-light); margin-top:3px;">Mínimo ₲ 1.800.000</div>
             </div>
             <div class="checkbox-group">
                 <label><input type="checkbox" id="ips"> Aporta IPS</label>
@@ -647,14 +647,16 @@
                 <label><input type="checkbox" id="informconf"> Tiene Informconf</label>
             </div>
             <div class="form-group">
-                <label>¿Tiene otros descuentos activos?</label>
-                <select class="form-control" id="descuentos">
-                    <option value="ninguno">Ninguno</option>
-                    <option value="prestamo">Préstamo</option>
-                    <option value="cooperativa">Cooperativa</option>
-                    <option value="tarjeta">Tarjeta</option>
-                    <option value="varios">Varios</option>
+                <label>¿Tiene deudas con casas de compra de carteras?</label>
+                <select class="form-control" id="carteras">
+                    <option value="ninguna">Ninguna</option>
+                    <option value="nexo">Nexo</option>
+                    <option value="carsa">Carsa</option>
+                    <option value="ingesa">Ingesa</option>
+                    <option value="geco">Geco</option>
+                    <option value="otro">Otro</option>
                 </select>
+                <input class="form-control hidden" type="text" id="otraCartera" placeholder="Especifica el nombre">
             </div>
             <div class="alert alert-error" id="errorStep2"></div>
             <div class="button-group">
@@ -663,7 +665,7 @@
             </div>
         </div>
 
-        <!-- Paso 3: Resumen y envío -->
+        <!-- PASO 3 -->
         <div class="form-step" id="step3">
             <div class="step-indicator">
                 <div class="step-dot completed"><span class="circle">1</span><div class="step-label">Datos</div></div>
@@ -687,11 +689,32 @@
     </form>
 
     <!-- ================================ -->
-    <!-- PANEL DE PROSPECTOS GUARDADOS    -->
+    <!-- TESTIMONIOS (Prueba social)      -->
     <!-- ================================ -->
-    <button class="panel-toggle" id="panelToggle"><i class="fas fa-history"></i> Ver últimos prospectos</button>
-    <div class="panel-content" id="panelContent">
-        <div id="panelList"></div>
+    <div class="testimonios">
+        <h4><i class="fas fa-star" style="color:#f5b342;"></i> Lo que dicen nuestros clientes</h4>
+        <div class="testimonio-item">
+            <div class="stars">★★★★★</div>
+            <div class="comentario">"Increíble lo rápido que recibí mi préstamo. El simulador me dio la cuota exacta y todo fue transparente."</div>
+            <div class="autor">— Carlos M., Asunción</div>
+        </div>
+        <div class="testimonio-item">
+            <div class="stars">★★★★★</div>
+            <div class="comentario">"Nunca había tenido una asesoría tan clara. Recomiendo 100% a Gestor Pro para cualquier tipo de crédito."</div>
+            <div class="autor">— Laura G., CDE</div>
+        </div>
+        <div class="testimonio-item">
+            <div class="stars">★★★★★</div>
+            <div class="comentario">"Me ayudaron a encontrar la mejor opción para mi negocio. El proceso fue simple y seguro."</div>
+            <div class="autor">— Roberto D., Encarnación</div>
+        </div>
+    </div>
+
+    <!-- ================================ -->
+    <!-- AVISO DE PRIVACIDAD              -->
+    <!-- ================================ -->
+    <div class="privacy-notice">
+        <i class="fas fa-shield-alt"></i> Tus datos están protegidos y no serán compartidos con terceros.
     </div>
 
     <!-- ===== TOAST ===== -->
@@ -702,55 +725,51 @@
     // ================================================================
     //  1. CONFIGURACIÓN
     // ================================================================
-    const WHATSAPP_NUMBER = '595992271485'; // Tu número
+    const WHATSAPP_NUMBER = '595992271485';
 
-    // Tabla de cuotas Tking (base)
+    // Tabla de cuotas Tking (solo plazos permitidos: 6,12,15,24)
     const cuotasTking = {
-        1000000: {6:235000, 10:150000, 12:127000, 15:112000, 18:101000, 24:90000},
-        2000000: {6:465000, 10:292500, 12:254000, 15:223000, 18:201000, 24:177000},
-        3000000: {6:685000, 10:435000, 12:380000, 15:334000, 18:302000, 24:266000},
-        4000000: {6:900000, 10:571000, 12:507000, 15:445000, 18:402000, 24:354000},
-        5000000: {6:1150000, 10:712000, 12:633000, 15:555000, 18:503000, 24:443000}
+        1000000: {6:235000, 12:127000, 15:112000, 24:90000},
+        2000000: {6:465000, 12:254000, 15:223000, 24:177000},
+        3000000: {6:685000, 12:380000, 15:334000, 24:266000},
+        4000000: {6:900000, 12:507000, 15:445000, 24:354000},
+        5000000: {6:1150000, 12:633000, 15:555000, 24:443000}
     };
-
-    // Cuotas de otros bancos (referenciales)
     const cuotasSolar = {
-        1000000: {6:222301, 10:144525, 12:125271, 15:114952, 18:101268, 24:null},
-        2000000: {6:484202, 10:313859, 12:271662, 15:229916, 18:202536, 24:null},
-        3000000: {6:688189, 10:446910, 12:387167, 15:328086, 18:289363, 24:242511},
-        4000000: {6:880789, 10:572828, 12:496599, 15:421240, 18:371875, 24:312215},
-        5000000: {6:1073388, 10:698746, 12:606030, 15:514393, 18:454388, 24:381918}
+        1000000: {6:222301, 12:125271, 15:114952, 24:null},
+        2000000: {6:484202, 12:271662, 15:229916, 24:null},
+        3000000: {6:688189, 12:387167, 15:328086, 24:242511},
+        4000000: {6:880789, 12:496599, 15:421240, 24:312215},
+        5000000: {6:1073388, 12:606030, 15:514393, 24:381918}
     };
     const cuotasTuFin = {
-        1000000: {6:223000, 10:145500, 12:126500, 15:null, 18:null, 24:null},
-        2000000: {6:446500, 10:292000, 12:253500, 15:214500, 18:null, 24:null},
-        3000000: {6:674500, 10:441000, 12:382000, 15:323500, 18:285500, 24:null},
-        4000000: {6:879500, 10:578000, 12:502500, 15:428000, 18:379500, 24:null},
-        5000000: {6:1074500, 10:706000, 12:614500, 15:524000, 18:465000, 24:null}
+        1000000: {6:223000, 12:126500, 15:null, 24:null},
+        2000000: {6:446500, 12:253500, 15:214500, 24:null},
+        3000000: {6:674500, 12:382000, 15:323500, 24:null},
+        4000000: {6:879500, 12:502500, 15:428000, 24:null},
+        5000000: {6:1074500, 12:614500, 15:524000, 24:null}
     };
     const cuotasJaponesa = {
-        1000000: {6:229000, 10:null, 12:123000, 15:101000, 18:87000, 24:69000},
-        2000000: {6:459000, 10:null, 12:245000, 15:203000, 18:174000, 24:139000},
-        3000000: {6:678000, 10:null, 12:354000, 15:318000, 18:279000, 24:231000},
-        4000000: {6:867000, 10:null, 12:453000, 15:407000, 18:357000, 24:296000},
-        5000000: {6:1056000, 10:null, 12:553000, 15:496000, 18:436000, 24:358000}
+        1000000: {6:229000, 12:123000, 15:101000, 24:69000},
+        2000000: {6:459000, 12:245000, 15:203000, 24:139000},
+        3000000: {6:678000, 12:354000, 15:318000, 24:231000},
+        4000000: {6:867000, 12:453000, 15:407000, 24:296000},
+        5000000: {6:1056000, 12:553000, 15:496000, 24:358000}
     };
 
-    // Políticas de cada banco (extraídas de los Excel)
-    // Cada objeto: { perfilesAceptados: [], edadMin, edadMax, ingresoMin, antiguedadMin, informconfPermitido, ciudades: [] }
-    // Nota: Usamos los perfiles internos: "empleado_privado", "funcionario_permanente", "funcionario_contratado", "jubilado", "independiente", "comerciante"
-    // Para simplificar, agrupamos en aceptación.
-
+    // ================================================================
+    //  2. BANCOS (políticas)
+    // ================================================================
     const bancos = {
         tking: {
             nombre: 'Tking Credit',
-            prioridad: 1, // Mejor comisión
+            prioridad: 1,
             perfiles: ['empleado_privado', 'funcionario_permanente', 'funcionario_contratado', 'jubilado', 'independiente', 'comerciante'],
             edadMin: 20, edadMax: 70,
             ingresoMin: 1800000,
-            antiguedadMin: 0.5, // 6 meses
+            antiguedadMin: 0.5,
             informconfPermitido: false,
-            ciudades: ['todas'], // Nacional
+            ciudades: ['todas'],
             cuotas: cuotasTking
         },
         solar: {
@@ -759,7 +778,7 @@
             perfiles: ['empleado_privado', 'funcionario_permanente', 'funcionario_contratado', 'jubilado'],
             edadMin: 20, edadMax: 74,
             ingresoMin: 2899048,
-            antiguedadMin: 0.5, // 6 meses
+            antiguedadMin: 0.5,
             informconfPermitido: false,
             ciudades: ['Central','Cordillera','Pdte. Hayes','Paraguarí','Itapúa','Misiones','Alto Paraná','Guairá','Concepción','San Pedro','Ñeembucú','Canindeyú'],
             cuotas: cuotasSolar
@@ -771,8 +790,8 @@
             edadMin: 20, edadMax: 70,
             ingresoMin: 2899048,
             antiguedadMin: 0.5,
-            informconfPermitido: false, // M solo hasta 1.5mm, lo manejamos en evaluación
-            ciudades: ['Central','Cordillera','Pdte. Hayes','Paraguarí','Itapúa','Misiones','Alto Paraná','Guairá','Concepción','San Pedro','Ñeembucú','Caazapá'], // prácticamente todo
+            informconfPermitido: false,
+            ciudades: ['Central','Cordillera','Pdte. Hayes','Paraguarí','Itapúa','Misiones','Alto Paraná','Guairá','Concepción','San Pedro','Ñeembucú','Caazapá'],
             cuotas: cuotasTuFin
         },
         paraguaya_japonesa: {
@@ -793,14 +812,37 @@
             edadMin: 19, edadMax: 59,
             ingresoMin: 2899048,
             antiguedadMin: 0.5,
-            informconfPermitido: true, // tolera mora telefónica hasta 300.000
+            informconfPermitido: true,
             ciudades: ['Central','Alto Paraná','San Pedro'],
-            cuotas: null // no tenemos cuotas exactas, se estimará
+            cuotas: null
         }
     };
 
     // ================================================================
-    //  2. FUNCIONES AUXILIARES
+    //  3. MAPEO DEPARTAMENTO → CIUDADES
+    // ================================================================
+    const ciudadesPorDepartamento = {
+        'Asunción': ['Asunción'],
+        'Central': ['San Lorenzo', 'Luque', 'Fernando de la Mora', 'Lambaré', 'Villa Elisa', 'Capiatá', 'Itauguá', 'Areguá', 'Ypacaraí', 'OTRA'],
+        'Alto Paraná': ['Ciudad del Este', 'Hernandarias', 'Minga Guazú', 'Presidente Franco', 'OTRA'],
+        'San Pedro': ['San Pedro', 'Villa del Rosario', 'Yrybucuá', 'Capiibary', 'OTRA'],
+        'Itapúa': ['Encarnación', 'Hohenau', 'Obligado', 'Bella Vista', 'San Juan del Paraná', 'OTRA'],
+        'Misiones': ['San Juan Bautista', 'Ayolas', 'Santiago', 'Villa Florida', 'OTRA'],
+        'Paraguarí': ['Paraguarí', 'Carapeguá', 'Acahay', 'Yaguarón', 'Pirayú', 'OTRA'],
+        'Cordillera': ['Caacupé', 'Piribebuy', 'Eusebio Ayala', 'Itacurubí de la Cordillera', 'Tobatí', 'OTRA'],
+        'Guairá': ['Villarrica', 'Mbocayaty', 'Yataity', 'Coronel Martínez', 'OTRA'],
+        'Concepción': ['Concepción', 'Belén', 'San Carlos', 'Horqueta', 'OTRA'],
+        'Ñeembucú': ['Pilar', 'Villa Franca', 'San Ignacio', 'Tacuary', 'OTRA'],
+        'Caazapá': ['Caazapá', 'Yuty', 'Abaí', 'San Juan Nepomuceno', 'OTRA'],
+        'Pdte. Hayes': ['Villa Hayes', 'Benjamín Aceval', 'Nanawa', 'OTRA'],
+        'Canindeyú': ['Salto del Guairá', 'Curuguaty', 'Villa Ygatimí', 'Ypejhú', 'OTRA'],
+        'Amambay': ['Pedro Juan Caballero', 'Bellavista', 'Capitán Bado', 'OTRA'],
+        'Boquerón': ['Filadelfia', 'Loma Plata', 'Neuland', 'OTRA'],
+        'Alto Paraguay': ['Fuerte Olimpo', 'Bahía Negra', 'OTRA']
+    };
+
+    // ================================================================
+    //  4. FUNCIONES AUXILIARES
     // ================================================================
     function calcularEdad(fechaNac) {
         if (!fechaNac) return 0;
@@ -830,47 +872,48 @@
         setTimeout(() => t.classList.remove('show'), 3000);
     }
 
+    // Validación de solo letras para nombre y apellido
+    function soloLetras(e) {
+        const regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/;
+        if (!regex.test(e.target.value)) {
+            e.target.value = e.target.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+        }
+    }
+
+    // Validación de solo números para cédula
+    function soloNumeros(e) {
+        e.target.value = e.target.value.replace(/[^0-9]/g, '');
+    }
+
     // ================================================================
-    //  3. MOTOR DE DECISIÓN
+    //  5. MOTOR DE DECISIÓN
     // ================================================================
     function evaluarBanco(banco, datos) {
-        // datos: { edad, actividad, ingreso, antiguedad, informconf, ciudad, monto, plazo, ips, iva, patente }
         const b = banco;
-        // Perfil aceptado
         if (!b.perfiles.includes(datos.actividad)) return null;
-        // Edad
         if (datos.edad < b.edadMin || datos.edad > b.edadMax) return null;
-        // Ingreso
         if (datos.ingreso < b.ingresoMin) return null;
-        // Antigüedad (si aplica)
         if (datos.antiguedad < b.antiguedadMin) return null;
-        // Informconf: si no permite y tiene informconf, rechazar
         if (!b.informconfPermitido && datos.informconf) return null;
-        // Ciudad: si no es 'todas' y la ciudad no está en la lista
-        if (b.ciudades[0] !== 'todas' && !b.ciudades.includes(datos.ciudad)) return null;
-        // Monto máximo (por ahora 5mm para todos)
+        // Filtro por departamento (ciudad)
+        if (b.ciudades[0] !== 'todas' && !b.ciudades.includes(datos.departamento)) return null;
         if (datos.monto > 5000000) return null;
 
-        // Casos especiales: para Tking, si es independiente/comerciante sin iva ni patente, solo hasta 2mm (según observaciones)
+        // Caso especial Tking: independiente/comerciante sin iva ni patente => max 2mm
         if (banco === bancos.tking) {
             if ((datos.actividad === 'independiente' || datos.actividad === 'comerciante') && !datos.iva && !datos.patente) {
                 if (datos.monto > 2000000) return null;
             }
         }
 
-        // Si llegamos aquí, el banco acepta
-        // Calcular cuota
         let cuota = null;
         if (b.cuotas) {
             cuota = obtenerCuota(b.cuotas, datos.monto, datos.plazo);
         }
-        // Si no tiene cuota (Capital), estimar con una tasa similar a Tking
         if (!cuota && b.nombre === 'Capital Créditos') {
-            // Estimación: cuota Tking * 1.05 (5% más cara)
             const cuotaTk = obtenerCuota(cuotasTking, datos.monto, datos.plazo);
             if (cuotaTk) cuota = Math.round(cuotaTk * 1.05);
         }
-        // Si aún no hay cuota, usar una estimación genérica (monto/plazo + interés 2.5% mensual)
         if (!cuota) {
             const interes = 0.025;
             const n = datos.plazo;
@@ -878,39 +921,26 @@
             cuota = Math.round(datos.monto * factor);
         }
 
-        return {
-            nombre: b.nombre,
-            cuota: cuota,
-            prioridad: b.prioridad
-        };
+        return { nombre: b.nombre, cuota: cuota, prioridad: b.prioridad };
     }
 
     function recomendar(datos) {
-        // datos: { edad, actividad, ingreso, antiguedad, informconf, ciudad, monto, plazo, ips, iva, patente }
         const resultados = [];
-
-        // 1. Evaluar Tking (prioridad 1)
         const tkingResult = evaluarBanco(bancos.tking, datos);
         if (tkingResult) {
             resultados.push(tkingResult);
-            // Si Tking acepta, NO evaluamos los demás (porque es mejor comisión)
-            // Pero por si acaso, igual evaluamos pero no mostramos
-            return resultados; // Solo Tking
+            return resultados;
         }
-
-        // 2. Si Tking no acepta, evaluar los demás en orden de prioridad
         const orden = [bancos.solar, bancos.tu_financiera, bancos.paraguaya_japonesa, bancos.capital];
         for (const banco of orden) {
             const res = evaluarBanco(banco, datos);
-            if (res) {
-                resultados.push(res);
-            }
+            if (res) resultados.push(res);
         }
         return resultados;
     }
 
     // ================================================================
-    //  4. MANEJO DEL FORMULARIO Y PASOS
+    //  6. MANEJO DEL FORMULARIO Y PASOS
     // ================================================================
     let currentStep = 1;
 
@@ -921,7 +951,6 @@
         document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active-step'));
         document.getElementById('step' + step).classList.add('active-step');
 
-        // Actualizar indicadores
         document.querySelectorAll('.step-dot').forEach((dot, idx) => {
             const num = idx + 1;
             dot.classList.remove('active', 'completed');
@@ -934,39 +963,88 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function prevStep(step) {
-        nextStep(step);
-    }
+    function prevStep(step) { nextStep(step); }
 
     function validateStep1() {
         const err = document.getElementById('errorStep1');
         err.style.display = 'none';
-        const nombre = document.getElementById('nombres').value.trim();
-        const apellido = document.getElementById('apellidos').value.trim();
-        const cedula = document.getElementById('cedula').value.replace(/\./g, '');
+
+        const nombres = document.getElementById('nombres').value.trim();
+        const apellidos = document.getElementById('apellidos').value.trim();
+        const cedula = document.getElementById('cedula').value.replace(/[^0-9]/g, '');
         const celular = document.getElementById('celular').value.replace(/[^0-9]/g, '');
         const fecha = document.getElementById('fechaNac').value;
+        const departamento = document.getElementById('departamento').value;
         const ciudad = document.getElementById('ciudad').value;
+        const otraCiudad = document.getElementById('otraCiudad').value.trim();
         const monto = parseInt(document.getElementById('monto').value);
-        if (nombre.length < 2) { showErrorStep(err, 'Nombre inválido.'); return false; }
-        if (apellido.length < 2) { showErrorStep(err, 'Apellido inválido.'); return false; }
-        if (cedula.length < 6 || cedula.length > 7) { showErrorStep(err, 'Cédula: 6 o 7 dígitos.'); return false; }
-        if (celular.length !== 10 || !celular.startsWith('09')) { showErrorStep(err, 'WhatsApp: 10 dígitos, empieza con 09.'); return false; }
-        if (!fecha) { showErrorStep(err, 'Fecha de nacimiento requerida.'); return false; }
+
+        // Validar solo letras
+        const regexLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+        if (!regexLetras.test(nombres) || nombres.length < 2) {
+            showErrorStep(err, 'Nombre: solo letras y mínimo 2 caracteres.');
+            return false;
+        }
+        if (!regexLetras.test(apellidos) || apellidos.length < 2) {
+            showErrorStep(err, 'Apellido: solo letras y mínimo 2 caracteres.');
+            return false;
+        }
+        if (cedula.length < 6 || cedula.length > 7) {
+            showErrorStep(err, 'Cédula: 6 o 7 dígitos.');
+            return false;
+        }
+        if (celular.length !== 10 || !celular.startsWith('09')) {
+            showErrorStep(err, 'WhatsApp: 10 dígitos, empieza con 09.');
+            return false;
+        }
+        if (!fecha) {
+            showErrorStep(err, 'Fecha de nacimiento requerida.');
+            return false;
+        }
         const edad = calcularEdad(fecha);
-        if (edad < 18 || edad > 74) { showErrorStep(err, 'Edad entre 18 y 74 años.'); return false; }
-        if (!ciudad) { showErrorStep(err, 'Selecciona una ciudad.'); return false; }
-        if (monto < 1000000 || monto > 5000000) { showErrorStep(err, 'Monto entre 1 y 5 millones.'); return false; }
+        if (edad < 18 || edad > 74) {
+            showErrorStep(err, 'Edad entre 18 y 74 años.');
+            return false;
+        }
+        if (!departamento) {
+            showErrorStep(err, 'Selecciona un departamento.');
+            return false;
+        }
+        if (ciudad === '') {
+            showErrorStep(err, 'Selecciona una ciudad o escribe "OTRA".');
+            return false;
+        }
+        if (ciudad === 'OTRA' && otraCiudad === '') {
+            showErrorStep(err, 'Escribe el nombre de tu ciudad.');
+            return false;
+        }
+        if (monto < 1000000 || monto > 5000000) {
+            showErrorStep(err, 'Monto entre 1 y 5 millones.');
+            return false;
+        }
         return true;
     }
 
     function validateStep2() {
         const err = document.getElementById('errorStep2');
         err.style.display = 'none';
+
         const actividad = document.getElementById('actividad').value;
         const ingreso = parseInt(document.getElementById('ingreso').value);
-        if (!actividad) { showErrorStep(err, 'Selecciona actividad laboral.'); return false; }
-        if (isNaN(ingreso) || ingreso < 1800000) { showErrorStep(err, 'Ingreso mínimo ₲ 1.800.000.'); return false; }
+        const informconf = document.getElementById('informconf').checked;
+
+        if (!actividad) {
+            showErrorStep(err, 'Selecciona actividad laboral.');
+            return false;
+        }
+        if (isNaN(ingreso) || ingreso < 1800000) {
+            showErrorStep(err, 'Ingreso mínimo ₲ 1.800.000.');
+            return false;
+        }
+        if (informconf) {
+            showErrorStep(err, 'No podemos continuar porque tienes Informconf. Debes tener historial limpio.');
+            return false;
+        }
         return true;
     }
 
@@ -977,7 +1055,6 @@
     }
 
     function generarResumenYRecomendacion() {
-        // Recolectar datos
         const monto = parseInt(document.getElementById('monto').value);
         const plazo = parseInt(document.getElementById('plazo').value);
         const nombres = document.getElementById('nombres').value.trim();
@@ -985,31 +1062,35 @@
         const cedula = document.getElementById('cedula').value;
         const celular = document.getElementById('celular').value;
         const fecha = document.getElementById('fechaNac').value;
-        const ciudad = document.getElementById('ciudad').value;
+        const departamento = document.getElementById('departamento').value;
+        const ciudadSel = document.getElementById('ciudad').value;
+        const otraCiudad = document.getElementById('otraCiudad').value.trim();
+        const ciudadFinal = ciudadSel === 'OTRA' ? otraCiudad : ciudadSel;
         const actividad = document.getElementById('actividad').value;
-        const antiguedad = parseFloat(document.getElementById('antiguedad').value) || 0;
+        const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
+        const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value) || 0;
+        const antiguedad = antiguedadAnios + antiguedadMeses / 12;
         const ingreso = parseInt(document.getElementById('ingreso').value) || 0;
         const ips = document.getElementById('ips').checked;
         const iva = document.getElementById('iva').checked;
         const patente = document.getElementById('patente').checked;
         const informconf = document.getElementById('informconf').checked;
-        const descuentos = document.getElementById('descuentos').value;
+        const carteras = document.getElementById('carteras').value;
+        const otraCartera = document.getElementById('otraCartera').value.trim();
+        const carteraFinal = carteras === 'otro' ? otraCartera : carteras;
         const edad = calcularEdad(fecha);
 
-        const datos = { edad, actividad, ingreso, antiguedad, informconf, ciudad, monto, plazo, ips, iva, patente };
-
-        // Obtener recomendación
+        const datos = { edad, actividad, ingreso, antiguedad, informconf, departamento, monto, plazo, ips, iva, patente };
         const recomendados = recomendar(datos);
 
-        // Mostrar resumen
         const resumen = document.getElementById('resumenContainer');
         resumen.innerHTML = `
-            <p><strong>${nombres} ${apellidos}</strong> · ${cedula} · ${ciudad}</p>
+            <p><strong>${nombres} ${apellidos}</strong> · ${cedula} · ${ciudadFinal}, ${departamento}</p>
             <p>Edad: ${edad} años · Ingreso: ₲ ${formatearNumero(ingreso)} · Solicita: ₲ ${formatearNumero(monto)} a ${plazo} meses</p>
             <p>IPS: ${ips ? 'Sí' : 'No'} · IVA: ${iva ? 'Sí' : 'No'} · Patente: ${patente ? 'Sí' : 'No'} · Informconf: ${informconf ? 'Sí' : 'No'}</p>
+            <p>Cartera: ${carteraFinal}</p>
         `;
 
-        // Mostrar recomendación
         const cont = document.getElementById('resultadoRecomendacion');
         if (recomendados.length === 0) {
             cont.innerHTML = `<div class="alert alert-warning" style="display:block;">⚠️ No encontramos entidades que acepten este perfil. Contacta con un asesor.</div>`;
@@ -1017,7 +1098,6 @@
         }
 
         let html = `<div class="result-card"><span class="badge">🎯 Recomendación</span>`;
-        // Si solo hay uno y es Tking, destacar
         if (recomendados.length === 1 && recomendados[0].nombre === 'Tking Credit') {
             html += `<div style="background:#d4edda; padding:8px; border-radius:12px; margin-bottom:10px; text-align:center; font-weight:600; color:#0b5e3a;">✅ Tking Credit · ¡Mejor comisión!</div>`;
         }
@@ -1035,7 +1115,7 @@
     }
 
     // ================================================================
-    //  5. ENVÍO A WHATSAPP + GUARDADO LOCAL
+    //  7. ENVÍO A WHATSAPP
     // ================================================================
     document.getElementById('btnEnviar').addEventListener('click', function() {
         const err = document.getElementById('errorStep3');
@@ -1043,26 +1123,32 @@
         const success = document.getElementById('successMsg');
         success.style.display = 'none';
 
-        // Recolectar datos
         const monto = parseInt(document.getElementById('monto').value);
         const plazo = parseInt(document.getElementById('plazo').value);
         const nombres = document.getElementById('nombres').value.trim();
         const apellidos = document.getElementById('apellidos').value.trim();
-        const cedula = document.getElementById('cedula').value.replace(/\./g, '');
+        const cedula = document.getElementById('cedula').value.replace(/[^0-9]/g, '');
         const celular = document.getElementById('celular').value.replace(/[^0-9]/g, '');
         const fecha = document.getElementById('fechaNac').value;
-        const ciudad = document.getElementById('ciudad').value;
+        const departamento = document.getElementById('departamento').value;
+        const ciudadSel = document.getElementById('ciudad').value;
+        const otraCiudad = document.getElementById('otraCiudad').value.trim();
+        const ciudadFinal = ciudadSel === 'OTRA' ? otraCiudad : ciudadSel;
         const actividad = document.getElementById('actividad').value;
-        const antiguedad = parseFloat(document.getElementById('antiguedad').value) || 0;
+        const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
+        const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value) || 0;
+        const antiguedad = antiguedadAnios + antiguedadMeses / 12;
         const ingreso = parseInt(document.getElementById('ingreso').value) || 0;
         const ips = document.getElementById('ips').checked;
         const iva = document.getElementById('iva').checked;
         const patente = document.getElementById('patente').checked;
         const informconf = document.getElementById('informconf').checked;
-        const descuentos = document.getElementById('descuentos').value;
+        const carteras = document.getElementById('carteras').value;
+        const otraCartera = document.getElementById('otraCartera').value.trim();
+        const carteraFinal = carteras === 'otro' ? otraCartera : carteras;
         const edad = calcularEdad(fecha);
 
-        const datos = { edad, actividad, ingreso, antiguedad, informconf, ciudad, monto, plazo, ips, iva, patente };
+        const datos = { edad, actividad, ingreso, antiguedad, informconf, departamento, monto, plazo, ips, iva, patente };
         const recomendados = recomendar(datos);
 
         if (recomendados.length === 0) {
@@ -1070,21 +1156,20 @@
             return;
         }
 
-        // Construir mensaje WhatsApp
         let mensaje = `*NUEVA SIMULACIÓN GESTOR PRO*%0A%0A`;
         mensaje += `👤 *Cliente:* ${nombres} ${apellidos}%0A`;
         mensaje += `📄 *CI:* ${cedula}%0A`;
         mensaje += `📞 *WhatsApp:* ${celular}%0A`;
         mensaje += `🎂 *Edad:* ${edad} años%0A`;
-        mensaje += `📍 *Ciudad:* ${ciudad}%0A`;
+        mensaje += `📍 *Ciudad:* ${ciudadFinal}, ${departamento}%0A`;
         mensaje += `💰 *Monto:* ₲ ${formatearNumero(monto)}%0A`;
         mensaje += `📅 *Plazo:* ${plazo} meses%0A`;
         mensaje += `💵 *Ingreso:* ₲ ${formatearNumero(ingreso)}%0A`;
         mensaje += `📊 *Perfil:* ${actividad.replace('_', ' ')}%0A`;
-        mensaje += `🕒 *Antigüedad:* ${antiguedad} años%0A`;
+        mensaje += `🕒 *Antigüedad:* ${antiguedadAnios} años ${antiguedadMeses} meses%0A`;
         mensaje += `IPS: ${ips ? 'Sí' : 'No'} · IVA: ${iva ? 'Sí' : 'No'} · Patente: ${patente ? 'Sí' : 'No'}%0A`;
         mensaje += `🔍 *Informconf:* ${informconf ? 'Sí' : 'No'}%0A`;
-        mensaje += `📌 *Descuentos:* ${descuentos}%0A%0A`;
+        mensaje += `📌 *Cartera:* ${carteraFinal}%0A%0A`;
         mensaje += `*🎯 Recomendación:*%0A`;
         recomendados.forEach((r, i) => {
             const emoji = i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉';
@@ -1092,75 +1177,74 @@
         });
         mensaje += `%0A_Generado por Gestor Pro_`;
 
-        // Abrir WhatsApp
         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${mensaje}`, '_blank');
 
-        // Guardar en localStorage
-        const prospecto = {
-            id: Date.now(),
-            nombres,
-            apellidos,
-            cedula,
-            celular,
-            ciudad,
-            monto,
-            plazo,
-            ingreso,
-            recomendado: recomendados.map(r => r.nombre).join(', '),
-            fecha: new Date().toLocaleString()
-        };
-        let historial = JSON.parse(localStorage.getItem('gestorPro_historial') || '[]');
-        historial.unshift(prospecto);
-        if (historial.length > 20) historial = historial.slice(0, 20);
-        localStorage.setItem('gestorPro_historial', JSON.stringify(historial));
-
-        // Mostrar éxito
         success.textContent = '✅ ¡Enviado! Revisa WhatsApp.';
         success.style.display = 'block';
-        mostrarToast('Prospecto guardado');
-
-        // Actualizar panel
-        cargarPanel();
-
-        // Resetear formulario? No, mejor dejamos que el usuario vea el resumen.
-        // Opcional: botón "Nuevo" aparecerá
+        mostrarToast('Enviado a WhatsApp');
     });
 
     // ================================================================
-    //  6. PANEL DE PROSPECTOS
+    //  8. CIUDADES DINÁMICAS
     // ================================================================
-    function cargarPanel() {
-        const historial = JSON.parse(localStorage.getItem('gestorPro_historial') || '[]');
-        const list = document.getElementById('panelList');
-        if (historial.length === 0) {
-            list.innerHTML = '<div class="empty-panel">Aún no hay prospectos guardados.</div>';
-            return;
-        }
-        let html = '';
-        historial.forEach(p => {
-            html += `
-                <div class="panel-item">
-                    <div class="info">
-                        <span class="nombre">${p.nombres} ${p.apellidos}</span>
-                        <span class="detalle">${p.ciudad} · ₲ ${formatearNumero(p.monto)} · ${p.recomendado}</span>
-                    </div>
-                    <span class="badge-entidad">${p.fecha.split(',')[0]}</span>
-                </div>
-            `;
-        });
-        list.innerHTML = html;
-    }
+    document.getElementById('departamento').addEventListener('change', function() {
+        const depto = this.value;
+        const ciudadSelect = document.getElementById('ciudad');
+        const otraInput = document.getElementById('otraCiudad');
+        ciudadSelect.innerHTML = '<option value="">Seleccionar ciudad</option>';
+        otraInput.classList.add('hidden');
+        otraInput.value = '';
 
-    document.getElementById('panelToggle').addEventListener('click', function() {
-        const content = document.getElementById('panelContent');
-        content.classList.toggle('open');
-        if (content.classList.contains('open')) {
-            cargarPanel();
+        if (depto && ciudadesPorDepartamento[depto]) {
+            const opciones = ciudadesPorDepartamento[depto];
+            opciones.forEach(ci => {
+                const opt = document.createElement('option');
+                opt.value = ci;
+                opt.textContent = ci;
+                ciudadSelect.appendChild(opt);
+            });
+            ciudadSelect.disabled = false;
+        } else {
+            ciudadSelect.disabled = true;
+        }
+    });
+
+    document.getElementById('ciudad').addEventListener('change', function() {
+        const otraInput = document.getElementById('otraCiudad');
+        if (this.value === 'OTRA') {
+            otraInput.classList.remove('hidden');
+            otraInput.required = true;
+        } else {
+            otraInput.classList.add('hidden');
+            otraInput.required = false;
+            otraInput.value = '';
         }
     });
 
     // ================================================================
-    //  7. CALCULAR CUOTA PREVIEW (Tking)
+    //  9. CARTERAS: mostrar input si "Otro"
+    // ================================================================
+    document.getElementById('carteras').addEventListener('change', function() {
+        const otraInput = document.getElementById('otraCartera');
+        if (this.value === 'otro') {
+            otraInput.classList.remove('hidden');
+            otraInput.required = true;
+        } else {
+            otraInput.classList.add('hidden');
+            otraInput.required = false;
+            otraInput.value = '';
+        }
+    });
+
+    // ================================================================
+    //  10. VALIDACIONES EN TIEMPO REAL
+    // ================================================================
+    document.getElementById('nombres').addEventListener('input', soloLetras);
+    document.getElementById('apellidos').addEventListener('input', soloLetras);
+    document.getElementById('cedula').addEventListener('input', soloNumeros);
+
+    // ================================================================
+    //  11. CALCULAR CUOTA PREVIEW
     // ================================================================
     function calcularPreview() {
         const monto = parseInt(document.getElementById('monto').value);
@@ -1168,37 +1252,32 @@
         const cuota = obtenerCuota(cuotasTking, monto, plazo);
         document.getElementById('cuotaPreview').textContent = cuota ? '₲ ' + cuota.toLocaleString('es-PY') : '₲ 0';
     }
-
     document.getElementById('monto').addEventListener('change', calcularPreview);
     document.getElementById('plazo').addEventListener('change', calcularPreview);
 
     // ================================================================
-    //  8. TEMA OSCURO
+    //  12. TEMA OSCURO
     // ================================================================
     document.getElementById('themeToggle').addEventListener('click', function() {
         document.body.classList.toggle('dark');
         localStorage.setItem('gestorPro_theme', document.body.classList.contains('dark') ? 'dark' : 'light');
     });
-    // Cargar tema guardado
     if (localStorage.getItem('gestorPro_theme') === 'dark') {
         document.body.classList.add('dark');
     }
 
     // ================================================================
-    //  9. INICIALIZACIÓN
+    //  13. INICIALIZACIÓN
     // ================================================================
     window.addEventListener('DOMContentLoaded', function() {
         calcularPreview();
-        cargarPanel();
-        // Si hay un prospecto en curso (paso 3) no hacer nada
-        // Colocar placeholder para logo
-        const logoTxt = document.getElementById('logoTxt');
-        logoTxt.textContent = 'GP';
-        // Si existe logo.png, se mostrará. Para ello, crear un <img> y ocultar el texto.
-        // Esto se hará manualmente luego.
+        document.getElementById('departamento').value = '';
+        document.getElementById('ciudad').disabled = true;
+        document.getElementById('otraCiudad').classList.add('hidden');
+        document.getElementById('otraCartera').classList.add('hidden');
     });
 
-    // Exponer funciones globalmente para los onclick
+    // Exponer funciones globales
     window.nextStep = nextStep;
     window.prevStep = prevStep;
 </script>
